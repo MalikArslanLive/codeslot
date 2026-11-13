@@ -5,7 +5,7 @@ fixtures=json.loads(subprocess.check_output(shlex.split(os.environ.get('CS_WP_CL
 checks=0
 for key, fixture in fixtures.items():
     body=urllib.request.urlopen(fixture['url']).read().decode()
-    for global_marker in ['CS-GLOBAL-HEADER','CS-GLOBAL-FOOTER']:
+    for global_marker in ['CS-GLOBAL-HEADER','CS-GLOBAL-BODY','CS-GLOBAL-FOOTER']:
         assert body.count(global_marker)==1,(key,global_marker,body.count(global_marker))
         checks+=1
     for other, expected in fixtures.items():

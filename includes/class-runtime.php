@@ -12,6 +12,13 @@ final class Runtime {
 	private static $running  = 0;
 
 	public static function boot() {
+		add_action(
+			'init',
+			static function () {
+				self::php( 'bootstrap' );
+			},
+			20
+		);
 		foreach ( array(
 			'header' => 'wp_head',
 			'body'   => 'wp_body_open',
@@ -132,7 +139,54 @@ final class Runtime {
 		if ( ! self::frontend() || ! is_singular() || ! in_the_loop() || ! is_main_query() || get_the_ID() !== get_queried_object_id() ) {
 			return $content;
 		}
-		return self::location( 'before_content' ) . $content . self::location( 'after_content' );
+		return self::location( 'before_content' ) . self::paragraphs( $content ) . self::location( 'after_content' );
+	}
+
+	public static function paragraphs( $content ) {
+		if ( Permissions::safe() || ! self::frontend() ) {
+			return $content;
+		}
+		$snippets = array_merge( self::snippets( 'before_paragraph' ), self::snippets( 'after_paragraph' ) );
+		if ( ! $snippets ) {
+			return $content;
+		}
+		// Match explicit paragraph boundaries; skip comments and literal/raw-text containers.
+		$pattern = '~<!--.*?-->|<(script|style|textarea|pre|code)\b(?:"[^"]*"|\'[^\']*\'|[^\'">])*>.*?</\1\s*>|</?p\b(?:"[^"]*"|\'[^\']*\'|[^\'">])*>~is';
+		if ( ! preg_match_all( $pattern, $content, $matches, PREG_OFFSET_CAPTURE ) ) {
+			return $content;
+		}
+		$paragraphs = array();
+		$opening    = null;
+		foreach ( $matches[0] as $token ) {
+			if ( preg_match( '~^<p\b~i', $token[0] ) ) {
+				$opening = $token[1];
+			} elseif ( preg_match( '~^</p\s*>$~i', $token[0] ) && null !== $opening ) {
+				$paragraphs[] = array( $opening, $token[1] + strlen( $token[0] ) );
+				$opening      = null;
+			}
+		}
+		usort(
+			$snippets,
+			static function ( $a, $b ) {
+				return $a['priority'] === $b['priority'] ? $a['id'] <=> $b['id'] : $a['priority'] <=> $b['priority'];
+			}
+		);
+		$inserts = array();
+		$context = Conditions::context();
+		foreach ( $snippets as $snippet ) {
+			$number = isset( $snippet['paragraph'] ) ? $snippet['paragraph'] : 1;
+			if ( 'php' === $snippet['type'] || ! isset( $paragraphs[ $number - 1 ] ) || ! Conditions::matches( $snippet['conditions'], $context ) ) {
+				continue;
+			}
+			$offset             = $paragraphs[ $number - 1 ][ 'before_paragraph' === $snippet['location'] ? 0 : 1 ];
+			$inserts[ $offset ] = ( isset( $inserts[ $offset ] ) ? $inserts[ $offset ] : '' ) . self::format( $snippet );
+		}
+		// Insert from the end so untouched content keeps its original bytes and markup.
+		krsort( $inserts, SORT_NUMERIC );
+		foreach ( $inserts as $offset => $markup ) {
+			$content = substr( $content, 0, $offset ) . $markup . substr( $content, $offset );
+		}
+		return $content;
 	}
 
 	public static function shortcode( $attributes ) {
@@ -169,11 +223,11 @@ final class Runtime {
 	}
 
 	public static function php( $location ) {
-		if ( Permissions::safe() || wp_doing_ajax() || wp_doing_cron() || ( defined( 'REST_REQUEST' ) && REST_REQUEST ) ) {
+		if ( Permissions::safe() || ( 'bootstrap' !== $location && ( wp_doing_ajax() || wp_doing_cron() || ( defined( 'REST_REQUEST' ) && REST_REQUEST ) ) ) ) {
 			return;
 		}
 		foreach ( self::snippets( $location ) as $snippet ) {
-			if ( 'php' === $snippet['type'] && Conditions::matches( $snippet['conditions'] ) ) {
+			if ( 'php' === $snippet['type'] && Conditions::matches( $snippet['conditions'], 'bootstrap' === $location ? array() : null ) ) {
 				self::execute( $snippet );
 			}
 		}

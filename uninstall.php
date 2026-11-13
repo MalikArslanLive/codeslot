@@ -36,10 +36,10 @@ function codeslot_uninstall_site() {
 				wp_delete_term( $term_id, $taxonomy ); }
 		}
 	}
-	foreach ( array( 'codeslot_global', 'codeslot_settings' ) as $option ) {
+	foreach ( array( 'codeslot_global', 'codeslot_settings', 'codeslot_files', 'codeslot_pixels', 'codeslot_logs' ) as $option ) {
 		delete_option( $option ); }
 	$options = $wpdb->get_col( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- One-time removal of plugin-owned observation options.
-		$wpdb->prepare( "SELECT option_name FROM {$wpdb->options} WHERE option_name LIKE %s", $wpdb->esc_like( 'codeslot_body_' ) . '%' )
+		$wpdb->prepare( "SELECT option_name FROM {$wpdb->options} WHERE option_name LIKE %s OR option_name LIKE %s", $wpdb->esc_like( 'codeslot_body_' ) . '%', $wpdb->esc_like( 'codeslot_job_' ) . '%' )
 	);
 	foreach ( $options as $option ) {
 		delete_option( $option ); }

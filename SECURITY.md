@@ -18,4 +18,4 @@ Safe Mode is constant-based or stored in authenticated settings. No unauthentica
 
 ## Review findings
 
-See docs/SECURITY-REVIEW.md. Report vulnerabilities privately via GitHub's private vulnerability reporting if enabled, or contact the repository owner privately. Do not publish working exploits or secret source in public issues. No fabricated security contact or author identity is supplied.
+See docs/SECURITY-REVIEW.md. Report vulnerabilities privately via GitHub's private vulnerability reporting if enabled, or contact the repository owner privately. Do not publish working exploits or secret source in public issues. Author website: https://malikarslan.com/. Do not include credentials or private snippets in reports.

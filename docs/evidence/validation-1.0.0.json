@@ -1,0 +1,103 @@
+{
+  "version": "1.0.0",
+  "plugin_uri": "https://github.com/MalikArslanLive/codeslot",
+  "author_uri": "https://malikarslan.com/",
+  "package": {
+    "path": "packages/codeslot-1.0.0.zip",
+    "sha256": "0422819a7e8536433dab021290cfb6702c03101ae282de4d392f453033d4ec47",
+    "production_file_count": 21,
+    "followup_validation": "passed"
+  },
+  "local_followup": {
+    "phpcs": "passed",
+    "phpstan": "passed",
+    "eslint": "passed",
+    "plugin_check": "passed: no errors",
+    "responsive_ui": "passed: nine admin pages at 1440, 768, 390 and 320 pixels",
+    "wordpress_6_5_zip_integration": "passed: 33 assertions",
+    "phpunit": "passed: 18 tests / 20 assertions",
+    "local_features": "passed: 14 assertions; source and clean installed ZIP",
+    "new_browser_regressions": "passed: 3 tests",
+    "installed_zip_multisite": "passed: 36 integration assertions plus 14 local-feature assertions"
+  },
+  "history": {
+    "preserved": true,
+    "backup": "ignored local work/backups/codeslot-before-cleanup.bundle",
+    "old_logs": "consolidated; originals preserved in Git history and local backup"
+  },
+  "untested": [
+    "LiteSpeed Enterprise",
+    "CGI",
+    "Windows/macOS",
+    "premium plugins",
+    "complete checkout/payment flows",
+    "every cache/CDN",
+    "all arbitrary PHP side effects"
+  ],
+  "blocked": [
+    "Repository administrative writes still return 403 Resource not accessible by integration. Controlled /user probes return the same authenticated account for configured, absent and deliberately invalid Authorization headers; managed route authentication is being injected, so missing PAT permissions are not established."
+  ],
+  "draft_release": {
+    "id": 444445230,
+    "url": "https://github.com/MalikArslanLive/codeslot/releases",
+    "draft": true,
+    "tag": "v1.0.0",
+    "assets": [
+      "codeslot-1.0.0.zip",
+      "SHA256SUMS"
+    ],
+    "github_asset_sha256": "0422819a7e8536433dab021290cfb6702c03101ae282de4d392f453033d4ec47",
+    "pending_asset_update": false,
+    "asset_source_commit": "7a8860c",
+    "url_note": "Draft appears in the release list for authorized collaborators; GitHub can regenerate its temporary direct URL."
+  },
+  "current_candidate": {
+    "quality_run": "https://github.com/MalikArslanLive/codeslot/actions/runs/43474411107",
+    "quality_conclusion": "success",
+    "security_run": "https://github.com/MalikArslanLive/codeslot/actions/runs/43474411465",
+    "security_conclusion": "success",
+    "phpunit": "18 tests / 20 assertions passed",
+    "extended_wordpress_assertions": 162,
+    "library_items": 142,
+    "library_manual_guides": 3,
+    "browser_scope": 29,
+    "responsive_pages": 9,
+    "viewport_widths": [
+      1440,
+      768,
+      390,
+      320
+    ],
+    "server_assertions_per_server": {
+      "isolation": 108,
+      "conditions_and_shortcodes": 27,
+      "virtual_file_http": 12
+    },
+    "plugin_check": "clean installed ZIP: no errors or warnings",
+    "pixel_vendor_sdk_tests": "mocked SDK requests and inspected queues; live account delivery not certified",
+    "woocommerce_purchase": "passed authorized paid-order fixture; wrong-key denial, no contact data and session deduplication; not a payment-gateway certification",
+    "quality_jobs_passed": 69,
+    "browser_tests_passed": 29,
+    "documentation_only_update": true,
+    "runtime_source_commit": "6bdde4d"
+  },
+  "tag": {
+    "name": "v1.0.0",
+    "build_source_commit": "6bdde4d",
+    "reconciled_to_final_source": true,
+    "owner_authorized": true,
+    "old_tag_backup": "ignored local work/backups/v1.0.0-before-reconciliation.bundle",
+    "publication_blocker": "Public release publication still requires owner approval."
+  },
+  "prior_verified_candidate": {
+    "commit": "4741eef1cb737d0328f0d6f43de8ee5307b43cfd",
+    "quality_run": "https://github.com/MalikArslanLive/codeslot/actions/runs/43442468901",
+    "quality_conclusion": "success",
+    "jobs_passed": 69,
+    "wordpress_php_matrix_jobs": 56,
+    "browser_tests_passed": 21,
+    "security_run": "https://github.com/MalikArslanLive/codeslot/actions/runs/43442469078",
+    "security_conclusion": "success",
+    "package_sha256": "93f8b9cb591101d7ceb6ab17e838c502d9f27d44fc89bd9700ff81516d5cee06"
+  }
+}

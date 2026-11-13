@@ -1,0 +1,1661 @@
+{
+  "excerpt-length": {
+    "name": "Custom excerpt length",
+    "code": "add_filter( 'excerpt_length', static function () { return 30; } );",
+    "type": "php",
+    "location": "bootstrap",
+    "categories": [
+      "Content"
+    ],
+    "description": "Custom excerpt length. Review the code and any example values before enabling.",
+    "active": false,
+    "tags": []
+  },
+  "excerpt-more": {
+    "name": "Custom excerpt ending",
+    "code": "add_filter( 'excerpt_more', static function () { return ' …'; } );",
+    "type": "php",
+    "location": "bootstrap",
+    "categories": [
+      "Content"
+    ],
+    "description": "Custom excerpt ending. Review the code and any example values before enabling.",
+    "active": false,
+    "tags": []
+  },
+  "disable-avatars": {
+    "name": "Disable Gravatar images",
+    "code": "add_filter( 'pre_option_show_avatars', static function () { return '0'; } );",
+    "type": "php",
+    "location": "bootstrap",
+    "categories": [
+      "Privacy"
+    ],
+    "description": "Disable Gravatar images. Review the code and any example values before enabling.",
+    "active": false,
+    "tags": []
+  },
+  "classic-editor": {
+    "name": "Use Classic Editor",
+    "code": "add_filter( 'use_block_editor_for_post', static function () { return false; } );",
+    "type": "php",
+    "location": "bootstrap",
+    "categories": [
+      "Editor"
+    ],
+    "description": "Use Classic Editor. Review the code and any example values before enabling.",
+    "active": false,
+    "tags": []
+  },
+  "classic-widgets": {
+    "name": "Use classic widgets",
+    "code": "add_filter( 'use_widgets_block_editor', static function () { return false; } );",
+    "type": "php",
+    "location": "bootstrap",
+    "categories": [
+      "Editor"
+    ],
+    "description": "Use classic widgets. Review the code and any example values before enabling.",
+    "active": false,
+    "tags": []
+  },
+  "disable-app-passwords": {
+    "name": "Disable application passwords",
+    "code": "add_filter( 'wp_is_application_passwords_available', static function () { return false; } );",
+    "type": "php",
+    "location": "bootstrap",
+    "categories": [
+      "Security"
+    ],
+    "description": "Disable application passwords. Review the code and any example values before enabling.",
+    "active": false,
+    "tags": []
+  },
+  "disable-sitemaps": {
+    "name": "Disable WordPress XML sitemaps",
+    "code": "add_filter( 'wp_sitemaps_enabled', static function () { return false; } );",
+    "type": "php",
+    "location": "bootstrap",
+    "categories": [
+      "SEO"
+    ],
+    "description": "Disable WordPress XML sitemaps. Review the code and any example values before enabling.",
+    "active": false,
+    "tags": []
+  },
+  "disable-lazyload": {
+    "name": "Disable native image lazy loading",
+    "code": "add_filter( 'wp_lazy_loading_enabled', static function () { return false; } );",
+    "type": "php",
+    "location": "bootstrap",
+    "categories": [
+      "Media"
+    ],
+    "description": "Disable native image lazy loading. Review the code and any example values before enabling.",
+    "active": false,
+    "tags": []
+  },
+  "disable-big-image": {
+    "name": "Keep oversized image originals",
+    "code": "add_filter( 'big_image_size_threshold', static function () { return false; } );",
+    "type": "php",
+    "location": "bootstrap",
+    "categories": [
+      "Media"
+    ],
+    "description": "Keep oversized image originals. Review the code and any example values before enabling.",
+    "active": false,
+    "tags": []
+  },
+  "disable-login-focus": {
+    "name": "Disable login autofocus",
+    "code": "add_filter( 'enable_login_autofocus', static function () { return false; } );",
+    "type": "php",
+    "location": "bootstrap",
+    "categories": [
+      "Login"
+    ],
+    "description": "Disable login autofocus. Review the code and any example values before enabling.",
+    "active": false,
+    "tags": []
+  },
+  "disable-login-language": {
+    "name": "Hide login language switcher",
+    "code": "add_filter( 'login_display_language_dropdown', static function () { return false; } );",
+    "type": "php",
+    "location": "bootstrap",
+    "categories": [
+      "Login"
+    ],
+    "description": "Hide login language switcher. Review the code and any example values before enabling.",
+    "active": false,
+    "tags": []
+  },
+  "hide-login-errors": {
+    "name": "Generic login errors",
+    "code": "add_filter( 'login_errors', static function () { return 'Sign-in failed. Check your credentials and try again.'; } );",
+    "type": "php",
+    "location": "bootstrap",
+    "categories": [
+      "Login"
+    ],
+    "description": "Generic login errors. Review the code and any example values before enabling.",
+    "active": false,
+    "tags": []
+  },
+  "admin-email-check": {
+    "name": "Disable admin email verification prompt",
+    "code": "add_filter( 'admin_email_check_interval', static function () { return 0; } );",
+    "type": "php",
+    "location": "bootstrap",
+    "categories": [
+      "Login"
+    ],
+    "description": "Disable admin email verification prompt. Review the code and any example values before enabling.",
+    "active": false,
+    "tags": []
+  },
+  "limit-revisions": {
+    "name": "Limit future post revisions",
+    "code": "add_filter( 'wp_revisions_to_keep', static function () { return 20; } );",
+    "type": "php",
+    "location": "bootstrap",
+    "categories": [
+      "Content"
+    ],
+    "description": "Limit future post revisions. Review the code and any example values before enabling.",
+    "active": false,
+    "tags": []
+  },
+  "hide-screen-options": {
+    "name": "Hide Screen Options",
+    "code": "add_filter( 'screen_options_show_screen', static function () { return false; } );",
+    "type": "php",
+    "location": "bootstrap",
+    "categories": [
+      "Admin"
+    ],
+    "description": "Hide Screen Options. Review the code and any example values before enabling.",
+    "active": false,
+    "tags": []
+  },
+  "disable-adminbar": {
+    "name": "Hide frontend admin toolbar",
+    "code": "add_filter( 'show_admin_bar', static function () { return false; } );",
+    "type": "php",
+    "location": "bootstrap",
+    "categories": [
+      "Admin"
+    ],
+    "description": "Hide frontend admin toolbar. Review the code and any example values before enabling.",
+    "active": false,
+    "tags": []
+  },
+  "disable-patterns": {
+    "name": "Disable remote pattern directory",
+    "code": "add_filter( 'should_load_remote_block_patterns', static function () { return false; } );",
+    "type": "php",
+    "location": "bootstrap",
+    "categories": [
+      "Editor"
+    ],
+    "description": "Disable remote pattern directory. Review the code and any example values before enabling.",
+    "active": false,
+    "tags": []
+  },
+  "disable-openverse": {
+    "name": "Disable Openverse inserter",
+    "code": "add_filter( 'block_editor_settings_all', static function ( $settings ) { $settings['enableOpenverseMediaCategory'] = false; return $settings; } );",
+    "type": "php",
+    "location": "bootstrap",
+    "categories": [
+      "Editor"
+    ],
+    "description": "Disable Openverse inserter. Review the code and any example values before enabling.",
+    "active": false,
+    "tags": []
+  },
+  "disable-font-library": {
+    "name": "Disable editor font library",
+    "code": "add_filter( 'font_library_enabled', static function () { return false; } );",
+    "type": "php",
+    "location": "bootstrap",
+    "categories": [
+      "Editor"
+    ],
+    "description": "Disable editor font library. Review the code and any example values before enabling.",
+    "active": false,
+    "tags": []
+  },
+  "disable-xmlrpc": {
+    "name": "Disable XML-RPC authenticated methods",
+    "code": "add_filter( 'xmlrpc_enabled', static function () { return false; } );",
+    "type": "php",
+    "location": "bootstrap",
+    "categories": [
+      "Security"
+    ],
+    "description": "Disables authenticated XML-RPC methods, not the whole endpoint or every pingback. Server blocking is separate.",
+    "active": false,
+    "tags": []
+  },
+  "disable-pingbacks": {
+    "name": "Disable pingback XML-RPC method",
+    "code": "add_filter( 'xmlrpc_methods', static function ( $methods ) { unset( $methods['pingback.ping'] ); return $methods; } );",
+    "type": "php",
+    "location": "bootstrap",
+    "categories": [
+      "Security"
+    ],
+    "description": "Disable pingback XML-RPC method. Review the code and any example values before enabling.",
+    "active": false,
+    "tags": []
+  },
+  "disable-update-emails": {
+    "name": "Disable automatic-update notification emails",
+    "code": "add_filter( 'auto_core_update_send_email', static function () { return false; } );\nadd_filter( 'auto_plugin_update_send_email', '__return_false' );\nadd_filter( 'auto_theme_update_send_email', '__return_false' );",
+    "type": "php",
+    "location": "bootstrap",
+    "categories": [
+      "Admin"
+    ],
+    "description": "Disable automatic-update notification emails. Review the code and any example values before enabling.",
+    "active": false,
+    "tags": []
+  },
+  "disable-autoupdates": {
+    "name": "Disable automatic updates",
+    "code": "add_filter( 'automatic_updater_disabled', static function () { return true; } );",
+    "type": "php",
+    "location": "bootstrap",
+    "categories": [
+      "Admin"
+    ],
+    "description": "Stops automatic security and maintenance updates. Enable only with a maintained manual update process.",
+    "active": false,
+    "tags": []
+  },
+  "hide-admin-reset-email": {
+    "name": "Disable administrator password-change notification emails",
+    "code": "remove_action( 'after_password_reset', 'wp_password_change_notification' );",
+    "type": "php",
+    "location": "bootstrap",
+    "categories": [
+      "Email"
+    ],
+    "description": "Disable administrator password-change notification emails. Review the code and any example values before enabling.",
+    "active": false,
+    "tags": []
+  },
+  "hide-new-user-admin-email": {
+    "name": "Disable new-user admin notification",
+    "code": "add_filter( 'wp_send_new_user_notification_to_admin', static function () { return false; } );",
+    "type": "php",
+    "location": "bootstrap",
+    "categories": [
+      "Email"
+    ],
+    "description": "Disable new-user admin notification. Review the code and any example values before enabling.",
+    "active": false,
+    "tags": []
+  },
+  "login-cookie": {
+    "name": "Extend remembered login duration",
+    "code": "add_filter( 'auth_cookie_expiration', static function ( $duration, $user_id, $remember ) { return $remember ? 30 * DAY_IN_SECONDS : $duration; }, 10, 3 );",
+    "type": "php",
+    "location": "bootstrap",
+    "categories": [
+      "Login"
+    ],
+    "description": "Extend remembered login duration. Review the code and any example values before enabling.",
+    "active": false,
+    "tags": []
+  },
+  "lowercase-uploads": {
+    "name": "Lowercase uploaded filenames",
+    "code": "add_filter( 'sanitize_file_name', static function ( $filename ) { return strtolower( $filename ); } );",
+    "type": "php",
+    "location": "bootstrap",
+    "categories": [
+      "Media"
+    ],
+    "description": "Lowercase uploaded filenames. Review the code and any example values before enabling.",
+    "active": false,
+    "tags": []
+  },
+  "editor-full-image": {
+    "name": "Use full image size by default",
+    "code": "add_filter( 'block_editor_settings_all', static function ( $settings ) { $settings['imageDefaultSize'] = 'full'; return $settings; } );",
+    "type": "php",
+    "location": "bootstrap",
+    "categories": [
+      "Editor"
+    ],
+    "description": "Use full image size by default. Review the code and any example values before enabling.",
+    "active": false,
+    "tags": []
+  },
+  "editor-code-admin": {
+    "name": "Restrict editor code editing to administrators",
+    "code": "add_filter( 'block_editor_settings_all', static function ( $settings ) { $settings['codeEditingEnabled'] = current_user_can( 'manage_options' ); return $settings; } );",
+    "type": "php",
+    "location": "bootstrap",
+    "categories": [
+      "Editor"
+    ],
+    "description": "Restrict editor code editing to administrators. Review the code and any example values before enabling.",
+    "active": false,
+    "tags": []
+  },
+  "editor-inspector": {
+    "name": "Combine editor inspector tabs",
+    "code": "add_filter( 'block_editor_settings_all', static function ( $settings ) { $settings['blockInspectorTabs'] = array( 'default' => false ); return $settings; } );",
+    "type": "php",
+    "location": "bootstrap",
+    "categories": [
+      "Editor"
+    ],
+    "description": "Combine editor inspector tabs. Review the code and any example values before enabling.",
+    "active": false,
+    "tags": []
+  },
+  "disable-template-mode": {
+    "name": "Disable post template editing",
+    "code": "add_filter( 'block_editor_settings_all', static function ( $settings ) { $settings['supportsTemplateMode'] = false; return $settings; } );",
+    "type": "php",
+    "location": "bootstrap",
+    "categories": [
+      "Editor"
+    ],
+    "description": "Disable post template editing. Review the code and any example values before enabling.",
+    "active": false,
+    "tags": []
+  },
+  "disable-specific-blocks": {
+    "name": "Exclude selected editor blocks",
+    "code": "add_filter( 'allowed_block_types_all', static function ( $allowed ) { $all = array_keys( WP_Block_Type_Registry::get_instance()->get_all_registered() ); return array_values( array_diff( is_array( $allowed ) ? $allowed : $all, array( 'core/verse' ) ) ); } );",
+    "type": "php",
+    "location": "bootstrap",
+    "categories": [
+      "Editor"
+    ],
+    "description": "Exclude selected editor blocks. Review the code and any example values before enabling.",
+    "active": false,
+    "tags": []
+  },
+  "disable-block-directory": {
+    "name": "Hide block directory suggestions",
+    "code": "remove_action( 'enqueue_block_editor_assets', 'wp_enqueue_editor_block_directory_assets' );",
+    "type": "php",
+    "location": "bootstrap",
+    "categories": [
+      "Editor"
+    ],
+    "description": "Hide block directory suggestions. Review the code and any example values before enabling.",
+    "active": false,
+    "tags": []
+  },
+  "disable-comment-links": {
+    "name": "Disable automatic comment URL linking",
+    "code": "remove_filter( 'comment_text', 'make_clickable', 9 );",
+    "type": "php",
+    "location": "bootstrap",
+    "categories": [
+      "Comments"
+    ],
+    "description": "Disable automatic comment URL linking. Review the code and any example values before enabling.",
+    "active": false,
+    "tags": []
+  },
+  "disable-comment-website": {
+    "name": "Remove comment website field",
+    "code": "add_filter( 'comment_form_default_fields', static function ( $fields ) { unset( $fields['url'] ); return $fields; } );",
+    "type": "php",
+    "location": "bootstrap",
+    "categories": [
+      "Comments"
+    ],
+    "description": "Remove comment website field. Review the code and any example values before enabling.",
+    "active": false,
+    "tags": []
+  },
+  "disable-comments": {
+    "name": "Close comments across post types",
+    "code": "add_filter( 'comments_open', '__return_false', 20 );\nadd_filter( 'pings_open', '__return_false', 20 );\nadd_filter( 'comments_array', '__return_empty_array', 20 );\nadd_action( 'admin_menu', static function () { remove_menu_page( 'edit-comments.php' ); } );",
+    "type": "php",
+    "location": "bootstrap",
+    "categories": [
+      "Comments"
+    ],
+    "description": "Closes comments/pings and hides existing frontend comment lists. Existing comments remain stored.",
+    "active": false,
+    "tags": []
+  },
+  "limit-comment-length": {
+    "name": "Limit comment length",
+    "code": "add_filter( 'preprocess_comment', static function ( $comment ) { if ( strlen( wp_strip_all_tags( $comment['comment_content'] ) ) > 2000 ) { wp_die( 'Comments must be under 2000 bytes.', 'Comment too long', array( 'response' => 400 ) ); } return $comment; } );",
+    "type": "php",
+    "location": "bootstrap",
+    "categories": [
+      "Comments"
+    ],
+    "description": "Limit comment length. Review the code and any example values before enabling.",
+    "active": false,
+    "tags": []
+  },
+  "disable-self-pings": {
+    "name": "Avoid same-site pingbacks",
+    "code": "add_action( 'pre_ping', static function ( &$links ) { $host = wp_parse_url( home_url(), PHP_URL_HOST ); foreach ( $links as $key => $url ) { if ( wp_parse_url( $url, PHP_URL_HOST ) === $host ) { unset( $links[ $key ] ); } } } );",
+    "type": "php",
+    "location": "bootstrap",
+    "categories": [
+      "Comments"
+    ],
+    "description": "Avoid same-site pingbacks. Review the code and any example values before enabling.",
+    "active": false,
+    "tags": []
+  },
+  "hide-posts-menu": {
+    "name": "Hide Posts menu",
+    "code": "add_action( 'admin_menu', static function () { remove_menu_page( 'edit.php' ); } );",
+    "type": "php",
+    "location": "bootstrap",
+    "categories": [
+      "Admin"
+    ],
+    "description": "Hide Posts menu. Review the code and any example values before enabling.",
+    "active": false,
+    "tags": []
+  },
+  "hide-health-menu": {
+    "name": "Hide Site Health dashboard entry",
+    "code": "add_action( 'admin_menu', static function () { remove_submenu_page( 'tools.php', 'site-health.php' ); } );\nadd_action( 'wp_dashboard_setup', static function () { remove_meta_box( 'dashboard_site_health', 'dashboard', 'normal' ); } );",
+    "type": "php",
+    "location": "bootstrap",
+    "categories": [
+      "Admin"
+    ],
+    "description": "Hide Site Health dashboard entry. Review the code and any example values before enabling.",
+    "active": false,
+    "tags": []
+  },
+  "admin-footer": {
+    "name": "Custom admin footer text",
+    "code": "add_filter( 'admin_footer_text', static function () { return esc_html( get_bloginfo( 'name' ) . ' — site administration' ); } );",
+    "type": "php",
+    "location": "bootstrap",
+    "categories": [
+      "Admin"
+    ],
+    "description": "Custom admin footer text. Review the code and any example values before enabling.",
+    "active": false,
+    "tags": []
+  },
+  "admin-title": {
+    "name": "Simplify browser admin title",
+    "code": "add_filter( 'admin_title', static function ( $title ) { return str_replace( ' — WordPress', '', $title ); } );",
+    "type": "php",
+    "location": "bootstrap",
+    "categories": [
+      "Admin"
+    ],
+    "description": "Simplify browser admin title. Review the code and any example values before enabling.",
+    "active": false,
+    "tags": []
+  },
+  "remove-admin-logo": {
+    "name": "Remove toolbar WordPress logo",
+    "code": "add_action( 'admin_bar_menu', static function ( $bar ) { $bar->remove_node( 'wp-logo' ); }, 999 );",
+    "type": "php",
+    "location": "bootstrap",
+    "categories": [
+      "Admin"
+    ],
+    "description": "Remove toolbar WordPress logo. Review the code and any example values before enabling.",
+    "active": false,
+    "tags": []
+  },
+  "remove-welcome": {
+    "name": "Remove dashboard welcome panel",
+    "code": "remove_action( 'welcome_panel', 'wp_welcome_panel' );",
+    "type": "php",
+    "location": "bootstrap",
+    "categories": [
+      "Admin"
+    ],
+    "description": "Remove dashboard welcome panel. Review the code and any example values before enabling.",
+    "active": false,
+    "tags": []
+  },
+  "empty-dashboard": {
+    "name": "Remove standard dashboard widgets",
+    "code": "add_action( 'wp_dashboard_setup', static function () { foreach ( array( 'dashboard_primary', 'dashboard_quick_press', 'dashboard_activity', 'dashboard_right_now', 'dashboard_site_health' ) as $id ) { foreach ( array( 'normal', 'side' ) as $area ) { remove_meta_box( $id, 'dashboard', $area ); } } } );\nremove_action( 'welcome_panel', 'wp_welcome_panel' );",
+    "type": "php",
+    "location": "bootstrap",
+    "categories": [
+      "Admin"
+    ],
+    "description": "Remove standard dashboard widgets. Review the code and any example values before enabling.",
+    "active": false,
+    "tags": []
+  },
+  "hide-color-scheme": {
+    "name": "Hide profile color scheme selector",
+    "code": "remove_action( 'admin_color_scheme_picker', 'admin_color_scheme_picker' );",
+    "type": "php",
+    "location": "bootstrap",
+    "categories": [
+      "Admin"
+    ],
+    "description": "Hide profile color scheme selector. Review the code and any example values before enabling.",
+    "active": false,
+    "tags": []
+  },
+  "restore-customizer": {
+    "name": "Restore Customize submenu",
+    "code": "add_action( 'admin_menu', static function () { add_theme_page( 'Customize', 'Customize', 'edit_theme_options', 'customize.php' ); } );",
+    "type": "php",
+    "location": "bootstrap",
+    "categories": [
+      "Admin"
+    ],
+    "description": "Restore Customize submenu. Review the code and any example values before enabling.",
+    "active": false,
+    "tags": []
+  },
+  "reorder-menu": {
+    "name": "Example admin menu order",
+    "code": "add_filter( 'custom_menu_order', '__return_true' );\nadd_filter( 'menu_order', static function ( $order ) { return array_merge( array( 'index.php', 'edit.php?post_type=page', 'edit.php', 'upload.php' ), $order ); } );",
+    "type": "php",
+    "location": "bootstrap",
+    "categories": [
+      "Admin"
+    ],
+    "description": "Example admin menu order. Review the code and any example values before enabling.",
+    "active": false,
+    "tags": []
+  },
+  "featured-column": {
+    "name": "Featured image admin column",
+    "code": "add_filter( 'manage_posts_columns', static function ( $columns ) { $columns['codeslot_thumbnail'] = 'Image'; return $columns; } );\nadd_action( 'manage_posts_custom_column', static function ( $column, $id ) { if ( 'codeslot_thumbnail' === $column ) { echo get_the_post_thumbnail( $id, array( 60, 60 ) ); } }, 10, 2 );",
+    "type": "php",
+    "location": "bootstrap",
+    "categories": [
+      "Admin"
+    ],
+    "description": "Featured image admin column. Review the code and any example values before enabling.",
+    "active": false,
+    "tags": []
+  },
+  "id-column": {
+    "name": "Post ID admin column",
+    "code": "add_filter( 'manage_posts_columns', static function ( $columns ) { $columns['codeslot_post_id'] = 'ID'; return $columns; } );\nadd_action( 'manage_posts_custom_column', static function ( $column, $id ) { if ( 'codeslot_post_id' === $column ) { echo absint( $id ); } }, 10, 2 );",
+    "type": "php",
+    "location": "bootstrap",
+    "categories": [
+      "Admin"
+    ],
+    "description": "Post ID admin column. Review the code and any example values before enabling.",
+    "active": false,
+    "tags": []
+  },
+  "modified-column": {
+    "name": "Last modified admin column",
+    "code": "add_filter( 'manage_posts_columns', static function ( $columns ) { $columns['codeslot_modified'] = 'Modified'; return $columns; } );\nadd_action( 'manage_posts_custom_column', static function ( $column, $id ) { if ( 'codeslot_modified' === $column ) { echo esc_html( get_post_modified_time( 'Y-m-d H:i', false, $id ) ); } }, 10, 2 );",
+    "type": "php",
+    "location": "bootstrap",
+    "categories": [
+      "Admin"
+    ],
+    "description": "Last modified admin column. Review the code and any example values before enabling.",
+    "active": false,
+    "tags": []
+  },
+  "media-size-column": {
+    "name": "Media file size column",
+    "code": "add_filter( 'manage_media_columns', static function ( $columns ) { $columns['codeslot_size'] = 'File size'; return $columns; } );\nadd_action( 'manage_media_custom_column', static function ( $column, $id ) { if ( 'codeslot_size' === $column ) { $file = get_attached_file( $id ); echo $file && is_file( $file ) ? esc_html( size_format( filesize( $file ) ) ) : '—'; } }, 10, 2 );",
+    "type": "php",
+    "location": "bootstrap",
+    "categories": [
+      "Media"
+    ],
+    "description": "Media file size column. Review the code and any example values before enabling.",
+    "active": false,
+    "tags": []
+  },
+  "last-login": {
+    "name": "Record and show last login",
+    "code": "add_action( 'wp_login', static function ( $login, $user ) { update_user_meta( $user->ID, 'codeslot_last_login', time() ); }, 10, 2 );\nadd_filter( 'manage_users_columns', static function ( $columns ) { $columns['codeslot_last_login'] = 'Last login'; return $columns; } );\nadd_filter( 'manage_users_custom_column', static function ( $value, $column, $id ) { if ( 'codeslot_last_login' !== $column ) { return $value; } $time = (int) get_user_meta( $id, 'codeslot_last_login', true ); return $time ? wp_date( 'Y-m-d H:i', $time ) : 'Not recorded'; }, 10, 3 );",
+    "type": "php",
+    "location": "bootstrap",
+    "categories": [
+      "Login"
+    ],
+    "description": "Records future successful logins as user metadata. Removing the snippet does not erase those records.",
+    "active": false,
+    "tags": []
+  },
+  "username-only": {
+    "name": "Disable email-address login",
+    "code": "remove_filter( 'authenticate', 'wp_authenticate_email_password', 20 );",
+    "type": "php",
+    "location": "bootstrap",
+    "categories": [
+      "Login"
+    ],
+    "description": "Disable email-address login. Review the code and any example values before enabling.",
+    "active": false,
+    "tags": []
+  },
+  "disable-login-shake": {
+    "name": "Disable login shake animation",
+    "code": "remove_action( 'login_head', 'wp_shake_js', 12 );",
+    "type": "php",
+    "location": "bootstrap",
+    "categories": [
+      "Login"
+    ],
+    "description": "Disable login shake animation. Review the code and any example values before enabling.",
+    "active": false,
+    "tags": []
+  },
+  "remember-hidden": {
+    "name": "Hide Remember Me checkbox",
+    "code": "add_action( 'login_enqueue_scripts', static function () { echo '<style>.login .forgetmenot{display:none}</style>'; } );",
+    "type": "php",
+    "location": "bootstrap",
+    "categories": [
+      "Login"
+    ],
+    "description": "Hide Remember Me checkbox. Review the code and any example values before enabling.",
+    "active": false,
+    "tags": []
+  },
+  "login-logo": {
+    "name": "Custom login logo URL",
+    "code": "add_action( 'login_enqueue_scripts', static function () { $url = esc_url( home_url( '/wp-content/uploads/site-logo.png' ) ); echo '<style>.login h1 a{background-image:url(' . $url . ');background-size:contain;width:100%}</style>'; } );",
+    "type": "php",
+    "location": "bootstrap",
+    "categories": [
+      "Login"
+    ],
+    "description": "Custom login logo URL. Review the code and any example values before enabling.",
+    "active": false,
+    "tags": []
+  },
+  "private-site": {
+    "name": "Require frontend login",
+    "code": "add_action( 'template_redirect', static function () { if ( ! is_user_logged_in() ) { auth_redirect(); } } );",
+    "type": "php",
+    "location": "bootstrap",
+    "categories": [
+      "Privacy"
+    ],
+    "description": "Redirects normal frontend HTML requests to login. This does not protect uploads, static files, feeds or all API endpoints.",
+    "active": false,
+    "tags": []
+  },
+  "maintenance": {
+    "name": "Temporary HTML maintenance response",
+    "code": "add_action( 'template_redirect', static function () { if ( ! current_user_can( 'manage_options' ) ) { nocache_headers(); header( 'Retry-After: 3600' ); wp_die( 'Maintenance in progress. Please try again later.', 'Maintenance', array( 'response' => 503 ) ); } } );",
+    "type": "php",
+    "location": "bootstrap",
+    "categories": [
+      "Admin"
+    ],
+    "description": "Temporary HTML maintenance response. Review the code and any example values before enabling.",
+    "active": false,
+    "tags": []
+  },
+  "admin-only": {
+    "name": "Restrict dashboard to administrators",
+    "code": "add_action( 'admin_init', static function () { if ( ! wp_doing_ajax() && ! current_user_can( 'manage_options' ) ) { wp_safe_redirect( home_url() ); exit; } } );",
+    "type": "php",
+    "location": "bootstrap",
+    "categories": [
+      "Security"
+    ],
+    "description": "Restrict dashboard to administrators. Review the code and any example values before enabling.",
+    "active": false,
+    "tags": []
+  },
+  "disable-author-archives": {
+    "name": "Return 404 on author archives",
+    "code": "add_action( 'template_redirect', static function () { if ( is_author() ) { global $wp_query; $wp_query->set_404(); status_header( 404 ); nocache_headers(); } } );",
+    "type": "php",
+    "location": "bootstrap",
+    "categories": [
+      "SEO"
+    ],
+    "description": "Return 404 on author archives. Review the code and any example values before enabling.",
+    "active": false,
+    "tags": []
+  },
+  "redirect-attachments": {
+    "name": "Redirect attachment pages to media",
+    "code": "add_action( 'template_redirect', static function () { if ( is_attachment() ) { $url = wp_get_attachment_url( get_queried_object_id() ); if ( $url ) { wp_safe_redirect( $url, 302 ); exit; } } } );",
+    "type": "php",
+    "location": "bootstrap",
+    "categories": [
+      "Media"
+    ],
+    "description": "Redirect attachment pages to media. Review the code and any example values before enabling.",
+    "active": false,
+    "tags": []
+  },
+  "disable-search": {
+    "name": "Disable frontend HTML search",
+    "code": "add_action( 'template_redirect', static function () { if ( is_search() ) { status_header( 404 ); wp_die( 'Search is not available.', 'Not found', array( 'response' => 404 ) ); } } );\nadd_filter( 'get_search_form', '__return_empty_string' );",
+    "type": "php",
+    "location": "bootstrap",
+    "categories": [
+      "Content"
+    ],
+    "description": "Disable frontend HTML search. Review the code and any example values before enabling.",
+    "active": false,
+    "tags": []
+  },
+  "redirect-404": {
+    "name": "Redirect 404 requests to homepage",
+    "code": "add_action( 'template_redirect', static function () { if ( is_404() ) { wp_safe_redirect( home_url( '/' ), 302 ); exit; } } );",
+    "type": "php",
+    "location": "bootstrap",
+    "categories": [
+      "SEO"
+    ],
+    "description": "Changes missing-page behavior. Review SEO and monitoring implications before activation.",
+    "active": false,
+    "tags": []
+  },
+  "page-body-class": {
+    "name": "Add page slug body class",
+    "code": "add_filter( 'body_class', static function ( $classes ) { if ( is_singular() ) { $classes[] = 'page-slug-' . sanitize_html_class( get_post_field( 'post_name', get_queried_object_id() ) ); } return $classes; } );",
+    "type": "php",
+    "location": "bootstrap",
+    "categories": [
+      "Content"
+    ],
+    "description": "Add page slug body class. Review the code and any example values before enabling.",
+    "active": false,
+    "tags": []
+  },
+  "featured-links": {
+    "name": "Link featured images to posts",
+    "code": "add_filter( 'post_thumbnail_html', static function ( $html, $id ) { return $html && ! is_singular() ? '<a href=\"' . esc_url( get_permalink( $id ) ) . '\">' . $html . '</a>' : $html; }, 10, 2 );",
+    "type": "php",
+    "location": "bootstrap",
+    "categories": [
+      "Media"
+    ],
+    "description": "Link featured images to posts. Review the code and any example values before enabling.",
+    "active": false,
+    "tags": []
+  },
+  "featured-rss": {
+    "name": "Featured images in feeds",
+    "code": "add_filter( 'the_content_feed', static function ( $content ) { return get_the_post_thumbnail( null, 'medium' ) . $content; } );",
+    "type": "php",
+    "location": "bootstrap",
+    "categories": [
+      "RSS"
+    ],
+    "description": "Featured images in feeds. Review the code and any example values before enabling.",
+    "active": false,
+    "tags": []
+  },
+  "hide-rss-content": {
+    "name": "Hide feed content and excerpts",
+    "code": "add_filter( 'the_content_feed', '__return_empty_string' );\nadd_filter( 'the_excerpt_rss', '__return_empty_string' );",
+    "type": "php",
+    "location": "bootstrap",
+    "categories": [
+      "RSS"
+    ],
+    "description": "Hide feed content and excerpts. Review the code and any example values before enabling.",
+    "active": false,
+    "tags": []
+  },
+  "disable-rss": {
+    "name": "Disable feed endpoints",
+    "code": "foreach ( array( 'do_feed', 'do_feed_rdf', 'do_feed_rss', 'do_feed_rss2', 'do_feed_atom' ) as $hook ) { add_action( $hook, static function () { wp_die( 'Feeds are disabled.', 'Not available', array( 'response' => 404 ) ); }, 1 ); }",
+    "type": "php",
+    "location": "bootstrap",
+    "categories": [
+      "RSS"
+    ],
+    "description": "Disable feed endpoints. Review the code and any example values before enabling.",
+    "active": false,
+    "tags": []
+  },
+  "exclude-feed-category": {
+    "name": "Exclude an example category from feeds",
+    "code": "add_action( 'pre_get_posts', static function ( $query ) { if ( $query->is_feed() ) { $query->set( 'category__not_in', array( 123 ) ); } } );",
+    "type": "php",
+    "location": "bootstrap",
+    "categories": [
+      "RSS"
+    ],
+    "description": "Replace category ID 123 before activation.",
+    "active": false,
+    "tags": []
+  },
+  "feed-delay": {
+    "name": "Delay feed publication by ten minutes",
+    "code": "add_filter( 'posts_where', static function ( $where, $query ) { global $wpdb; if ( $query->is_feed() ) { $where .= $wpdb->prepare( \" AND {$wpdb->posts}.post_date_gmt < %s\", gmdate( 'Y-m-d H:i:s', time() - 600 ) ); } return $where; }, 10, 2 );",
+    "type": "php",
+    "location": "bootstrap",
+    "categories": [
+      "RSS"
+    ],
+    "description": "Delay feed publication by ten minutes. Review the code and any example values before enabling.",
+    "active": false,
+    "tags": []
+  },
+  "remove-feed-links": {
+    "name": "Remove feed discovery links",
+    "code": "remove_action( 'wp_head', 'feed_links', 2 );\nremove_action( 'wp_head', 'feed_links_extra', 3 );",
+    "type": "php",
+    "location": "bootstrap",
+    "categories": [
+      "RSS"
+    ],
+    "description": "Remove feed discovery links. Review the code and any example values before enabling.",
+    "active": false,
+    "tags": []
+  },
+  "remove-rest-links": {
+    "name": "Remove REST API discovery links",
+    "code": "remove_action( 'wp_head', 'rest_output_link_wp_head', 10 );\nremove_action( 'template_redirect', 'rest_output_link_header', 11 );",
+    "type": "php",
+    "location": "bootstrap",
+    "categories": [
+      "SEO"
+    ],
+    "description": "Remove REST API discovery links. Review the code and any example values before enabling.",
+    "active": false,
+    "tags": []
+  },
+  "remove-shortlink": {
+    "name": "Remove shortlink discovery",
+    "code": "remove_action( 'wp_head', 'wp_shortlink_wp_head', 10 );\nremove_action( 'template_redirect', 'wp_shortlink_header', 11 );",
+    "type": "php",
+    "location": "bootstrap",
+    "categories": [
+      "SEO"
+    ],
+    "description": "Remove shortlink discovery. Review the code and any example values before enabling.",
+    "active": false,
+    "tags": []
+  },
+  "remove-wlw": {
+    "name": "Remove legacy WLW manifest link",
+    "code": "remove_action( 'wp_head', 'wlwmanifest_link' );",
+    "type": "php",
+    "location": "bootstrap",
+    "categories": [
+      "SEO"
+    ],
+    "description": "Remove legacy WLW manifest link. Review the code and any example values before enabling.",
+    "active": false,
+    "tags": []
+  },
+  "remove-version": {
+    "name": "Remove frontend generator metadata",
+    "code": "remove_action( 'wp_head', 'wp_generator' );\nadd_filter( 'the_generator', '__return_empty_string' );",
+    "type": "php",
+    "location": "bootstrap",
+    "categories": [
+      "SEO"
+    ],
+    "description": "Removes generator metadata only; hiding a version is not a substitute for security updates.",
+    "active": false,
+    "tags": []
+  },
+  "disable-emojis": {
+    "name": "Remove legacy emoji assets",
+    "code": "remove_action( 'wp_head', 'print_emoji_detection_script', 7 );\nremove_action( 'wp_print_styles', 'print_emoji_styles' );\nremove_action( 'admin_print_scripts', 'print_emoji_detection_script' );\nremove_action( 'admin_print_styles', 'print_emoji_styles' );",
+    "type": "php",
+    "location": "bootstrap",
+    "categories": [
+      "Performance"
+    ],
+    "description": "Remove legacy emoji assets. Review the code and any example values before enabling.",
+    "active": false,
+    "tags": []
+  },
+  "disable-embeds": {
+    "name": "Remove oEmbed discovery assets",
+    "code": "remove_action( 'wp_head', 'wp_oembed_add_discovery_links' );\nremove_action( 'wp_head', 'wp_oembed_add_host_js' );",
+    "type": "php",
+    "location": "bootstrap",
+    "categories": [
+      "Performance"
+    ],
+    "description": "Remove oEmbed discovery assets. Review the code and any example values before enabling.",
+    "active": false,
+    "tags": []
+  },
+  "disable-migrate": {
+    "name": "Remove jQuery Migrate dependency",
+    "code": "add_action( 'wp_default_scripts', static function ( $scripts ) { if ( ! is_admin() && isset( $scripts->registered['jquery'] ) ) { $scripts->registered['jquery']->deps = array_diff( $scripts->registered['jquery']->deps, array( 'jquery-migrate' ) ); } } );",
+    "type": "php",
+    "location": "bootstrap",
+    "categories": [
+      "Performance"
+    ],
+    "description": "Legacy themes/plugins can require jQuery Migrate. Test before activation.",
+    "active": false,
+    "tags": []
+  },
+  "remove-block-css": {
+    "name": "Dequeue frontend block library styles",
+    "code": "add_action( 'wp_enqueue_scripts', static function () { wp_dequeue_style( 'wp-block-library' ); wp_dequeue_style( 'wp-block-library-theme' ); }, 100 );",
+    "type": "php",
+    "location": "bootstrap",
+    "categories": [
+      "Performance"
+    ],
+    "description": "Can break block layouts. Use only when your theme provides replacement styling.",
+    "active": false,
+    "tags": []
+  },
+  "remove-legacy-css": {
+    "name": "Disable classic gallery default CSS",
+    "code": "add_filter( 'use_default_gallery_style', '__return_false' );",
+    "type": "php",
+    "location": "bootstrap",
+    "categories": [
+      "Performance"
+    ],
+    "description": "Disable classic gallery default CSS. Review the code and any example values before enabling.",
+    "active": false,
+    "tags": []
+  },
+  "oembed-width": {
+    "name": "Set default embed width",
+    "code": "add_filter( 'embed_defaults', static function ( $defaults ) { $defaults['width'] = 800; return $defaults; } );",
+    "type": "php",
+    "location": "bootstrap",
+    "categories": [
+      "Media"
+    ],
+    "description": "Set default embed width. Review the code and any example values before enabling.",
+    "active": false,
+    "tags": []
+  },
+  "limit-image-dimensions": {
+    "name": "Constrain uploaded image dimensions",
+    "code": "add_filter( 'wp_handle_upload_prefilter', static function ( $file ) { if ( strpos( $file['type'], 'image/' ) === 0 ) { $size = @getimagesize( $file['tmp_name'] ); if ( $size && ( $size[0] > 6000 || $size[1] > 6000 ) ) { $file['error'] = 'Images must not exceed 6000 pixels per dimension.'; } } return $file; } );",
+    "type": "php",
+    "location": "bootstrap",
+    "categories": [
+      "Media"
+    ],
+    "description": "Constrain uploaded image dimensions. Review the code and any example values before enabling.",
+    "active": false,
+    "tags": []
+  },
+  "disable-image-sizes": {
+    "name": "Disable selected intermediate image sizes",
+    "code": "add_filter( 'intermediate_image_sizes_advanced', static function ( $sizes ) { unset( $sizes['medium_large'], $sizes['1536x1536'], $sizes['2048x2048'] ); return $sizes; } );",
+    "type": "php",
+    "location": "bootstrap",
+    "categories": [
+      "Media"
+    ],
+    "description": "Disable selected intermediate image sizes. Review the code and any example values before enabling.",
+    "active": false,
+    "tags": []
+  },
+  "lazy-auto-sizes": {
+    "name": "Use automatic sizes for lazy images",
+    "code": "add_filter( 'wp_get_attachment_image_attributes', static function ( $attributes ) { if ( isset( $attributes['loading'] ) && 'lazy' === $attributes['loading'] && ! empty( $attributes['sizes'] ) && strpos( $attributes['sizes'], 'auto' ) !== 0 ) { $attributes['sizes'] = 'auto, ' . $attributes['sizes']; } return $attributes; } );",
+    "type": "php",
+    "location": "bootstrap",
+    "categories": [
+      "Media"
+    ],
+    "description": "Use automatic sizes for lazy images. Review the code and any example values before enabling.",
+    "active": false,
+    "tags": []
+  },
+  "reading-time": {
+    "name": "Estimated reading time",
+    "code": "add_filter( 'the_content', static function ( $content ) { if ( is_singular( 'post' ) && in_the_loop() && is_main_query() ) { $minutes = max( 1, (int) ceil( str_word_count( wp_strip_all_tags( $content ) ) / 200 ) ); return '<p class=\"reading-time\">' . esc_html( $minutes . ' min read' ) . '</p>' . $content; } return $content; } );",
+    "type": "php",
+    "location": "bootstrap",
+    "categories": [
+      "Content"
+    ],
+    "description": "Estimated reading time. Review the code and any example values before enabling.",
+    "active": false,
+    "tags": []
+  },
+  "last-updated": {
+    "name": "Last updated date on posts",
+    "code": "add_filter( 'the_content', static function ( $content ) { return is_singular( 'post' ) && in_the_loop() && is_main_query() ? '<p>Updated ' . esc_html( get_the_modified_date() ) . '</p>' . $content : $content; } );",
+    "type": "php",
+    "location": "bootstrap",
+    "categories": [
+      "Content"
+    ],
+    "description": "Last updated date on posts. Review the code and any example values before enabling.",
+    "active": false,
+    "tags": []
+  },
+  "author-bio": {
+    "name": "Author biography after posts",
+    "code": "add_filter( 'the_content', static function ( $content ) { if ( is_singular( 'post' ) && in_the_loop() && is_main_query() ) { $bio = get_the_author_meta( 'description' ); if ( $bio ) { $content .= '<aside class=\"author-bio\">' . wpautop( esc_html( $bio ) ) . '</aside>'; } } return $content; } );",
+    "type": "php",
+    "location": "bootstrap",
+    "categories": [
+      "Content"
+    ],
+    "description": "Author biography after posts. Review the code and any example values before enabling.",
+    "active": false,
+    "tags": []
+  },
+  "new-badge": {
+    "name": "Recent post title badge",
+    "code": "add_filter( 'the_title', static function ( $title, $id ) { if ( ! is_admin() && in_the_loop() && 'post' === get_post_type( $id ) && time() - get_post_time( 'U', true, $id ) < 7 * DAY_IN_SECONDS ) { $title .= ' — New'; } return $title; }, 10, 2 );",
+    "type": "php",
+    "location": "bootstrap",
+    "categories": [
+      "Content"
+    ],
+    "description": "Recent post title badge. Review the code and any example values before enabling.",
+    "active": false,
+    "tags": []
+  },
+  "archive-edit-link": {
+    "name": "Edit link on archive excerpts",
+    "code": "add_filter( 'the_excerpt', static function ( $excerpt ) { $url = get_edit_post_link(); return $url && current_user_can( 'edit_post', get_the_ID() ) ? $excerpt . '<p><a href=\"' . esc_url( $url ) . '\">Edit this post</a></p>' : $excerpt; } );",
+    "type": "php",
+    "location": "bootstrap",
+    "categories": [
+      "Content"
+    ],
+    "description": "Edit link on archive excerpts. Review the code and any example values before enabling.",
+    "active": false,
+    "tags": []
+  },
+  "open-graph": {
+    "name": "Basic social Open Graph tags",
+    "code": "add_action( 'wp_head', static function () { if ( ! is_singular() ) { return; } echo '<meta property=\"og:title\" content=\"' . esc_attr( get_the_title( get_queried_object_id() ) ) . '\"><meta property=\"og:url\" content=\"' . esc_url( get_permalink( get_queried_object_id() ) ) . '\"><meta property=\"og:type\" content=\"article\">'; } );",
+    "type": "php",
+    "location": "bootstrap",
+    "categories": [
+      "SEO"
+    ],
+    "description": "Avoid duplicate Open Graph tags when an SEO plugin already provides them.",
+    "active": false,
+    "tags": []
+  },
+  "dynamic-year": {
+    "name": "Current year copyright shortcode",
+    "code": "add_shortcode( 'codeslot_year', static function () { return '© ' . esc_html( wp_date( 'Y' ) ); } );",
+    "type": "php",
+    "location": "bootstrap",
+    "categories": [
+      "Shortcodes"
+    ],
+    "description": "Use [codeslot_year] after activating this PHP registration snippet.",
+    "active": false,
+    "tags": []
+  },
+  "greeting": {
+    "name": "Time-of-day greeting shortcode",
+    "code": "add_shortcode( 'codeslot_greeting', static function () { $hour = (int) wp_date( 'G' ); return $hour < 12 ? 'Good morning' : ( $hour < 18 ? 'Good afternoon' : 'Good evening' ); } );",
+    "type": "php",
+    "location": "bootstrap",
+    "categories": [
+      "Shortcodes"
+    ],
+    "description": "Time-of-day greeting shortcode. Review the code and any example values before enabling.",
+    "active": false,
+    "tags": []
+  },
+  "spoiler": {
+    "name": "Accessible spoiler shortcode",
+    "code": "add_shortcode( 'codeslot_spoiler', static function ( $atts, $content = '' ) { return '<details><summary>Show hidden text</summary>' . wp_kses_post( $content ) . '</details>'; } );",
+    "type": "php",
+    "location": "bootstrap",
+    "categories": [
+      "Shortcodes"
+    ],
+    "description": "Accessible spoiler shortcode. Review the code and any example values before enabling.",
+    "active": false,
+    "tags": []
+  },
+  "random-posts": {
+    "name": "Random post links shortcode",
+    "code": "add_shortcode( 'codeslot_random', static function () { $out = '<ul>'; foreach ( get_posts( array( 'numberposts' => 5, 'orderby' => 'rand', 'post_status' => 'publish' ) ) as $post ) { $out .= '<li><a href=\"' . esc_url( get_permalink( $post ) ) . '\">' . esc_html( get_the_title( $post ) ) . '</a></li>'; } return $out . '</ul>'; } );",
+    "type": "php",
+    "location": "bootstrap",
+    "categories": [
+      "Shortcodes"
+    ],
+    "description": "Random post links shortcode. Review the code and any example values before enabling.",
+    "active": false,
+    "tags": []
+  },
+  "related-posts": {
+    "name": "Related posts by category shortcode",
+    "code": "add_shortcode( 'codeslot_related', static function () { if ( ! is_singular( 'post' ) ) { return ''; } $out = '<ul>'; $posts = get_posts( array( 'numberposts' => 5, 'category__in' => wp_get_post_categories( get_queried_object_id() ), 'post__not_in' => array( get_queried_object_id() ) ) ); foreach ( $posts as $post ) { $out .= '<li><a href=\"' . esc_url( get_permalink( $post ) ) . '\">' . esc_html( get_the_title( $post ) ) . '</a></li>'; } return $out . '</ul>'; } );",
+    "type": "php",
+    "location": "bootstrap",
+    "categories": [
+      "Shortcodes"
+    ],
+    "description": "Related posts by category shortcode. Review the code and any example values before enabling.",
+    "active": false,
+    "tags": []
+  },
+  "text-widget-shortcodes": {
+    "name": "Enable shortcodes in text widgets",
+    "code": "add_filter( 'widget_text', 'do_shortcode', 11 );",
+    "type": "php",
+    "location": "bootstrap",
+    "categories": [
+      "Widgets"
+    ],
+    "description": "Enable shortcodes in text widgets. Review the code and any example values before enabling.",
+    "active": false,
+    "tags": []
+  },
+  "heartbeat-interval": {
+    "name": "Set heartbeat interval",
+    "code": "add_filter( 'heartbeat_settings', static function ( $settings ) { $settings['interval'] = 60; return $settings; } );",
+    "type": "php",
+    "location": "bootstrap",
+    "categories": [
+      "Performance"
+    ],
+    "description": "Set heartbeat interval. Review the code and any example values before enabling.",
+    "active": false,
+    "tags": []
+  },
+  "mail-sender": {
+    "name": "Custom outgoing sender name",
+    "code": "add_filter( 'wp_mail_from_name', static function () { return get_bloginfo( 'name' ); } );",
+    "type": "php",
+    "location": "bootstrap",
+    "categories": [
+      "Email"
+    ],
+    "description": "Custom outgoing sender name. Review the code and any example values before enabling.",
+    "active": false,
+    "tags": []
+  },
+  "mail-reply-to": {
+    "name": "Add a Reply-To email header",
+    "code": "add_filter( 'wp_mail', static function ( $mail ) { $headers = isset( $mail['headers'] ) ? $mail['headers'] : array(); $headers = is_array( $headers ) ? $headers : preg_split( '/\\r?\\n/', $headers ); $headers[] = 'Reply-To: ' . sanitize_email( get_option( 'admin_email' ) ); $mail['headers'] = $headers; return $mail; } );",
+    "type": "php",
+    "location": "bootstrap",
+    "categories": [
+      "Email"
+    ],
+    "description": "Add a Reply-To email header. Review the code and any example values before enabling.",
+    "active": false,
+    "tags": []
+  },
+  "mail-header": {
+    "name": "Add a custom outgoing email header",
+    "code": "add_filter( 'wp_mail', static function ( $mail ) { $headers = isset( $mail['headers'] ) ? $mail['headers'] : array(); $headers = is_array( $headers ) ? $headers : preg_split( '/\\r?\\n/', $headers ); $headers[] = 'X-Site-Name: ' . sanitize_text_field( get_bloginfo( 'name' ) ); $mail['headers'] = $headers; return $mail; } );",
+    "type": "php",
+    "location": "bootstrap",
+    "categories": [
+      "Email"
+    ],
+    "description": "Add a custom outgoing email header. Review the code and any example values before enabling.",
+    "active": false,
+    "tags": []
+  },
+  "smooth-scroll": {
+    "name": "Reduced-motion-aware smooth scrolling",
+    "code": "@media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }",
+    "type": "css",
+    "location": "header",
+    "categories": [
+      "Design"
+    ],
+    "description": "Reduced-motion-aware smooth scrolling. Review the code and any example values before enabling.",
+    "active": false,
+    "tags": []
+  },
+  "bottom-toolbar": {
+    "name": "Move frontend admin toolbar to bottom",
+    "code": "html #wpadminbar { top: auto; bottom: 0; } html { margin-top: 0 !important; padding-bottom: 32px; }",
+    "type": "css",
+    "location": "header",
+    "categories": [
+      "Design"
+    ],
+    "description": "Move frontend admin toolbar to bottom. Review the code and any example values before enabling.",
+    "active": false,
+    "tags": []
+  },
+  "image-zoom": {
+    "name": "Opt-in image hover zoom",
+    "code": ".codeslot-zoom { overflow: hidden; } .codeslot-zoom img { transition: transform .2s ease; } @media (prefers-reduced-motion: no-preference) { .codeslot-zoom:hover img { transform: scale(1.15); } }",
+    "type": "css",
+    "location": "header",
+    "categories": [
+      "Design"
+    ],
+    "description": "Opt-in image hover zoom. Review the code and any example values before enabling.",
+    "active": false,
+    "tags": []
+  },
+  "faq": {
+    "name": "Accessible FAQ accordion",
+    "code": "<section aria-label=\"Frequently asked questions\"><details><summary>How does this work?</summary><p>Replace this answer with your own content.</p></details></section>",
+    "type": "content",
+    "location": "shortcode",
+    "categories": [
+      "Content"
+    ],
+    "description": "Accessible FAQ accordion. Review the code and any example values before enabling.",
+    "active": false,
+    "tags": []
+  },
+  "back-to-top": {
+    "name": "Accessible back-to-top button",
+    "code": "(() => { const b=document.createElement('button'); b.type='button'; b.textContent='Back to top'; b.style.cssText='position:fixed;right:1rem;bottom:1rem;z-index:1000'; b.addEventListener('click',()=>window.scrollTo({top:0,behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'})); document.body.appendChild(b); })();",
+    "type": "javascript",
+    "location": "footer",
+    "categories": [
+      "Design"
+    ],
+    "description": "Accessible back-to-top button. Review the code and any example values before enabling.",
+    "active": false,
+    "tags": []
+  },
+  "copy-code": {
+    "name": "Copy buttons for code blocks",
+    "code": "document.querySelectorAll('pre > code').forEach(code=>{const b=document.createElement('button');b.type='button';b.textContent='Copy code';b.addEventListener('click',async()=>{try{await navigator.clipboard.writeText(code.textContent);b.textContent='Copied';}catch{b.textContent='Copy unavailable';}});code.parentElement.insertAdjacentElement('beforebegin',b);});",
+    "type": "javascript",
+    "location": "footer",
+    "categories": [
+      "Content"
+    ],
+    "description": "Copy buttons for code blocks. Review the code and any example values before enabling.",
+    "active": false,
+    "tags": []
+  },
+  "external-links": {
+    "name": "Open external content links safely",
+    "code": "document.querySelectorAll('.entry-content a[href]').forEach(a=>{try{const u=new URL(a.href);if(['http:','https:'].includes(u.protocol)&&u.origin!==window.location.origin){a.target='_blank';a.rel='noopener noreferrer';}}catch{}});",
+    "type": "javascript",
+    "location": "footer",
+    "categories": [
+      "Content"
+    ],
+    "description": "Open external content links safely. Review the code and any example values before enabling.",
+    "active": false,
+    "tags": []
+  },
+  "scroll-progress": {
+    "name": "Reading scroll progress indicator",
+    "code": "(() => { const p=document.createElement('progress');p.max=100;p.setAttribute('aria-label','Reading progress');p.style.cssText='position:fixed;top:0;left:0;width:100%;height:4px;z-index:9999';document.body.appendChild(p);function update(){const d=document.documentElement;p.value=100*d.scrollTop/Math.max(1,d.scrollHeight-d.clientHeight);}window.addEventListener('scroll',update,{passive:true});update();})();",
+    "type": "javascript",
+    "location": "footer",
+    "categories": [
+      "Design"
+    ],
+    "description": "Reading scroll progress indicator. Review the code and any example values before enabling.",
+    "active": false,
+    "tags": []
+  },
+  "countdown": {
+    "name": "Editable countdown timer",
+    "code": "(() => { const end=Date.parse('2030-01-01T00:00:00Z');document.querySelectorAll('.codeslot-countdown').forEach(el=>{function tick(){const s=Math.max(0,Math.floor((end-Date.now())/1000));el.textContent=Math.floor(s/86400)+' days '+Math.floor(s%86400/3600)+' hours';}tick();window.setInterval(tick,60000);});})();",
+    "type": "javascript",
+    "location": "footer",
+    "categories": [
+      "Design"
+    ],
+    "description": "Editable countdown timer. Review the code and any example values before enabling.",
+    "active": false,
+    "tags": []
+  },
+  "social-share": {
+    "name": "Privacy-friendly share link shortcode",
+    "code": "add_shortcode( 'codeslot_share', static function () { return '<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"https://www.facebook.com/sharer/sharer.php?u=' . rawurlencode( get_permalink() ) . '\">Share this post</a>'; } );",
+    "type": "php",
+    "location": "bootstrap",
+    "categories": [
+      "Shortcodes"
+    ],
+    "description": "A plain outgoing share link. No third-party sharing scripts load.",
+    "active": false,
+    "tags": []
+  },
+  "breadcrumbs": {
+    "name": "Simple hierarchical page breadcrumbs",
+    "code": "add_filter( 'the_content', static function ( $content ) { if ( ! is_page() || ! is_main_query() || ! in_the_loop() ) { return $content; } $links = array( '<a href=\"' . esc_url( home_url( '/' ) ) . '\">Home</a>' ); foreach ( array_reverse( get_post_ancestors( get_queried_object_id() ) ) as $id ) { $links[] = '<a href=\"' . esc_url( get_permalink( $id ) ) . '\">' . esc_html( get_the_title( $id ) ) . '</a>'; } $links[] = esc_html( get_the_title( get_queried_object_id() ) ); return '<nav aria-label=\"Breadcrumbs\">' . implode( ' / ', $links ) . '</nav>' . $content; } );",
+    "type": "php",
+    "location": "bootstrap",
+    "categories": [
+      "SEO"
+    ],
+    "description": "Simple hierarchical page breadcrumbs. Review and customize before activation.",
+    "active": false,
+    "tags": []
+  },
+  "toc": {
+    "name": "Content heading table of contents",
+    "code": "(() => {const root=document.querySelector('.entry-content');if(!root)return;const headings=Array.from(root.querySelectorAll('h2,h3'));if(headings.length<2)return;const nav=document.createElement('nav');nav.setAttribute('aria-label','Table of contents');const ul=document.createElement('ul');headings.forEach((h,i)=>{if(!h.id){let id='codeslot-heading-'+i;while(document.getElementById(id))id+='x';h.id=id;}const a=document.createElement('a');a.href='#'+encodeURIComponent(h.id);a.textContent=h.textContent;const li=document.createElement('li');li.appendChild(a);ul.appendChild(li);});nav.appendChild(ul);root.prepend(nav);})();",
+    "type": "javascript",
+    "location": "footer",
+    "categories": [
+      "Content"
+    ],
+    "description": "Content heading table of contents. Review and customize before activation.",
+    "active": false,
+    "tags": []
+  },
+  "comment-collapse": {
+    "name": "Collapse long comments accessibly",
+    "code": "document.querySelectorAll('.comment-content').forEach(el=>{if(el.textContent.length<500)return;const details=document.createElement('details');const summary=document.createElement('summary');summary.textContent='Read full comment';el.before(details);details.appendChild(summary);details.appendChild(el);});",
+    "type": "javascript",
+    "location": "footer",
+    "categories": [
+      "Comments"
+    ],
+    "description": "Collapse long comments accessibly. Review and customize before activation.",
+    "active": false,
+    "tags": []
+  },
+  "comment-counter": {
+    "name": "Comment length counter",
+    "code": "document.querySelectorAll('textarea[name=comment]').forEach(el=>{el.maxLength=2000;const output=document.createElement('output');output.setAttribute('aria-live','polite');el.after(output);function update(){output.textContent=el.value.length+' / 2000 characters';}el.addEventListener('input',update);update();});",
+    "type": "javascript",
+    "location": "footer",
+    "categories": [
+      "Comments"
+    ],
+    "description": "Comment length counter. Review and customize before activation.",
+    "active": false,
+    "tags": []
+  },
+  "custom-page-logo": {
+    "name": "Page-specific custom logo",
+    "code": "add_filter( 'get_custom_logo', static function ( $html ) { if ( is_page( 123 ) ) { return '<a href=\"' . esc_url( home_url( '/' ) ) . '\"><img src=\"' . esc_url( home_url( '/wp-content/uploads/page-logo.png' ) ) . '\" alt=\"' . esc_attr( get_bloginfo( 'name' ) ) . '\"></a>'; } return $html; } );",
+    "type": "php",
+    "location": "bootstrap",
+    "categories": [
+      "Media"
+    ],
+    "description": "Replace page ID 123 and example image path. Works with themes that use get_custom_logo().",
+    "active": false,
+    "tags": []
+  },
+  "default-featured-image": {
+    "name": "Fallback featured image",
+    "code": "add_filter( 'post_thumbnail_html', static function ( $html ) { $fallback_id = 123; return $html ? $html : wp_get_attachment_image( $fallback_id, 'large' ); } );",
+    "type": "php",
+    "location": "bootstrap",
+    "categories": [
+      "Media"
+    ],
+    "description": "Replace attachment ID 123. Provides fallback thumbnail HTML in themes using WordPress thumbnail functions.",
+    "active": false,
+    "tags": []
+  },
+  "avatar-alt": {
+    "name": "Default accessible avatar alternative text",
+    "code": "add_filter( 'get_avatar_data', static function ( $args ) { if ( empty( $args['alt'] ) ) { $args['alt'] = 'User avatar'; } return $args; } );",
+    "type": "php",
+    "location": "bootstrap",
+    "categories": [
+      "Media"
+    ],
+    "description": "Default accessible avatar alternative text. Review and customize before activation.",
+    "active": false,
+    "tags": []
+  },
+  "custom-default-avatar": {
+    "name": "Custom default avatar URL",
+    "code": "add_filter( 'avatar_defaults', static function ( $defaults ) { $defaults[ esc_url_raw( home_url( '/wp-content/uploads/default-avatar.png' ) ) ] = 'Site avatar'; return $defaults; } );",
+    "type": "php",
+    "location": "bootstrap",
+    "categories": [
+      "Media"
+    ],
+    "description": "Replace the image URL, then select Site avatar in Settings → Discussion.",
+    "active": false,
+    "tags": []
+  },
+  "contributor-uploads": {
+    "name": "Allow contributors to upload media once",
+    "code": "$role = get_role( 'contributor' ); if ( $role ) { $role->add_cap( 'upload_files' ); }",
+    "type": "php",
+    "location": "once",
+    "categories": [
+      "Security"
+    ],
+    "description": "Persistent role change: contributors gain upload permission. Requires explicit Run Once confirmation. To undo, remove upload_files from that role; deleting this snippet does not undo it.",
+    "active": false,
+    "tags": []
+  },
+  "disable-taxonomies": {
+    "name": "Remove default post categories and tags",
+    "code": "unregister_taxonomy_for_object_type( 'category', 'post' );\nunregister_taxonomy_for_object_type( 'post_tag', 'post' );",
+    "type": "php",
+    "location": "bootstrap",
+    "categories": [
+      "Content"
+    ],
+    "description": "Remove default post categories and tags. Review and customize before activation.",
+    "active": false,
+    "tags": []
+  },
+  "disable-post-formats": {
+    "name": "Remove post format theme support",
+    "code": "remove_theme_support( 'post-formats' );",
+    "type": "php",
+    "location": "bootstrap",
+    "categories": [
+      "Editor"
+    ],
+    "description": "Remove post format theme support. Review and customize before activation.",
+    "active": false,
+    "tags": []
+  },
+  "disable-anonymous-rest": {
+    "name": "Require authentication for REST API",
+    "code": "add_filter( 'rest_authentication_errors', static function ( $result ) { if ( $result ) { return $result; } return is_user_logged_in() ? $result : new WP_Error( 'rest_login_required', 'Authentication required.', array( 'status' => 401 ) ); } );",
+    "type": "php",
+    "location": "bootstrap",
+    "categories": [
+      "Security"
+    ],
+    "description": "Blocks anonymous REST requests. Can break headless frontends, checkout blocks and third-party integrations. Review on staging.",
+    "active": false,
+    "tags": []
+  },
+  "fullscreen-editor": {
+    "name": "Disable initial editor fullscreen mode",
+    "code": "add_action( 'enqueue_block_editor_assets', static function () { wp_add_inline_script( 'wp-blocks', \"wp.domReady(function(){var s=wp.data.select('core/edit-post');if(s&&s.isFeatureActive('fullscreenMode')){wp.data.dispatch('core/edit-post').toggleFeature('fullscreenMode');}});\" ); } );",
+    "type": "php",
+    "location": "bootstrap",
+    "categories": [
+      "Editor"
+    ],
+    "description": "Disable initial editor fullscreen mode. Review and customize before activation.",
+    "active": false,
+    "tags": []
+  },
+  "editor-palette": {
+    "name": "Custom editor color palette",
+    "code": "add_theme_support( 'editor-color-palette', array( array( 'name' => 'Brand blue', 'slug' => 'brand-blue', 'color' => '#2355db' ), array( 'name' => 'Ink', 'slug' => 'ink', 'color' => '#17243a' ) ) );",
+    "type": "php",
+    "location": "bootstrap",
+    "categories": [
+      "Editor"
+    ],
+    "description": "Custom editor color palette. Review and customize before activation.",
+    "active": false,
+    "tags": []
+  },
+  "site-health-title": {
+    "name": "Hide update notices from non-administrators",
+    "code": "add_action( 'admin_head', static function () { if ( ! current_user_can( 'update_core' ) ) { remove_action( 'admin_notices', 'update_nag', 3 ); } } );",
+    "type": "php",
+    "location": "bootstrap",
+    "categories": [
+      "Admin"
+    ],
+    "description": "Hide update notices from non-administrators. Review and customize before activation.",
+    "active": false,
+    "tags": []
+  },
+  "howdy": {
+    "name": "Customize toolbar greeting",
+    "code": "add_action( 'admin_bar_menu', static function ( $bar ) { $node = $bar->get_node( 'my-account' ); if ( $node ) { $bar->add_node( array( 'id' => 'my-account', 'title' => str_replace( 'Howdy,', 'Welcome,', $node->title ) ) ); } }, 999 );",
+    "type": "php",
+    "location": "bootstrap",
+    "categories": [
+      "Admin"
+    ],
+    "description": "Customize toolbar greeting. Review and customize before activation.",
+    "active": false,
+    "tags": []
+  },
+  "offer-popup": {
+    "name": "Dismissible local offer message",
+    "code": "(() => {const box=document.createElement('aside');box.setAttribute('aria-label','Special offer');box.style.cssText='position:fixed;bottom:1rem;right:1rem;max-width:18rem;padding:1rem;background:white;color:#17243a;border:1px solid;z-index:999';const p=document.createElement('p');p.textContent='Replace this example with your offer.';const b=document.createElement('button');b.type='button';b.textContent='Dismiss';b.addEventListener('click',()=>box.remove());box.append(p,b);document.body.appendChild(box);})();",
+    "type": "javascript",
+    "location": "footer",
+    "categories": [
+      "Design"
+    ],
+    "description": "Dismissible local offer message. Review and customize before activation.",
+    "active": false,
+    "tags": []
+  },
+  "social-links": {
+    "name": "Accessible social profile links",
+    "code": "<nav aria-label=\"Social profiles\"><a href=\"https://example.com/replace-with-profile\" rel=\"noopener noreferrer\" target=\"_blank\">Our social profile</a></nav>",
+    "type": "content",
+    "location": "shortcode",
+    "categories": [
+      "Content"
+    ],
+    "description": "Accessible social profile links. Review and customize before activation.",
+    "active": false,
+    "tags": []
+  },
+  "fade-navigation": {
+    "name": "Reduced-motion-aware content entrance",
+    "code": "@media (prefers-reduced-motion: no-preference) { .entry-content { animation: codeslot-enter .25s ease; } @keyframes codeslot-enter { from { opacity: .2; } to { opacity: 1; } } }",
+    "type": "css",
+    "location": "header",
+    "categories": [
+      "Design"
+    ],
+    "description": "Reduced-motion-aware content entrance. Review and customize before activation.",
+    "active": false,
+    "tags": []
+  },
+  "disable-trash-emptying": {
+    "name": "Stop automatic trash emptying",
+    "code": "remove_action( 'wp_scheduled_delete', 'wp_scheduled_delete' );",
+    "type": "php",
+    "location": "bootstrap",
+    "categories": [
+      "Admin"
+    ],
+    "description": "Prevents the scheduled WordPress trash purge while active. Existing trashed content remains. Restore this scheduled callback by deactivating the snippet.",
+    "active": false,
+    "tags": []
+  },
+  "duplicate-post": {
+    "name": "Nonce-protected duplicate draft action",
+    "code": "add_filter( 'post_row_actions', static function ( $actions, $post ) { if ( current_user_can( 'edit_post', $post->ID ) ) { $url = wp_nonce_url( admin_url( 'admin-post.php?action=codeslot_duplicate_content&id=' . $post->ID ), 'codeslot_duplicate_content_' . $post->ID ); $actions['codeslot_duplicate'] = '<a href=\"' . esc_url( $url ) . '\">Duplicate draft</a>'; } return $actions; }, 10, 2 );\nadd_action( 'admin_post_codeslot_duplicate_content', static function () { $id = isset( $_GET['id'] ) ? absint( $_GET['id'] ) : 0; check_admin_referer( 'codeslot_duplicate_content_' . $id ); $post = get_post( $id ); if ( ! $post || ! is_post_type_viewable( $post->post_type ) || ! current_user_can( 'edit_post', $id ) ) { wp_die( 'Access denied.', '', array( 'response' => 403 ) ); } $type = get_post_type_object( $post->post_type ); if ( ! current_user_can( $type->cap->create_posts ) ) { wp_die( 'Cannot create this content.', '', array( 'response' => 403 ) ); } $new = wp_insert_post( array( 'post_type' => $post->post_type, 'post_status' => 'draft', 'post_title' => $post->post_title . ' (copy)', 'post_content' => $post->post_content, 'post_excerpt' => $post->post_excerpt, 'post_author' => get_current_user_id() ), true ); if ( is_wp_error( $new ) ) { wp_die( esc_html( $new->get_error_message() ) ); } wp_safe_redirect( get_edit_post_link( $new, 'raw' ) ); exit; } );",
+    "type": "php",
+    "location": "bootstrap",
+    "categories": [
+      "Admin"
+    ],
+    "description": "Adds Duplicate draft to post lists. Copies title/content/excerpt only; private custom fields, builder data and terms are not copied. Requires edit/create capabilities and a nonce.",
+    "active": false,
+    "tags": []
+  },
+  "public-meta-viewer": {
+    "name": "Private admin viewer for public metadata",
+    "code": "add_action( 'add_meta_boxes', static function () { if ( ! current_user_can( 'manage_options' ) ) { return; } add_meta_box( 'codeslot_public_meta', 'Public metadata — review before sharing', static function ( $post ) { if ( ! current_user_can( 'edit_post', $post->ID ) ) { return; } $data = array(); foreach ( get_post_meta( $post->ID ) as $key => $values ) { if ( ! is_protected_meta( $key, 'post' ) ) { $data[ $key ] = $values; } } echo '<pre style=\"max-height:20rem;overflow:auto\">' . esc_html( substr( wp_json_encode( $data, JSON_PRETTY_PRINT ), 0, 20000 ) ) . '</pre>'; }, null, 'normal' ); } );",
+    "type": "php",
+    "location": "bootstrap",
+    "categories": [
+      "Admin"
+    ],
+    "description": "Administrator-only editor metabox. Protected keys are excluded, but public custom fields can still contain private information; review before sharing.",
+    "active": false,
+    "tags": []
+  },
+  "sticky-category": {
+    "name": "Prioritize sticky posts in category archives",
+    "code": "add_action( 'pre_get_posts', static function ( $query ) { if ( ! is_admin() && $query->is_main_query() && $query->is_category() ) { $query->set( 'ignore_sticky_posts', false ); } } );\nadd_filter( 'posts_orderby', static function ( $orderby, $query ) { global $wpdb; if ( ! is_admin() && $query->is_main_query() && $query->is_category() ) { $ids = array_map( 'absint', get_option( 'sticky_posts', array() ) ); if ( $ids ) { return 'FIELD(' . $wpdb->posts . '.ID,' . implode( ',', $ids ) . ') DESC, ' . $orderby; } } return $orderby; }, 10, 2 );",
+    "type": "php",
+    "location": "bootstrap",
+    "categories": [
+      "Content"
+    ],
+    "description": "Prioritize sticky posts in category archives. Review before activation.",
+    "active": false,
+    "tags": []
+  },
+  "minimum-words": {
+    "name": "Minimum word count before publish",
+    "code": "add_filter( 'wp_insert_post_data', static function ( $data ) { if ( 'post' === $data['post_type'] && 'publish' === $data['post_status'] && str_word_count( wp_strip_all_tags( $data['post_content'] ) ) < 100 ) { $data['post_status'] = 'draft'; } return $data; } );",
+    "type": "php",
+    "location": "bootstrap",
+    "categories": [
+      "Content"
+    ],
+    "description": "Posts under 100 words remain drafts. Word counting is Latin-word based; adjust for your content language. Review scheduled/API publishing behavior.",
+    "active": false,
+    "tags": []
+  },
+  "autosave-config": {
+    "name": "Set editor autosave interval",
+    "code": "define( 'AUTOSAVE_INTERVAL', 300 );",
+    "type": "php",
+    "location": "manual",
+    "categories": [
+      "Configuration guides"
+    ],
+    "description": "Manual setup: add to wp-config.php before WordPress loads, replacing any existing definition. Sets autosave to five minutes. Do not activate as a snippet.",
+    "manual": true,
+    "active": false,
+    "tags": []
+  },
+  "file-editor-config": {
+    "name": "Disable WordPress plugin/theme file editors",
+    "code": "define( 'DISALLOW_FILE_EDIT', true );",
+    "type": "php",
+    "location": "manual",
+    "categories": [
+      "Configuration guides"
+    ],
+    "description": "Manual setup: add to wp-config.php before WordPress loads, replacing any existing definition. CodeSlot requires edit_plugins and may become inaccessible; keep filesystem recovery access. Do not activate as a snippet.",
+    "manual": true,
+    "active": false,
+    "tags": []
+  },
+  "trash-days-config": {
+    "name": "Configure automatic trash retention",
+    "code": "define( 'EMPTY_TRASH_DAYS', 60 );",
+    "type": "php",
+    "location": "manual",
+    "categories": [
+      "Configuration guides"
+    ],
+    "description": "Manual setup: add to wp-config.php before WordPress loads, replacing any existing definition. Keeps trash for sixty days. Zero disables trash and makes deletions permanent. Do not activate as a snippet.",
+    "manual": true,
+    "active": false,
+    "tags": []
+  }
+}

@@ -1,66 +1,80 @@
-# CodeSlot 1.0.0 test execution report
+# CodeSlot 1.0.0 validation
 
-Date: 2026-11-13. Status: **installable release candidate; gated CI package available**. No public release, production deployment or WordPress.org submission was performed.
+The completed quality run [43474411107](https://github.com/MalikArslanLive/codeslot/actions/runs/43474411107) on `6bdde4d` passed all **69 jobs**, including 56 WordPress/PHP matrix jobs, seven PHP tooling jobs, JavaScript, 29 browser tests, Plugin Check, three-server HTTP validation, the non-blocking nightly integration probe and gated packaging. [Security run 43474411465](https://github.com/MalikArslanLive/codeslot/actions/runs/43474411465) passed dependency audits.
 
-## Gated CI evidence
+This build includes the corrected Plugin URI, free features/individual fields, revision diffs, paragraph insertion, guarded one-time PHP tasks and the local tools described below. The rebuilt package/checksum and completed validation are recorded in [evidence/validation-1.0.0.json](evidence/validation-1.0.0.json).
 
-The complete quality workflow [43392868687](https://github.com/MalikArslanLive/codeslot/actions/runs/43392868687) on `3bbf7d7f0dd562d125e47509288edfe6aabc016f` completed **successfully: all 33 jobs passed**. This includes 21 WordPress/PHP integration combinations, seven PHP tooling jobs, JavaScript checks, browser tests, Plugin Check, the experimental probe and gated packaging. The separate security workflow passed as well. Machine-readable job conclusions are in [evidence/ci-3bbf7d7.json](evidence/ci-3bbf7d7.json).
+## Executed scope
 
-The produced CI ZIP was downloaded and compared byte-for-byte with `packages/codeslot-1.0.0.zip`: **identical**. SHA-256:
-
-```
-a580ed3101d538ca0ea22b8dead58f48e5d1100fe6166b99caeefa658202c064
-```
-
-The later `b1f85fa` commit adds an Elementor browser regression only; it does not change production files. That test passed locally. Its automatic CI rerun is tracked separately and must not be inferred from the earlier successful run. Documentation/evidence/package-only commits do not change the tested runtime.
-
-## Executed local commands and results
-
-Managed-session CLI container: `codeslot-wp`; project root inside it: `/var/www/html/wp-content/plugins/codeslot`. Local PHP 8.3.36, WordPress 7.1.4, MariaDB 11.4. Reproducible Compose equivalents are in DEVELOPMENT.md.
-
-| Command | Result |
+| Check | Result |
 |---|---|
-| `docker exec -u root -w /var/www/html/wp-content/plugins/codeslot codeslot-wp sh -c 'find includes templates -name "*.php" -exec php -l {} \; && php -l codeslot.php && php -l uninstall.php'` | Passed; all 9 production PHP files |
-| `docker exec -u root -w /var/www/html/wp-content/plugins/codeslot codeslot-wp php vendor/bin/phpunit` | Passed: 14 tests, 16 assertions; PHPUnit 9.6.33 |
-| Same container/workdir: `php vendor/bin/phpcs` | Passed WordPress-Core standards |
-| Same container/workdir: `php vendor/bin/phpstan analyse --memory-limit=2G --no-progress` | Passed PHPStan level 5; no errors |
-| Same container/workdir: `php /tmp/composer.phar audit --format=json` | Passed; no known advisories/abandoned dependencies |
-| `npm run lint` | Passed ESLint |
-| `npm audit --json` | Passed; zero known vulnerabilities |
-| `docker exec codeslot-wp wp eval-file wp-content/plugins/codeslot/tests/integration.php` | Passed: 33 assertions on single-site, including nonce/capability checks, autosaves, term fields, import prevalidation, inactive import, locking, rollback, ordering, duplicate suppression, safe mode and recovery |
-| `docker exec codeslot-wp wp --path=/var/www/clean eval-file /var/www/html/wp-content/plugins/codeslot/tests/integration.php` | Passed: 36 assertions on installed ZIP/multisite, including reusable fixture, site isolation and non-super-admin denial |
-| `docker exec codeslot-wp wp eval-file wp-content/plugins/codeslot/tests/safe-constant.php` | Passed: constant-based emergency suppression |
-| `CS_WP_CLI='docker exec codeslot-wp wp' python3 tests/isolation.py` | Passed: 99 assertions per run; block/classic/Hello Elementor/Storefront, Rank Math separately, custom post types/taxonomies and unrelated posts/products |
-| `PLAYWRIGHT_BROWSERS_PATH=/workspace/work/browsers npm run test:e2e` | Passed local 6-test admin suite: settings, editor/snippet/conditions/frontend, Classic, Gutenberg, Woo product, missing nonce |
-| Same browser command with `-- --grep 'Gutenberg'` and standalone Gutenberg 24.4.0 active | Passed: native meta box and three fields |
-| Same browser command with `-- --grep 'Elementor preview'` | Passed: live Elementor preview iframe retains Page A marker exactly once; Page B absent |
-| `docker exec codeslot-wp wp eval-file wp-content/plugins/codeslot/tests/benchmark.php` | Completed 100/1,000 inactive and active-candidate measurements; see PERFORMANCE.md |
-| `python3 scripts/build.py` | Passed deterministic allowlisted ZIP and archive CRC/path checks |
-| `wp plugin install .../dist/codeslot-1.0.0.zip --path=/var/www/clean --activate` | Passed on clean database; header/body/footer each emitted once |
-| `wp plugin check codeslot --path=/var/www/clean --format=json` | Passed Plugin Check 2.2.0: “Success: Checks complete. No errors found.” |
-| `wp ... eval-file tests/uninstall.php`, with and without `CS_DELETE_TEST=1` | Passed: 5 checks each on multisite; retain/delete preferences respected |
-| Separate `wp plugin deactivate codeslot`, then `wp plugin uninstall codeslot` on clean site | Passed actual deactivated-plugin uninstall; opted-in data removed; ZIP reinstalled successfully |
+| PHPUnit | 18 tests / 20 assertions passed |
+| WordPress Coding Standards | Passed |
+| PHPStan level 5 | Passed |
+| PHP lint | All 15 production PHP files passed |
+| ESLint / npm audit | Passed; no reported npm vulnerabilities |
+| Composer advisory audit | Passed on hosted CI; local packagist.org access is blocked |
+| Source / installed ZIP integration | 33 assertions passed per single-site run |
+| Multisite integration | 36 assertions passed |
+| Uninstall retain/delete | Five assertions passed for each preference |
+| Constant Safe Mode | Passed emergency suppression |
+| Browser suite | 29 passed: global slots, snippets/conditions/frontend, nonce rejection, Classic/Gutenberg, Woo product fields, Elementor preview, responsive layouts, Quick/Bulk Edit, confirmed Delete, locks and pagination |
+| Responsive scope | All nine admin pages at 1440, 768, 390 and 320 pixels; dedicated selection controls and visible mobile labels |
+| Server HTTP output | Each server passed 108 isolation +27 conditions/exclusion/shortcode +12 virtual-file HTTP assertions; identities and SAPIs measured through HTTP |
+| ZIP | Production-only archive, CRC/path/source-byte checks and SHA-256; installed independently and Plugin Check reported no errors |
 
-WP Super Cache 3.1.5 generated actual per-URL HTML cache files. The 99 isolation assertions passed on cold and warmed cache runs. An intentionally incomplete theme emitted no body marker and recorded `codeslot_body_codeslot-no-body = missing`. No body code was relocated.
+Commands from the repository root:
 
-The archive contains `codeslot/codeslot.php`, uninstall.php, readme.txt, LICENSE, includes, assets and local templates. It excludes databases, credentials, vendor, node_modules, tests, development files and repository metadata. No invented author identity is in the plugin header; an owner can configure an Author header explicitly.
+```sh
+npm ci
+npm run lint
+npm audit --audit-level=high
+composer install --no-interaction --prefer-dist
+composer test
+composer lint
+composer analyse
+composer audit
+./scripts/provision.sh
+npm run test:e2e
+python3 tests/isolation.py
+./scripts/test-servers.sh
+python3 scripts/build.py
+```
 
-## Compatibility matrix
+Provisioning requires Docker/Compose; browser tests require the pinned Playwright Chromium (`npx playwright install --with-deps chromium`). Local browser runs also used system Chromium via an ignored config. Server, theme and browser tests must run sequentially because server tests change disposable-site URLs.
 
-| WordPress | PHP 7.4 | 8.0 | 8.1 | 8.2 | 8.3 | 8.4 | 8.5 |
-|---|---|---|---|---|---|---|---|
-| 6.8.3 | Passed | Passed | Passed | Passed | Passed | Passed | Passed |
-| 6.9 | Passed | Passed | Passed | Passed | Passed | Passed | Passed |
-| latest stable, 7.1.4 during session | Passed | Passed | Passed | Passed | Passed | Passed | Passed |
+WP-CLI checks use `docker compose run --rm cli eval-file wp-content/plugins/codeslot/tests/integration.php`, `tests/local-features.php`, `tests/safe-constant.php` and `tests/uninstall.php`. Run multisite/uninstall only on disposable sites. CI installs official WP-CLI 2.12.0 with its published SHA-512; certificate/checksum verification stays enabled.
 
-The matrix runs actual core integration, an installed ZIP, multisite, recovery and uninstall checks. It does not run every companion plugin on every combination. Companion/theme versions and partial coverage are explicit in COMPATIBILITY.md. The non-blocking nightly job is only a download/lint probe, not a runtime integration pass.
+## Compatibility and honest limits
 
-## Failure history and limits
+See [COMPATIBILITY.md](COMPATIBILITY.md) for the complete matrix and exact server/SAPI versions. Actual free companion coverage includes WooCommerce 11.3.0, Classic Editor 1.7.0, Gutenberg 24.4.0 and Elementor 4.4.0. Three bundled block themes and Storefront 4.6.2 passed isolation. The obsolete Twenty Twenty-One 1.0.0 source snapshot failed on a WooCommerce product warning; it is not reported as compatible. This differs from the earlier baseline's Twenty Twenty-One 2.9 tests.
 
-Initial CI failures were inspected and corrected: PHP 7.4/8.0 lockfile incompatibility (dependency resolution now targets PHP 7.4.33), unsupported Playwright Ubuntu runner (pinned Ubuntu 24.04), missing `wp` in the Compose entrypoint, missing custom rewrite flush and fresh companion-plugin onboarding redirects. Superseded runs were canceled; canceled/skipped jobs are not reported as passes. Earlier local browser failures were resolved through actual editor selection, onboarding handling and opening Gutenberg's native Meta Boxes pane.
+Initial failures were investigated rather than hidden: the old 6.8 activation minimum blocked lower WordPress probes; 6.5 was activated/tested before lowering the minimum. OLS worker ownership caused Elementor FTP fallback and was aligned to www-data. Contact Form 7 dependencies require PHP >=8.3, so the full companion-stack LSAPI image was moved from 8.2 to 8.3. Missing/partial WP-CLI tooling was replaced with a pinned, checksum-verified installation. One earlier runtime job exited 255 and did not reproduce in subsequent complete runs; diagnostics now expose underlying output. Failed/canceled runs remain failed/canceled.
 
-Local setup failures included Docker vfs disk exhaustion for the large Apache image, CA trust, bind-mount permissions and PHP's 128 MiB limit under the combined free-plugin stack. The smaller WP-CLI/PHP server was used locally; the corrected Compose Apache environment ran in CI. TLS verification remained enabled.
+PHP executes arbitrary privileged code and is not a secure sandbox. Source review and automated tests are not an independent penetration-test certificate. Premium products, full payment flows, LiteSpeed Enterprise, CGI, Windows/macOS, every cache/CDN and all PHP side effects are not tested. Cache variation/purging remains necessary. Third-party MCP Adapter deprecations and blocked background update warnings were retained in logs.
 
-**Blocked:** branch-protection API configuration returned HTTP 403 “Resource not accessible by integration”; repository Administration write permission or owner configuration is required (issue #2). The chat's designated `/codex/.../output` directory could not be created because this executor lacks filesystem permission; the ZIP is instead committed under `packages/` and available as the gated Actions artifact.
+Old duplicate raw logs and incomplete reports were consolidated into this report and structured evidence. Their prior contents remain in Git history and a local pre-cleanup backup; test infrastructure and lockfiles remain in the repository.
 
-**Not tested:** licensed Elementor Pro, Bricks, Divi and WPML; complete checkout/payment flows; every ACF/translation/builder workflow; beta/RC runtime; all cache/CDN products; concurrent production load; every PHP fatal/side effect. No independent penetration-test claim is made. There is no PHP sandbox, network-wide snippet library, cloud sync, AI service, early hook execution or guaranteed callback-fatal recovery. See FEATURE-MATRIX.md and SECURITY.md.
+## Additional local features
+
+Saved/current code diffs, numbered-paragraph insertion and confirmed Run Once PHP were added after the baseline. Local verification passed 18 unit tests/20 assertions, 14 WordPress feature assertions and three new browser regressions (nonce/confirmation/repeat prevention, escaped mobile diffs, and paragraph HTTP isolation). The matrix now runs local-features.php for source, ZIP and multisite. The combined 69-job CI run above passed, including the 29-test browser suite and the added source/ZIP/multisite assertions. These additions do not claim every possible feature or guaranteed recovery from arbitrary privileged PHP.
+
+## Expanded local tools candidate (6bdde4d)
+
+The updated 1.0.0 ZIP passes clean installed-package Plugin Check with no errors/warnings, real WordPress multisite regression and 162 extended assertions. The extended scope validates every bundled recipe/guide's syntax/schema and inactive defaults, backup mapping/prevalidation/inactive restore, file/ID validation, capability rejection, log bounds/source exclusion and diagnostics redaction. Recipe schema/syntax validity is not universal behavioral compatibility certification.
+
+Local browser coverage is now 29 tests. A full run passed 28 and exposed local fixture contamination in the Elementor baseline; the backup test had disabled pre-existing fixture slots. The test was narrowed to its own objects, fixtures were reseeded, and Elementor passed its unchanged assertions on rerun. The eight new tests passed, including all-five-provider adapter queues and an authorized paid WooCommerce purchase with wrong-key rejection, omitted contact data and browser-session deduplication. Vendor SDK requests are mocked for these regression checks; live provider-account delivery and payment gateways are not certified.
+
+Local server tests passed all three actual server/SAPI combinations: 108 isolation +27 conditional/shortcode +12 virtual-file HTTP status/MIME/content assertions per server. Static gates passed: 18 PHPUnit tests/20 assertions, WPCS, PHPStan and ESLint. All nine admin pages fit at 1440/768/390/320 pixels. Updated hosted quality run: https://github.com/MalikArslanLive/codeslot/actions/runs/43474411107 (verified success: all 69 jobs passed). Dependency security run43474411465 passed.
+
+Additional commands:
+
+```sh
+docker compose run --rm cli eval-file wp-content/plugins/codeslot/tests/extended-features.php
+npx playwright test tests/extended-features.spec.js
+npx playwright test tests/ui.spec.js
+```
+
+The final hosted run completed successfully on source 6bdde4d: all 69 jobs passed, including all 29 browser tests on freshly provisioned fixtures. The earlier local fixture-contamination failure and its correction remain documented above; no failed run was relabeled as passing.
+
+Documentation wording was subsequently limited to actual included features and usage. Runtime PHP/JavaScript/CSS/templates remain unchanged from the successful 69-job run. The production readme was rebuilt into the ZIP; archive/source-byte checks and clean-installed Plugin Check were rerun successfully.

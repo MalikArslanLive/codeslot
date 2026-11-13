@@ -41,3 +41,11 @@ CI runs Composer tooling on GitHub-hosted PHP runners, WordPress/MariaDB integra
 - `CodeSlot\Repository` is an internal API, not a stable external extension contract. Its writes enforce the same privileged capability gate.
 
 An active snippet query is scoped to location and published status, cached within the request. Individual slots use only `get_queried_object_id()`, never whichever post happens to be in a secondary loop. Settings and metadata use WordPress caches. No frontend assets are enqueued.
+
+## Server and responsive UI validation
+
+`./scripts/test-servers.sh` uses the disposable provisioned site to test Apache/mod_php, Nginx/PHP-FPM and OpenLiteSpeed/LSAPI sequentially. It changes site URLs during testing, restores the default URL, removes its temporary identity probe and writes evidence to `work/server-results/`. Do not run it against production or concurrently with browser tests. Additional images are pinned in `compose.servers.yaml`. OpenLiteSpeed does not establish LiteSpeed Enterprise compatibility.
+
+`npm run test:e2e` includes all nine CodeSlot admin screens at 1440, 768, 390 and 320 pixels, legacy unnamed-snippet editing, filter state and narrow-screen conditions. Screenshots are written under test-results. The test-only product post type is used only if WooCommerce has not registered its real product type; results must identify which configuration ran.
+
+Extended regressions: `docker compose run --rm cli eval-file wp-content/plugins/codeslot/tests/extended-features.php` and `npx playwright test tests/extended-features.spec.js`. Run integration/backup tests before reseeding browser fixtures, or use separate disposable sites; restore tests must not mutate unrelated fixtures. Full browser scope is 29 tests.

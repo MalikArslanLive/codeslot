@@ -1,10 +1,7 @@
+import { login } from './login.js';
 import { test, expect } from '@playwright/test';
 test.beforeEach(async ({page})=>{
- await page.goto('/wp-login.php');
- await page.locator('#user_login').fill('codeslot-admin');
- await page.locator('#user_pass').fill('disposable-test-password');
- await page.locator('#wp-submit').click();
- await page.waitForURL(/\/wp-admin\//);
+ await login(page);
  // Fresh companion plugins may consume their one-time onboarding redirects.
  for (let attempt=0;attempt<5;attempt++) {
    await page.goto('/wp-admin/admin.php?page=codeslot');

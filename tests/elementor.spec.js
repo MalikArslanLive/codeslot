@@ -1,11 +1,8 @@
+import { login } from './login.js';
 import { test, expect } from '@playwright/test';
 test('Elementor preview retains individual page slots',async({page})=>{
  test.setTimeout(60000);
- await page.goto('/wp-login.php');
- await page.locator('#user_login').fill('codeslot-admin');
- await page.locator('#user_pass').fill('disposable-test-password');
- await page.locator('#wp-submit').click();
- await page.waitForURL(/\/wp-admin\//);
+ await login(page);
  for(let attempt=0;attempt<5;attempt++) {
    await page.goto('/wp-admin/edit.php?post_type=page');
    if(await page.locator('.row-title').filter({hasText:/^Page A$/}).count()) break;

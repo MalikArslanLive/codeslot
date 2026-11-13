@@ -63,7 +63,7 @@ final class Repository {
 	}
 
 	public static function locations( $type ) {
-		return 'php' === $type ? array( 'frontend', 'admin', 'everywhere', 'manual' ) : array( 'header', 'body', 'footer', 'before_content', 'after_content', 'shortcode', 'manual', 'woocommerce_before_single_product', 'woocommerce_after_single_product', 'woocommerce_before_shop_loop', 'woocommerce_after_shop_loop' );
+		return 'php' === $type ? array( 'frontend', 'admin', 'everywhere', 'bootstrap', 'manual', 'once' ) : array( 'header', 'body', 'footer', 'before_content', 'after_content', 'before_paragraph', 'after_paragraph', 'shortcode', 'manual', 'woocommerce_before_single_product', 'woocommerce_after_single_product', 'woocommerce_before_shop_loop', 'woocommerce_after_shop_loop' );
 	}
 
 	public static function validate( $data ) {
@@ -90,7 +90,15 @@ final class Repository {
 		if ( is_wp_error( $conditions ) ) {
 			return $conditions;
 		}
+		$paragraph = isset( $data['paragraph'] ) ? $data['paragraph'] : 1;
+		if ( in_array( $data['location'], array( 'before_paragraph', 'after_paragraph' ), true ) && ( ! is_scalar( $paragraph ) || ! preg_match( '/^[0-9]{1,4}$/', (string) $paragraph ) || (int) $paragraph < 1 || (int) $paragraph > 1000 ) ) {
+			return new \WP_Error( 'paragraph', 'Choose a paragraph number from 1 to 1000.' );
+		}
+		if ( in_array( $data['location'], array( 'once', 'bootstrap' ), true ) && ( $conditions['include'] || $conditions['exclude'] ) ) {
+			return new \WP_Error( 'conditions', 'Run Once and early-hook snippets do not support query conditions; remove automatic conditions.' );
+		}
 		return array(
+			'paragraph'   => is_scalar( $paragraph ) ? max( 1, min( 1000, (int) $paragraph ) ) : 1,
 			'name'        => sanitize_text_field( isset( $data['name'] ) ? $data['name'] : '' ),
 			'description' => sanitize_textarea_field( isset( $data['description'] ) ? $data['description'] : '' ),
 			'code'        => $data['code'],
@@ -99,7 +107,7 @@ final class Repository {
 			'priority'    => max( -1000, min( 1000, (int) ( isset( $data['priority'] ) ? $data['priority'] : 10 ) ) ),
 			'conditions'  => $conditions,
 			'locked'      => ! empty( $data['locked'] ),
-			'active'      => ! empty( $data['active'] ),
+			'active'      => 'once' !== $data['location'] && ! empty( $data['active'] ),
 			'categories'  => self::labels( isset( $data['categories'] ) ? $data['categories'] : '' ),
 			'tags'        => self::labels( isset( $data['tags'] ) ? $data['tags'] : '' ),
 		);

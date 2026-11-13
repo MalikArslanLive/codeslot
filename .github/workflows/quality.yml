@@ -1,6 +1,7 @@
 name: CodeSlot quality
 on:
   push:
+    branches: [main]
   pull_request:
   workflow_dispatch:
   schedule:
@@ -50,7 +51,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        wp: ['6.8.3', '6.9', 'latest']
+        wp: ['6.5', '6.6', '6.7', '6.8.3', '6.9', '7.0', '7.1.4', 'latest']
         php: ['7.4', '8.0', '8.1', '8.2', '8.3', '8.4', '8.5']
     services:
       mysql:
@@ -67,9 +68,12 @@ jobs:
       - uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php }}
-          tools: wp-cli
+          tools: none
+      - name: Install verified WP-CLI
+        run: bash scripts/install-wp-cli.sh
       - name: Provision WordPress
         run: |
+          source scripts/ci-diagnostics.sh
           mkdir -p /tmp/codeslot-wp
           wp core download --path=/tmp/codeslot-wp --version=${{ matrix.wp }}
           wp config create --path=/tmp/codeslot-wp --dbname=wordpress --dbuser=wordpress --dbpass=disposable --dbhost=127.0.0.1
@@ -77,16 +81,24 @@ jobs:
           ln -s "$GITHUB_WORKSPACE" /tmp/codeslot-wp/wp-content/plugins/codeslot
           wp plugin activate codeslot --path=/tmp/codeslot-wp
           wp eval-file tests/integration.php --path=/tmp/codeslot-wp
+          wp eval-file tests/local-features.php --path=/tmp/codeslot-wp
+          wp eval-file tests/extended-features.php --path=/tmp/codeslot-wp
       - name: Clean production ZIP
         run: |
+          source scripts/ci-diagnostics.sh
           python3 scripts/build.py
           rm /tmp/codeslot-wp/wp-content/plugins/codeslot
           wp plugin install "$GITHUB_WORKSPACE/dist/codeslot-1.0.0.zip" --path=/tmp/codeslot-wp --activate
           wp eval-file tests/integration.php --path=/tmp/codeslot-wp
+          wp eval-file tests/local-features.php --path=/tmp/codeslot-wp
+          wp eval-file tests/extended-features.php --path=/tmp/codeslot-wp
       - name: Multisite
         run: |
+          source scripts/ci-diagnostics.sh
           wp core multisite-convert --path=/tmp/codeslot-wp
           wp eval-file tests/integration.php --path=/tmp/codeslot-wp
+          wp eval-file tests/local-features.php --path=/tmp/codeslot-wp
+          wp eval-file tests/extended-features.php --path=/tmp/codeslot-wp
           wp eval-file tests/safe-constant.php --path=/tmp/codeslot-wp
           wp eval-file tests/uninstall.php --path=/tmp/codeslot-wp
           CS_DELETE_TEST=1 wp eval-file tests/uninstall.php --path=/tmp/codeslot-wp
@@ -129,19 +141,50 @@ jobs:
         with:
           name: plugin-check
           path: plugin-check.json
-  experimental:
-    continue-on-error: true
+  servers:
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
-      - uses: shivammathur/setup-php@v2
+      - run: scripts/provision.sh
+      - run: scripts/test-servers.sh
+      - if: always()
+        run: docker compose -f compose.yaml -f compose.servers.yaml logs --no-color > server-compose.log
+      - if: always()
+        uses: actions/upload-artifact@v4
         with:
-          php-version: '8.5'
-          tools: wp-cli
-      - run: wp core download --version=nightly --path=/tmp/wordpress
+          name: server-results
+          path: |
+            work/server-results
+            server-compose.log
+  experimental:
+    continue-on-error: true
+    runs-on: ubuntu-24.04
+    services:
+      mysql:
+        image: mariadb:11.4
+        env:
+          MARIADB_DATABASE: wordpress
+          MARIADB_USER: wordpress
+          MARIADB_PASSWORD: disposable
+          MARIADB_ROOT_PASSWORD: disposable
+        ports: ['3306:3306']
+        options: --health-cmd="healthcheck.sh --connect --innodb_initialized" --health-interval=5s --health-retries=20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with: {php-version: '8.5', tools: none}
+      - name: Install verified WP-CLI
+        run: bash scripts/install-wp-cli.sh
+      - run: |
+          wp core download --version=nightly --path=/tmp/wordpress
+          wp config create --path=/tmp/wordpress --dbname=wordpress --dbuser=wordpress --dbpass=disposable --dbhost=127.0.0.1
+          wp core install --path=/tmp/wordpress --url=http://localhost:8888 --title=CodeSlot --admin_user=codeslot-admin --admin_password=disposable-test-password --admin_email=test@example.org --skip-email
+          ln -s "$GITHUB_WORKSPACE" /tmp/wordpress/wp-content/plugins/codeslot
+          wp plugin activate codeslot --path=/tmp/wordpress
+          wp eval-file tests/integration.php --path=/tmp/wordpress
       - run: find includes -name '*.php' -print0 | xargs -0 -n1 php -l
   package:
-    needs: [php, javascript, wordpress, browser, plugin-check]
+    needs: [php, javascript, wordpress, browser, plugin-check, servers]
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
@@ -149,4 +192,6 @@ jobs:
       - uses: actions/upload-artifact@v4
         with:
           name: codeslot-1.0.0
-          path: dist/codeslot-1.0.0.zip
+          path: |
+            dist/codeslot-1.0.0.zip
+            dist/SHA256SUMS
