@@ -4,27 +4,16 @@
   "author_uri": "https://malikarslan.com/",
   "package": {
     "path": "packages/codeslot-1.0.0.zip",
-    "sha256": "93f8b9cb591101d7ceb6ab17e838c502d9f27d44fc89bd9700ff81516d5cee06",
-    "production_file_count": 13,
+    "sha256": "7bd9b49bea23ee2f112cb944a3f2e5996f5d6336b49e1b907175a5577ada56c1",
+    "production_file_count": 21,
     "followup_validation": "passed"
-  },
-  "completed_baseline": {
-    "commit": "4741eef1cb737d0328f0d6f43de8ee5307b43cfd",
-    "quality_run": "https://github.com/MalikArslanLive/codeslot/actions/runs/43442468901",
-    "quality_conclusion": "success",
-    "jobs_passed": 69,
-    "wordpress_php_matrix_jobs": 56,
-    "browser_tests_passed": 21,
-    "security_run": "https://github.com/MalikArslanLive/codeslot/actions/runs/43442469078",
-    "security_conclusion": "success",
-    "package_sha256": "93f8b9cb591101d7ceb6ab17e838c502d9f27d44fc89bd9700ff81516d5cee06"
   },
   "local_followup": {
     "phpcs": "passed",
     "phpstan": "passed",
     "eslint": "passed",
     "plugin_check": "passed: no errors",
-    "responsive_ui": "passed: six admin pages at 1440, 768, 390 and 320 pixels",
+    "responsive_ui": "passed: nine admin pages at 1440, 768, 390 and 320 pixels",
     "wordpress_6_5_zip_integration": "passed: 33 assertions",
     "phpunit": "passed: 18 tests / 20 assertions",
     "local_features": "passed: 14 assertions; source and clean installed ZIP",
@@ -57,6 +46,54 @@
       "codeslot-1.0.0.zip",
       "SHA256SUMS"
     ],
-    "github_asset_sha256": "93f8b9cb591101d7ceb6ab17e838c502d9f27d44fc89bd9700ff81516d5cee06"
+    "github_asset_sha256": "7bd9b49bea23ee2f112cb944a3f2e5996f5d6336b49e1b907175a5577ada56c1",
+    "pending_asset_update": false,
+    "asset_source_commit": "6bdde4d"
+  },
+  "current_candidate": {
+    "source_commit": "6bdde4d",
+    "quality_run": "https://github.com/MalikArslanLive/codeslot/actions/runs/43474411107",
+    "quality_conclusion": "success",
+    "security_run": "https://github.com/MalikArslanLive/codeslot/actions/runs/43474411465",
+    "security_conclusion": "success",
+    "phpunit": "18 tests / 20 assertions passed",
+    "extended_wordpress_assertions": 162,
+    "library_items": 142,
+    "library_manual_guides": 3,
+    "browser_scope": 29,
+    "responsive_pages": 9,
+    "viewport_widths": [
+      1440,
+      768,
+      390,
+      320
+    ],
+    "server_assertions_per_server": {
+      "isolation": 108,
+      "conditions_and_shortcodes": 27,
+      "virtual_file_http": 12
+    },
+    "plugin_check": "clean installed ZIP: no errors or warnings",
+    "pixel_vendor_sdk_tests": "mocked SDK requests and inspected queues; live account delivery not certified",
+    "woocommerce_purchase": "passed authorized paid-order fixture; wrong-key denial, no contact data and session deduplication; not a payment-gateway certification",
+    "quality_jobs_passed": 69,
+    "browser_tests_passed": 29
+  },
+  "tag": {
+    "name": "v1.0.0",
+    "source_commit": "e4ae4ddd073392cd5d9ac0789e48a869e651de04",
+    "preserved": true,
+    "publication_blocker": "Earlier source snapshot; updated candidate must not be publicly released under mismatched source tag."
+  },
+  "prior_verified_candidate": {
+    "commit": "4741eef1cb737d0328f0d6f43de8ee5307b43cfd",
+    "quality_run": "https://github.com/MalikArslanLive/codeslot/actions/runs/43442468901",
+    "quality_conclusion": "success",
+    "jobs_passed": 69,
+    "wordpress_php_matrix_jobs": 56,
+    "browser_tests_passed": 21,
+    "security_run": "https://github.com/MalikArslanLive/codeslot/actions/runs/43442469078",
+    "security_conclusion": "success",
+    "package_sha256": "93f8b9cb591101d7ceb6ab17e838c502d9f27d44fc89bd9700ff81516d5cee06"
   }
 }

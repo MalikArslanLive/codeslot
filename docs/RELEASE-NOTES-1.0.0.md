@@ -4,7 +4,7 @@ CodeSlot – Header, Body & Footer Code + Snippet Manager, by Malik Arslan (http
 
 This build replaces the original 1.0.0 release candidate with a responsive administration interface and WordPress-style snippet management. Existing data and executable-code semantics are preserved.
 
-- Branded header, clear navigation and polished layouts across all six CodeSlot admin pages.
+- Branded header, clear navigation and polished layouts across all nine CodeSlot admin pages.
 - Separate selection column on desktop and dedicated selection controls on mobile, tested down to 320 pixels.
 - Visible names and Edit actions; ID-based fallback titles for legacy unnamed snippets.
 - Quick Edit for metadata, bulk metadata updates, Select page, confirmed permanent deletion and search-preserving first/previous/next/last pagination.
@@ -14,12 +14,12 @@ This build replaces the original 1.0.0 release candidate with a responsive admin
 
 Requirements: WordPress 6.5+ and PHP 7.4+. Prefer maintained WordPress/PHP versions in production. Exact tested versions, SAPIs, server scopes, commands, failed attempts and limitations are in docs/TEST-REPORT.md and docs/COMPATIBILITY.md. Expanded CI covers eight WordPress targets and seven PHP versions; workflow results, rather than configuration alone, establish passes.
 
-Upload codeslot-1.0.0.zip through Plugins -> Add New -> Upload Plugin. If replacing the earlier 1.0.0 build, choose Replace current with uploaded after taking a backup. The archive contains codeslot/codeslot.php and only 13 production files. No Composer or Node dependencies are required at runtime.
+Upload codeslot-1.0.0.zip through Plugins -> Add New -> Upload Plugin. If replacing the earlier 1.0.0 build, choose Replace current with uploaded after taking a backup. The archive contains codeslot/codeslot.php and only 21 production files. No Composer or Node dependencies are required at runtime.
 
 SHA-256:
 
 ```
-93f8b9cb591101d7ceb6ab17e838c502d9f27d44fc89bd9700ff81516d5cee06
+7bd9b49bea23ee2f112cb944a3f2e5996f5d6336b49e1b907175a5577ada56c1
 ```
 
 PHP snippets execute arbitrary privileged code; this is not a secure sandbox or independent penetration-test certification. Safe Mode recovery, permissions, imports, rollback, multisite and uninstall behavior are covered by regression checks. Page caches must be purged/varied appropriately. LiteSpeed Enterprise, premium plugins, every payment flow and arbitrary production configurations are not certified.
@@ -31,4 +31,16 @@ Plugin website/Plugin URI: https://github.com/MalikArslanLive/codeslot. All incl
 - Saved/current revision code diffs, before/after numbered-paragraph insertion, and confirmed one-time PHP tasks with repeat protection and recorded outcomes.
 - Cloud sync and AI generation are excluded from this release.
 
-Validation: [69 quality jobs passed](https://github.com/MalikArslanLive/codeslot/actions/runs/43442468901), including 56 runtime combinations and 21 browser tests; [dependency security audit passed](https://github.com/MalikArslanLive/codeslot/actions/runs/43442469078).
+Validation: [69 quality jobs passed](https://github.com/MalikArslanLive/codeslot/actions/runs/43474411107), including 56 runtime combinations and 29 browser tests; [dependency security audit passed](https://github.com/MalikArslanLive/codeslot/actions/runs/43474411465).
+
+## Updated unpublished 1.0.0 candidate
+
+- Bulk Apply no longer needs a redundant confirmation checkbox. Quick Edit preloads untitled fallback names and saved metadata; guarded accessible status switches preserve source.
+- Permanent history clearing removes stored versions with a warning while retaining current code. Slot descriptions explain insertion positions.
+- Private System Info and bounded local logs support copy/download and deliberate clearing.
+- Full CodeSlot backup restores selected global/individual/settings/file/pixel sections with inactive output and Safe Mode.
+- Virtual ads.txt, app-ads.txt, service-worker.js and appended robots.txt directives preserve physical files; worker registration is opt-in.
+- Consent-gated Meta/Google/Pinterest/TikTok/Snapchat pixels include optional WooCommerce events, order authorization and session deduplication.
+- 142 original local recipes/setup guides; library entries requiring a companion plugin are excluded. WooCommerce integration remains separate and included. See docs/LIBRARY-SCOPE.md for the skipped categories and reasons.
+
+The existing v1.0.0 tag was not moved: it records the earlier candidate at e4ae4dd. These updated assets are built from 6bdde4d. Do not publish this draft until the owner resolves the source-tag/candidate mismatch. No public release or WordPress.org submission is authorized by this update.

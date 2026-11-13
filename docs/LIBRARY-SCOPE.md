@@ -2,7 +2,7 @@
 
 CodeSlot bundles 142 original recipes and configuration guides. Executable cards open inactive; three clearly labeled wp-config.php guides display instructions only. Search, category filtering, code preview and pagination work without an external account or WordPress companion plugin. Recipe validity and inactive defaults are checked in actual WordPress integration. Individual behavior is environment-dependent; syntax/schema checks do not certify every combination of recipes, themes and WordPress patches.
 
-The supplied library document was a feature reference, not source code. No external library code or branded descriptions are bundled. The catalog count is CodeSlot's own count, not a claim to reproduce another service's catalog exactly.
+The catalog count reflects actual bundled CodeSlot items, not a universal compatibility claim.
 
 ## Skipped because a companion plugin is required
 

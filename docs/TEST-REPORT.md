@@ -1,8 +1,8 @@
 # CodeSlot 1.0.0 validation
 
-The completed quality run [43442468901](https://github.com/MalikArslanLive/codeslot/actions/runs/43442468901) on `4741eef1cb737d0328f0d6f43de8ee5307b43cfd` passed all **69 jobs**, including 56 WordPress/PHP matrix jobs, seven PHP tooling jobs, JavaScript, 21 browser tests, Plugin Check, three-server HTTP validation, the non-blocking nightly integration probe and gated packaging. [Security run 43442469078](https://github.com/MalikArslanLive/codeslot/actions/runs/43442469078) passed dependency audits.
+The completed quality run [43474411107](https://github.com/MalikArslanLive/codeslot/actions/runs/43474411107) on `6bdde4d` passed all **69 jobs**, including 56 WordPress/PHP matrix jobs, seven PHP tooling jobs, JavaScript, 29 browser tests, Plugin Check, three-server HTTP validation, the non-blocking nightly integration probe and gated packaging. [Security run 43474411465](https://github.com/MalikArslanLive/codeslot/actions/runs/43474411465) passed dependency audits.
 
-This build also corrects the Plugin URI, explains the free features and individual fields, consolidates documentation, and adds revision diffs, numbered-paragraph insertion and guarded one-time PHP tasks. The rebuilt package/checksum and completed validation are recorded in [evidence/validation-1.0.0.json](evidence/validation-1.0.0.json).
+This build includes the corrected Plugin URI, free features/individual fields, revision diffs, paragraph insertion, guarded one-time PHP tasks and the local tools described below. The rebuilt package/checksum and completed validation are recorded in [evidence/validation-1.0.0.json](evidence/validation-1.0.0.json).
 
 ## Executed scope
 
@@ -11,16 +11,16 @@ This build also corrects the Plugin URI, explains the free features and individu
 | PHPUnit | 18 tests / 20 assertions passed |
 | WordPress Coding Standards | Passed |
 | PHPStan level 5 | Passed |
-| PHP lint | All nine production PHP files passed |
+| PHP lint | All 15 production PHP files passed |
 | ESLint / npm audit | Passed; no reported npm vulnerabilities |
 | Composer advisory audit | Passed on hosted CI; local packagist.org access is blocked |
 | Source / installed ZIP integration | 33 assertions passed per single-site run |
 | Multisite integration | 36 assertions passed |
 | Uninstall retain/delete | Five assertions passed for each preference |
 | Constant Safe Mode | Passed emergency suppression |
-| Browser suite | 21 passed: global slots, snippets/conditions/frontend, nonce rejection, Classic/Gutenberg, Woo product fields, Elementor preview, responsive layouts, Quick/Bulk Edit, confirmed Delete, locks and pagination |
-| Responsive scope | All six admin pages at 1440, 768, 390 and 320 pixels; dedicated selection controls and visible mobile labels |
-| Server HTTP output | Each server passed 108 isolation +27 conditions/exclusion/shortcode assertions; identities and SAPIs measured through HTTP |
+| Browser suite | 29 passed: global slots, snippets/conditions/frontend, nonce rejection, Classic/Gutenberg, Woo product fields, Elementor preview, responsive layouts, Quick/Bulk Edit, confirmed Delete, locks and pagination |
+| Responsive scope | All nine admin pages at 1440, 768, 390 and 320 pixels; dedicated selection controls and visible mobile labels |
+| Server HTTP output | Each server passed 108 isolation +27 conditions/exclusion/shortcode +12 virtual-file HTTP assertions; identities and SAPIs measured through HTTP |
 | ZIP | Production-only archive, CRC/path/source-byte checks and SHA-256; installed independently and Plugin Check reported no errors |
 
 Commands from the repository root:
@@ -57,4 +57,22 @@ Old duplicate raw logs and incomplete reports were consolidated into this report
 
 ## Additional local features
 
-Saved/current code diffs, numbered-paragraph insertion and confirmed Run Once PHP were added after the baseline. Local verification passed 18 unit tests/20 assertions, 14 WordPress feature assertions and three new browser regressions (nonce/confirmation/repeat prevention, escaped mobile diffs, and paragraph HTTP isolation). The matrix now runs local-features.php for source, ZIP and multisite. The combined 69-job CI run above passed, including the 21-test browser suite and the added source/ZIP/multisite assertions. Cloud sync and AI are excluded by explicit user instruction. These additions do not claim every possible feature or guaranteed recovery from arbitrary privileged PHP.
+Saved/current code diffs, numbered-paragraph insertion and confirmed Run Once PHP were added after the baseline. Local verification passed 18 unit tests/20 assertions, 14 WordPress feature assertions and three new browser regressions (nonce/confirmation/repeat prevention, escaped mobile diffs, and paragraph HTTP isolation). The matrix now runs local-features.php for source, ZIP and multisite. The combined 69-job CI run above passed, including the 29-test browser suite and the added source/ZIP/multisite assertions. Cloud sync and AI are excluded by explicit user instruction. These additions do not claim every possible feature or guaranteed recovery from arbitrary privileged PHP.
+
+## Expanded local tools candidate (6bdde4d)
+
+The updated 1.0.0 ZIP passes clean installed-package Plugin Check with no errors/warnings, real WordPress multisite regression and 162 extended assertions. The extended scope validates every bundled recipe/guide's syntax/schema and inactive defaults, backup mapping/prevalidation/inactive restore, file/ID validation, capability rejection, log bounds/source exclusion and diagnostics redaction. Recipe schema/syntax validity is not universal behavioral compatibility certification.
+
+Local browser coverage is now 29 tests. A full run passed 28 and exposed local fixture contamination in the Elementor baseline; the backup test had disabled pre-existing fixture slots. The test was narrowed to its own objects, fixtures were reseeded, and Elementor passed its unchanged assertions on rerun. The eight new tests passed, including all-five-provider adapter queues and an authorized paid WooCommerce purchase with wrong-key rejection, omitted contact data and browser-session deduplication. Vendor SDK requests are mocked for these regression checks; live provider-account delivery and payment gateways are not certified.
+
+Local server tests passed all three actual server/SAPI combinations: 108 isolation +27 conditional/shortcode +12 virtual-file HTTP status/MIME/content assertions per server. Static gates passed: 18 PHPUnit tests/20 assertions, WPCS, PHPStan and ESLint. All nine admin pages fit at 1440/768/390/320 pixels. Updated hosted quality run: https://github.com/MalikArslanLive/codeslot/actions/runs/43474411107 (verified success: all 69 jobs passed). Dependency security run43474411465 passed.
+
+Additional commands:
+
+```sh
+docker compose run --rm cli eval-file wp-content/plugins/codeslot/tests/extended-features.php
+npx playwright test tests/extended-features.spec.js
+npx playwright test tests/ui.spec.js
+```
+
+The final hosted run completed successfully on source 6bdde4d: all 69 jobs passed, including all 29 browser tests on freshly provisioned fixtures. The earlier local fixture-contamination failure and its correction remain documented above; no failed run was relabeled as passing.

@@ -2,7 +2,7 @@
 
 CodeSlot 1.0.0 requires **WordPress 6.5+ and PHP 7.4+**. Prefer maintained runtimes. Other plugins can require newer PHP; CodeSlot compatibility does not override their requirements.
 
-The completed [69-job quality run](https://github.com/MalikArslanLive/codeslot/actions/runs/43442468901) on `4741eef` passed the matrix below. Each runtime job activates source, installs the production ZIP, runs actual WordPress integration, converts to multisite and checks recovery/uninstall. These are 56 matrix jobs across eight targets; `latest` can duplicate a pinned stable version and does not represent an additional unique release.
+The completed [69-job quality run](https://github.com/MalikArslanLive/codeslot/actions/runs/43474411107) on `6bdde4d` passed the matrix below. Each runtime job activates source, installs the production ZIP, runs actual WordPress integration, converts to multisite and checks recovery/uninstall. These are 56 matrix jobs across eight targets; `latest` can duplicate a pinned stable version and does not represent an additional unique release.
 
 | WordPress target | PHP 7.4 | 8.0 | 8.1 | 8.2 | 8.3 | 8.4 | 8.5 |
 |---|---|---|---|---|---|---|---|
@@ -23,9 +23,9 @@ All HTTP suites use WordPress 7.1.4 with disposable fixtures. Each checks Header
 
 | Server | PHP | Actual execution mode | Result |
 |---|---|---|---|
-| Apache 2.4.69 | 8.3.36 | apache2handler / mod_php | Passed 108 +27 assertions |
-| Nginx 1.30.6 | 8.3.36 | fpm-fcgi / PHP-FPM | Passed 108 +27 assertions |
-| OpenLiteSpeed 1.9.4 | 8.3.36 | litespeed / LSAPI | Passed 108 +27 assertions |
+| Apache 2.4.69 | 8.3.36 | apache2handler / mod_php | Passed 108 +27 +12 assertions |
+| Nginx 1.30.6 | 8.3.36 | fpm-fcgi / PHP-FPM | Passed 108 +27 +12 assertions |
+| OpenLiteSpeed 1.9.4 | 8.3.36 | litespeed / LSAPI | Passed 108 +27 +12 assertions |
 | PHP CLI tooling | 8.5.12 locally; 7.4–8.5 in CI | cli | Passed tooling/runtime jobs |
 
 Apache/FPM containers use Debian 13; OLS uses Ubuntu 26.04.1. Hosted runners use Ubuntu 24.04. These are distinct from the PHP versions, SAPIs and web servers. LiteSpeed Enterprise, CGI and Windows/macOS are not tested.

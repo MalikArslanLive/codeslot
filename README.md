@@ -8,7 +8,7 @@ By [Malik Arslan](https://malikarslan.com/) · [WordPress.org](https://wordpress
 
 **Add code across your site or only where you need it. Every included CodeSlot feature is free.** Manage global Header, Body and Footer code, individual content slots, and a local PHP/JavaScript/CSS/HTML snippet library from WordPress.
 
-No Pro tier, license key, subscription, cloud account, telemetry or feature paywall. CodeSlot is GPL-2.0-or-later. Third-party plugins have their own licenses and requirements.
+No Pro tier, license key, subscription, cloud account, developer telemetry or feature paywall. CodeSlot is GPL-2.0-or-later. Third-party plugins have their own licenses and requirements.
 
 ## Where can I add code?
 
