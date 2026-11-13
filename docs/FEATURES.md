@@ -17,6 +17,6 @@ Every feature shipped in CodeSlot 1.0.0 is free under GPL-2.0-or-later. No Pro u
 | Recovery | PHP syntax checks, Safe Mode and best-effort direct-error recovery |
 | Multisite | Per-site data, restricted to super-admin code management |
 
-CodeSlot does not include a cloud/community service, AI generation, competitor-format import, shared network snippet library, builder-native canvas widgets, paragraph/selector targeting or guaranteed recovery from arbitrary PHP side effects. Attachments/private post types and REST/AJAX/cron PHP execution are excluded. These are scope boundaries, not paid features.
+CodeSlot does not include a cloud/community service, AI generation, shared network snippet library, builder-native canvas widgets, arbitrary CSS-selector targeting or guaranteed recovery from arbitrary PHP side effects. Attachments/private post types and REST/AJAX/cron PHP execution are excluded. These are scope boundaries, not paid features.
 
 Global/individual slots rely on theme hooks. Automatic PHP starts after query setup or admin initialization. Run Once is explicitly manual, stays inactive and rejects automatic conditions. Paragraph insertion targets explicit closed `<p>` elements in main singular content, skips comments/raw-text containers and leaves other markup unchanged. Authorized previews use saved metadata. Full companion workflows and every cache configuration are not certified; see [compatibility](COMPATIBILITY.md) and [security](../SECURITY.md).

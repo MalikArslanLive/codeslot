@@ -12,14 +12,14 @@ This build replaces the original 1.0.0 release candidate with a responsive admin
 - Content-based asset versions refresh CSS/JS when reinstalling version 1.0.0.
 - Author/website metadata, WordPress.org URL, contributor templates and reproducible server/CI coverage.
 
-Requirements: WordPress 6.5+ and PHP 7.4+. Prefer maintained WordPress/PHP versions in production. Exact tested versions, SAPIs, server scopes, commands, failed attempts and limitations are in docs/TEST-REPORT.md and COMPATIBILITY.md. Expanded CI covers eight WordPress targets and seven PHP versions; workflow results, rather than configuration alone, establish passes.
+Requirements: WordPress 6.5+ and PHP 7.4+. Prefer maintained WordPress/PHP versions in production. Exact tested versions, SAPIs, server scopes, commands, failed attempts and limitations are in docs/TEST-REPORT.md and docs/COMPATIBILITY.md. Expanded CI covers eight WordPress targets and seven PHP versions; workflow results, rather than configuration alone, establish passes.
 
-Upload codeslot-1.0.0.zip through Plugins -> Add New -> Upload Plugin. If replacing the earlier 1.0.0 build, choose Replace current with uploaded after taking a backup. The archive contains codeslot/codeslot.php and only 12 production files. No Composer or Node dependencies are required at runtime.
+Upload codeslot-1.0.0.zip through Plugins -> Add New -> Upload Plugin. If replacing the earlier 1.0.0 build, choose Replace current with uploaded after taking a backup. The archive contains codeslot/codeslot.php and only 13 production files. No Composer or Node dependencies are required at runtime.
 
 SHA-256:
 
 ```
-7e07b3d268450e63a83f02a52450074f64e56d3ac1bb4019936cb1449dffb95c
+93f8b9cb591101d7ceb6ab17e838c502d9f27d44fc89bd9700ff81516d5cee06
 ```
 
 PHP snippets execute arbitrary privileged code; this is not a secure sandbox or independent penetration-test certification. Safe Mode recovery, permissions, imports, rollback, multisite and uninstall behavior are covered by regression checks. Page caches must be purged/varied appropriately. LiteSpeed Enterprise, premium plugins, every payment flow and arbitrary production configurations are not certified.
@@ -27,3 +27,8 @@ PHP snippets execute arbitrary privileged code; this is not a secure sandbox or 
 WordPress.org: https://wordpress.org/plugins/codeslot/ (listing availability/approval was not independently verified). No WordPress.org submission or public GitHub Release publication was performed. Public release publication requires the owner's explicit approval.
 
 Plugin website/Plugin URI: https://github.com/MalikArslanLive/codeslot. All included features are free. README self-links and duplicate historical reports were removed; development and compatibility guidance is organized under docs/.
+
+- Saved/current revision code diffs, before/after numbered-paragraph insertion, and confirmed one-time PHP tasks with repeat protection and recorded outcomes.
+- Cloud sync and AI generation are excluded from this release.
+
+Validation: [69 quality jobs passed](https://github.com/MalikArslanLive/codeslot/actions/runs/43442468901), including 56 runtime combinations and 21 browser tests; [dependency security audit passed](https://github.com/MalikArslanLive/codeslot/actions/runs/43442469078).

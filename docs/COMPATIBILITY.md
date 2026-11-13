@@ -2,7 +2,7 @@
 
 CodeSlot 1.0.0 requires **WordPress 6.5+ and PHP 7.4+**. Prefer maintained runtimes. Other plugins can require newer PHP; CodeSlot compatibility does not override their requirements.
 
-The completed [69-job quality run](https://github.com/MalikArslanLive/codeslot/actions/runs/43407872155) on `2fa2ef3` passed the matrix below. Each runtime job activates source, installs the production ZIP, runs actual WordPress integration, converts to multisite and checks recovery/uninstall. These are 56 matrix jobs across eight targets; `latest` can duplicate a pinned stable version and does not represent an additional unique release.
+The completed [69-job quality run](https://github.com/MalikArslanLive/codeslot/actions/runs/43442468901) on `4741eef` passed the matrix below. Each runtime job activates source, installs the production ZIP, runs actual WordPress integration, converts to multisite and checks recovery/uninstall. These are 56 matrix jobs across eight targets; `latest` can duplicate a pinned stable version and does not represent an additional unique release.
 
 | WordPress target | PHP 7.4 | 8.0 | 8.1 | 8.2 | 8.3 | 8.4 | 8.5 |
 |---|---|---|---|---|---|---|---|

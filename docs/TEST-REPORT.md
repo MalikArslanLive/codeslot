@@ -1,24 +1,24 @@
 # CodeSlot 1.0.0 validation
 
-The completed quality run [43407872155](https://github.com/MalikArslanLive/codeslot/actions/runs/43407872155) on `2fa2ef3b163c5327b0327ef3a086b08c79f9b375` passed all **69 jobs**, including 56 WordPress/PHP matrix jobs, seven PHP tooling jobs, JavaScript, 18 browser tests, Plugin Check, three-server HTTP validation, the non-blocking nightly integration probe and gated packaging. [Security run 43407872042](https://github.com/MalikArslanLive/codeslot/actions/runs/43407872042) passed dependency audits.
+The completed quality run [43442468901](https://github.com/MalikArslanLive/codeslot/actions/runs/43442468901) on `4741eef1cb737d0328f0d6f43de8ee5307b43cfd` passed all **69 jobs**, including 56 WordPress/PHP matrix jobs, seven PHP tooling jobs, JavaScript, 21 browser tests, Plugin Check, three-server HTTP validation, the non-blocking nightly integration probe and gated packaging. [Security run 43442469078](https://github.com/MalikArslanLive/codeslot/actions/runs/43442469078) passed dependency audits.
 
-The current follow-up corrects the Plugin URI, explains the free features and individual fields, and consolidates repository documentation. Its rebuilt package/checksum and validation are recorded in [evidence/validation-1.0.0.json](evidence/validation-1.0.0.json). A configured workflow is not evidence of a pass; follow-up CI results must be verified before marking them complete.
+This build also corrects the Plugin URI, explains the free features and individual fields, consolidates documentation, and adds revision diffs, numbered-paragraph insertion and guarded one-time PHP tasks. The rebuilt package/checksum and completed validation are recorded in [evidence/validation-1.0.0.json](evidence/validation-1.0.0.json).
 
 ## Executed scope
 
 | Check | Result |
 |---|---|
-| PHPUnit | 14 tests / 16 assertions passed |
+| PHPUnit | 18 tests / 20 assertions passed |
 | WordPress Coding Standards | Passed |
 | PHPStan level 5 | Passed |
-| PHP lint | All eight production PHP files passed |
+| PHP lint | All nine production PHP files passed |
 | ESLint / npm audit | Passed; no reported npm vulnerabilities |
 | Composer advisory audit | Passed on hosted CI; local packagist.org access is blocked |
 | Source / installed ZIP integration | 33 assertions passed per single-site run |
 | Multisite integration | 36 assertions passed |
 | Uninstall retain/delete | Five assertions passed for each preference |
 | Constant Safe Mode | Passed emergency suppression |
-| Browser suite | 18 passed: global slots, snippets/conditions/frontend, nonce rejection, Classic/Gutenberg, Woo product fields, Elementor preview, responsive layouts, Quick/Bulk Edit, confirmed Delete, locks and pagination |
+| Browser suite | 21 passed: global slots, snippets/conditions/frontend, nonce rejection, Classic/Gutenberg, Woo product fields, Elementor preview, responsive layouts, Quick/Bulk Edit, confirmed Delete, locks and pagination |
 | Responsive scope | All six admin pages at 1440, 768, 390 and 320 pixels; dedicated selection controls and visible mobile labels |
 | Server HTTP output | Each server passed 108 isolation +27 conditions/exclusion/shortcode assertions; identities and SAPIs measured through HTTP |
 | ZIP | Production-only archive, CRC/path/source-byte checks and SHA-256; installed independently and Plugin Check reported no errors |
@@ -43,7 +43,7 @@ python3 scripts/build.py
 
 Provisioning requires Docker/Compose; browser tests require the pinned Playwright Chromium (`npx playwright install --with-deps chromium`). Local browser runs also used system Chromium via an ignored config. Server, theme and browser tests must run sequentially because server tests change disposable-site URLs.
 
-WP-CLI checks use `docker compose run --rm cli eval-file wp-content/plugins/codeslot/tests/integration.php`, `tests/safe-constant.php` and `tests/uninstall.php`. Run multisite/uninstall only on disposable sites. CI installs official WP-CLI 2.12.0 with its published SHA-512; certificate/checksum verification stays enabled.
+WP-CLI checks use `docker compose run --rm cli eval-file wp-content/plugins/codeslot/tests/integration.php`, `tests/local-features.php`, `tests/safe-constant.php` and `tests/uninstall.php`. Run multisite/uninstall only on disposable sites. CI installs official WP-CLI 2.12.0 with its published SHA-512; certificate/checksum verification stays enabled.
 
 ## Compatibility and honest limits
 
@@ -57,4 +57,4 @@ Old duplicate raw logs and incomplete reports were consolidated into this report
 
 ## Additional local features
 
-Saved/current code diffs, numbered-paragraph insertion and confirmed Run Once PHP were added after the baseline. Local verification passed 18 unit tests/20 assertions, 14 WordPress feature assertions and three new browser regressions (nonce/confirmation/repeat prevention, escaped mobile diffs, and paragraph HTTP isolation). The matrix now runs local-features.php for source, ZIP and multisite. The new combined CI result must be checked before claiming full validation. Cloud sync and AI are excluded by explicit user instruction. These additions do not claim every possible feature or guaranteed recovery from arbitrary privileged PHP.
+Saved/current code diffs, numbered-paragraph insertion and confirmed Run Once PHP were added after the baseline. Local verification passed 18 unit tests/20 assertions, 14 WordPress feature assertions and three new browser regressions (nonce/confirmation/repeat prevention, escaped mobile diffs, and paragraph HTTP isolation). The matrix now runs local-features.php for source, ZIP and multisite. The combined 69-job CI run above passed, including the 21-test browser suite and the added source/ZIP/multisite assertions. Cloud sync and AI are excluded by explicit user instruction. These additions do not claim every possible feature or guaranteed recovery from arbitrary privileged PHP.

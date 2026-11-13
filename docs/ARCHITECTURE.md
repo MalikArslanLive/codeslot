@@ -1,6 +1,6 @@
 # CodeSlot architecture and plan
 
-1. Research and architecture: independently implement publicly described local capabilities of WPCode and Code Snippets. No copied code or premium dependencies.
+1. Purpose: manage global and individual WordPress code slots plus a local snippet library, with no premium dependencies.
 2. Environment: Docker WordPress, MariaDB, WP-CLI; PHP tooling and browser tests; CI matrix.
 3. Core: three global slots, protected post/term metadata, ordered request-local renderer.
 4. Snippets: private CPT, protected metadata, activation index, revisions, import/export.
@@ -13,3 +13,5 @@ Storage: `codeslot_global` (non-autoloaded option), `_codeslot_slots` post/term 
 Output sequence: global → matching snippets ordered by numeric priority then ID → queried singular/term slots. No post-loop inference for individual slots. Body omission warning uses an observed frontend request and never relocates body code.
 
 PHP starts at wp (frontend) or admin_init (explicit admin location). Early plugins_loaded/init hooks are intentionally unavailable because query conditions cannot be evaluated there. Manual execution uses the fixed `codeslot_manual` action with a name, never arbitrary hook registration from imported data.
+
+Numbered paragraph insertion preserves existing content bytes and ignores raw-text/code containers. One-time PHP tasks use a separate inactive location, explicit confirmation and nonce checks, plus an atomic per-site execution claim. A claimed task is never automatically retried after failure or interruption. Saved/current code comparisons use escaped WordPress text diffs.
