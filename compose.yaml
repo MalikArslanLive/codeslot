@@ -27,6 +27,7 @@ services:
       - wordpress:/var/www/html
       - ./:/var/www/html/wp-content/plugins/codeslot:ro
   cli:
+    entrypoint: [wp]
     image: wordpress:cli-php8.3
     user: "33:33"
     environment: *wp_env
