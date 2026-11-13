@@ -68,7 +68,9 @@ jobs:
       - uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php }}
-          tools: wp-cli
+          tools: none
+      - name: Install verified WP-CLI
+        run: bash scripts/install-wp-cli.sh
       - name: Provision WordPress
         run: |
           source scripts/ci-diagnostics.sh
@@ -164,7 +166,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: shivammathur/setup-php@v2
-        with: {php-version: '8.5', tools: wp-cli}
+        with: {php-version: '8.5', tools: none}
+      - name: Install verified WP-CLI
+        run: bash scripts/install-wp-cli.sh
       - run: |
           wp core download --version=nightly --path=/tmp/wordpress
           wp config create --path=/tmp/wordpress --dbname=wordpress --dbuser=wordpress --dbpass=disposable --dbhost=127.0.0.1
