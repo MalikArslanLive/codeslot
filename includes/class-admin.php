@@ -235,6 +235,9 @@ final class Admin {
 			echo '<option ' . selected( $s['location'], $location, false ) . '>' . esc_html( $location ) . '</option>'; }
 		echo '</select></p></div><label for="codeslot-source">Code (PHP without tags; JS/CSS without wrappers)</label><textarea id="codeslot-source" name="code" rows="18" class="large-text code codeslot-code" data-codeslot-mode="' . esc_attr( self::mode( $s['type'] ) ) . '">' . esc_textarea( $s['code'] ) . '</textarea>';
 		echo '<div class="codeslot-metadata">';
+		echo '<div id="codeslot-paragraph-field" hidden>';
+		self::input( 'paragraph', 'Paragraph number (1–1000)', isset( $s['paragraph'] ) ? $s['paragraph'] : 1, 'number' );
+		echo '</div>';
 		self::input( 'priority', 'Priority (lower runs first)', $s['priority'], 'number' );
 		self::input( 'categories', 'Categories (comma separated)', implode( ',', $s['categories'] ) );
 		self::input( 'tags', 'Tags (comma separated)', implode( ',', $s['tags'] ) );
@@ -248,6 +251,19 @@ final class Admin {
 		echo '</form>';
 		if ( $id ) {
 			echo '<p>Usage: <code>[codeslot id="' . absint( $id ) . '"]</code> (requires shortcode location) or <code>do_action( \'codeslot_manual\', \'name\' );</code> (manual location). Execution status: ' . esc_html( $s['active'] ? 'active' : 'inactive' ) . '.</p>';
+			if ( 'php' === $s['type'] && 'once' === $s['location'] ) {
+				$record = Jobs::record( $id );
+				echo '<section class="codeslot-panel"><h3>Run Once PHP</h3><p>This privileged task can change your database or files. Back up first. It remains inactive and never runs automatically. A claimed task is never automatically retried; duplicate it only if you deliberately need a new task.</p>';
+				if ( $record ) {
+					echo '<p>Status: <strong>' . esc_html( $record['status'] ) . '</strong></p><pre>' . esc_html( wp_json_encode( $record, JSON_PRETTY_PRINT ) ) . '</pre>';
+				} else {
+					self::form_start( 'run_once', $id );
+					echo '<label><input type="checkbox" name="confirm" value="1" required> I backed up the site and confirm running this PHP task once.</label>';
+					submit_button( 'Run Once', 'secondary' );
+					echo '</form>';
+				}
+				echo '</section>';
+			}
 			$error = get_post_meta( $id, '_codeslot_error', true );
 			if ( $error ) {
 				echo '<div class="notice notice-error"><p>' . esc_html( $error['date'] . ': ' . $error['message'] ) . '</p></div>'; }
@@ -257,6 +273,17 @@ final class Admin {
 				foreach ( array_reverse( $history, true ) as $index => $revision ) {
 					self::form_start( 'rollback', $id );
 					echo '<input type="hidden" name="revision" value="' . absint( $index ) . '"><p>' . esc_html( $revision['date'] . ' — ' . $revision['snippet']['name'] ) . '</p><details><summary>View code</summary><pre>' . esc_html( $revision['snippet']['code'] ) . '</pre></details>';
+					echo '<details class="codeslot-revision-diff"><summary>Compare saved code with current code</summary><div class="codeslot-diff-scroll">';
+					$diff = wp_text_diff(
+						$revision['snippet']['code'],
+						$s['code'],
+						array(
+							'title_left'  => 'Saved version',
+							'title_right' => 'Current code',
+						)
+					);
+					echo $diff ? wp_kses_post( $diff ) : '<p>No code changes.</p>';
+					echo '</div></details>';
 					submit_button( __( 'Restore as inactive', 'codeslot' ), 'secondary', 'submit', false );
 					echo '</form>';
 				}
@@ -326,7 +353,7 @@ final class Admin {
 			/* translators: %d: ID of a saved snippet that has no name. */
 			$name  = '' !== trim( $s['name'] ) ? $s['name'] : sprintf( __( 'Untitled snippet #%d', 'codeslot' ), $post->ID );
 			$edit  = admin_url( 'admin.php?page=codeslot-new&id=' . $post->ID );
-			$quick = wp_json_encode( array_intersect_key( $s, array_flip( array( 'id', 'name', 'description', 'priority', 'active', 'categories', 'tags' ) ) ) );
+			$quick = wp_json_encode( array_intersect_key( $s, array_flip( array( 'id', 'name', 'description', 'priority', 'active', 'categories', 'tags', 'location' ) ) ) );
 			echo '<tr><td class="check-column" data-label="Select" data-colname="Select"><input type="checkbox" aria-label="' . esc_attr( 'Select ' . $name ) . '" name="ids[]" value="' . absint( $post->ID ) . '"></td><td data-label="Name" data-colname="Name" class="codeslot-name"><strong><a href="' . esc_url( $edit ) . '">' . esc_html( $name ) . '</a></strong>' . ( $s['locked'] ? ' <span class="codeslot-lock">Locked</span>' : '' ) . '<p class="codeslot-description">' . esc_html( $s['description'] ) . '</p><a class="codeslot-edit" aria-label="' . esc_attr( 'Edit ' . $name ) . '" href="' . esc_url( $edit ) . '">Edit</a> <button type="button" class="button-link codeslot-quick" data-snippet="' . esc_attr( $quick ) . '" aria-controls="codeslot-quick-edit" aria-expanded="false"' . disabled( $s['locked'], true, false ) . '>Quick Edit</button> <button type="button" class="button-link codeslot-remove" data-id="' . absint( $post->ID ) . '" data-name="' . esc_attr( $name ) . '"' . disabled( $s['locked'], true, false ) . '>Delete</button><span class="codeslot-id">ID: ' . absint( $post->ID ) . '</span></td><td data-label="Type / Location" data-colname="Type / Location"><span class="codeslot-type">' . esc_html( $s['type'] ) . '</span><span class="codeslot-location">' . esc_html( str_replace( '_', ' ', $s['location'] ) ) . '</span></td><td data-label="Status" data-colname="Status"><span class="codeslot-status ' . ( $s['active'] ? 'is-active' : 'is-inactive' ) . '">' . esc_html( $s['active'] ? 'Active' : 'Inactive' ) . '</span></td><td data-label="Priority" data-colname="Priority">' . (int) $s['priority'] . '</td><td data-label="Tags" data-colname="Tags">' . esc_html( $s['tags'] ? implode( ', ', $s['tags'] ) : '—' ) . '</td></tr>';
 		}
 		if ( ! $query->post_count ) {
@@ -395,6 +422,13 @@ final class Admin {
 					$id = $result; }
 				$page = 'codeslot-new';
 				break;
+			case 'run_once':
+				$page   = 'codeslot-new';
+				$result = empty( $_POST['confirm'] ) ? new \WP_Error( 'confirm', 'Confirm this one-time task explicitly.' ) : Jobs::run( $id );
+				if ( is_array( $result ) && 'completed' !== $result['status'] ) {
+					$result = new \WP_Error( 'job_failed', 'Task failed. Return to the snippet to review its saved execution record.' );
+				}
+				break;
 			case 'quick_edit':
 				$s = Repository::get( $id );
 				if ( ! $s || $s['locked'] ) {
@@ -449,6 +483,10 @@ final class Admin {
 					if ( 'delete' === $action ) {
 						wp_delete_post( $target, true );
 						continue; }
+					if ( 'activate' === $action && 'once' === $s['location'] ) {
+						$result = new \WP_Error( 'action', 'Run Once tasks stay inactive. Use their confirmed Run Once button.' );
+						break;
+					}
 					if ( 'edit' === $action ) {
 						$changed = false;
 						foreach ( array( 'priority', 'categories', 'tags' ) as $field ) {

@@ -19,7 +19,7 @@ All included CodeSlot features are free. There is no Pro tier, license key, subs
 
 CodeSlot manages global code and individual page, post, public custom post type, WooCommerce product and term-archive code. Global and individual settings coexist. Output order is global, matching snippets, individual code.
 
-A separate local snippet manager supports PHP, JavaScript, CSS, HTML, plain text, reusable content and shortcode content, priorities, conditions, import/export, locks, local templates and the last 30 saved versions.
+A separate local snippet manager supports PHP, JavaScript, CSS, HTML, plain text, reusable content and shortcode content, priorities, conditions, import/export, locks, local templates and the last 30 saved versions with code comparison. Visual snippets can also run before or after a selected numbered paragraph. Explicit Run Once PHP tasks stay inactive, require confirmation, record output/status and cannot be automatically retried.
 
 Executable code is privileged functionality. Access requires manage_options, unfiltered_html and edit_plugins; multisite additionally requires super-admin. PHP is not sandboxed. Review every snippet and keep backups and filesystem access. No cloud account is required.
 
@@ -37,7 +37,7 @@ Use CodeSlot -> Header, Body & Footer for global slots. Open an item in its nati
 == Frequently Asked Questions ==
 
 = Is everything free? =
-Yes. All features included in CodeSlot are free under GPL-2.0-or-later: global and individual slots, every supported snippet type, conditions, priorities, shortcodes/manual insertion, import/export, saved versions, locking, templates and recovery controls. No Pro upgrade or account is needed. Third-party plugins have their own licenses and requirements.
+Yes. All features included in CodeSlot are free under GPL-2.0-or-later: global and individual slots, every supported snippet type, conditions, priorities, shortcodes/manual insertion, import/export, saved versions and code comparison, paragraph insertion, confirmed one-time tasks, locking, templates and recovery controls. No Pro upgrade or account is needed. Third-party plugins have their own licenses and requirements.
 
 = Can I add code to one page or post only? =
 Yes. Open the native WordPress editor and use the CodeSlot — Header, Body & Footer meta box. Each Header, Body and Footer field has its own enable switch. The code runs only on that item's singular URL. Public custom post types and WooCommerce products have the same native fields. Categories, tags and public custom taxonomy terms have fields for their own archive URLs. Private internal post types and attachments are excluded.

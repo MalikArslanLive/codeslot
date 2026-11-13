@@ -2,6 +2,8 @@
 
 ## 1.0.0 — release candidate
 
+- Added saved/current code diffs, byte-preserving numbered-paragraph insertion and confirmed one-time PHP tasks with atomic claims and execution records.
+
 - Redesigned all six admin pages with responsive navigation, forms, buttons and mobile snippet cards.
 - Added always-visible Edit links and fallback names for legacy unnamed snippets; new editor submissions require a name.
 - Added Quick Edit, bulk metadata updates, page selection, guarded Delete and first/previous/next/last pagination.

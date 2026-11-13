@@ -25,4 +25,8 @@ final class ConditionsTest extends TestCase {
  public function testTypeLocationMatrix(){self::assertInstanceOf(WP_Error::class,Repository::validate(['type'=>'php','code'=>'echo 1;','location'=>'header']));}
  public function testValidPhp(){self::assertIsArray(Repository::validate(['type'=>'php','code'=>'$x = 1;','location'=>'frontend']));}
  public function testPriorityBounded(){self::assertSame(1000,Repository::validate(['type'=>'html','code'=>'<b>x</b>','location'=>'header','priority'=>9000])['priority']);}
+ public function testInvalidParagraphRejected(){self::assertInstanceOf(WP_Error::class,Repository::validate(['type'=>'html','code'=>'x','location'=>'after_paragraph','paragraph'=>0]));}
+ public function testParagraphArrayRejected(){self::assertInstanceOf(WP_Error::class,Repository::validate(['type'=>'html','code'=>'x','location'=>'before_paragraph','paragraph'=>[]]));}
+ public function testOnceNeverAutoActive(){self::assertFalse(Repository::validate(['type'=>'php','code'=>'echo 1;','location'=>'once','active'=>true])['active']);}
+ public function testOnceRejectsAutomaticConditions(){self::assertInstanceOf(WP_Error::class,Repository::validate(['type'=>'php','code'=>'echo 1;','location'=>'once','conditions'=>['include'=>[[['key'=>'frontend']]]]]));}
 }

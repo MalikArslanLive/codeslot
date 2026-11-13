@@ -32,7 +32,9 @@ Themes must call `wp_head`, `wp_body_open` and `wp_footer`. Attachments and priv
 - AND/OR conditions, exclusions, activation switches and execution priorities.
 - Search, filters, sorting, pagination, a separate checkbox column, Select page, Edit, Quick Edit, Bulk Edit and confirmed Delete.
 - Categories, tags, duplication, locking and local templates.
-- JSON import/export and the last 30 saved versions, restored inactive for review.
+- JSON import/export and the last 30 saved versions, with saved/current code comparison and inactive restore.
+- Before/after numbered-paragraph insertion in main singular content.
+- Confirmed Run Once PHP tasks with atomic claim, output/status records and no automatic retry.
 - PHP syntax checks, Safe Mode, error reporting and best-effort direct-error recovery.
 - Per-site multisite storage with super-admin management.
 

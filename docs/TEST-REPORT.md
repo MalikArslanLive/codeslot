@@ -54,3 +54,7 @@ Initial failures were investigated rather than hidden: the old 6.8 activation mi
 PHP executes arbitrary privileged code and is not a secure sandbox. Source review and automated tests are not an independent penetration-test certificate. Premium products, full payment flows, LiteSpeed Enterprise, CGI, Windows/macOS, every cache/CDN and all PHP side effects are not tested. Cache variation/purging remains necessary. Third-party MCP Adapter deprecations and blocked background update warnings were retained in logs.
 
 Old duplicate raw logs and incomplete reports were consolidated into this report and structured evidence. Their prior contents remain in Git history and a local pre-cleanup backup; test infrastructure and lockfiles remain in the repository.
+
+## Additional local features
+
+Saved/current code diffs, numbered-paragraph insertion and confirmed Run Once PHP were added after the baseline. Local verification passed 18 unit tests/20 assertions, 14 WordPress feature assertions and three new browser regressions (nonce/confirmation/repeat prevention, escaped mobile diffs, and paragraph HTTP isolation). The matrix now runs local-features.php for source, ZIP and multisite. The new combined CI result must be checked before claiming full validation. Cloud sync and AI are excluded by explicit user instruction. These additions do not claim every possible feature or guaranteed recovery from arbitrary privileged PHP.

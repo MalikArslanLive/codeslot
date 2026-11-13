@@ -1,8 +1,8 @@
 (function () {
   'use strict';
   const types = ['entire_site','frontend','admin','front_page','home','singular','post_type','term','archive','search','404','logged_in','role','url','mobile','shop','product','cart','checkout','account'];
-  const phpLocations = ['frontend','admin','everywhere','manual'];
-  const htmlLocations = ['header','body','footer','before_content','after_content','shortcode','manual','woocommerce_before_single_product','woocommerce_after_single_product','woocommerce_before_shop_loop','woocommerce_after_shop_loop'];
+  const phpLocations = ['frontend','admin','everywhere','manual','once'];
+  const htmlLocations = ['header','body','footer','before_content','after_content','before_paragraph','after_paragraph','shortcode','manual','woocommerce_before_single_product','woocommerce_after_single_product','woocommerce_before_shop_loop','woocommerce_after_shop_loop'];
   const editors = [];
   document.querySelectorAll('.codeslot-code').forEach(function (el) {
     if (window.wp && window.wp.codeEditor) {
@@ -17,10 +17,14 @@
     const allowed = type.value === 'php' ? phpLocations : htmlLocations;
     Array.from(location.options).forEach(o => { o.disabled = !allowed.includes(o.value); o.hidden = o.disabled; });
     if (!allowed.includes(location.value)) location.value = allowed[0];
+    const paragraph = document.getElementById('codeslot-paragraph-field');
+    if (paragraph) paragraph.hidden = !['before_paragraph','after_paragraph'].includes(location.value);
+    const active = document.querySelector('[name="active"]');
+    if (active) { active.disabled = location.value === 'once'; if (active.disabled) active.checked = false; }
     const modes = {php:'text/x-php',javascript:'text/javascript',css:'text/css',text:'text/plain'};
     editors.forEach(e => e.codemirror.setOption('mode', modes[type.value] || 'text/html'));
   }
-  if (type) { type.addEventListener('change', setType); setType(); }
+  if (type) { type.addEventListener('change', setType); location.addEventListener('change', setType); setType(); }
   const container = document.getElementById('codeslot-conditions');
   const hidden = document.getElementById('codeslot-conditions-json');
   if (!container || !hidden) return;
@@ -80,7 +84,8 @@
     ['name','description','priority','categories','tags'].forEach(key => {
       quickForm.elements['quick_' + key].value = Array.isArray(snippet[key]) ? snippet[key].join(', ') : snippet[key];
     });
-    quickForm.elements.quick_active.checked = snippet.active;
+    quickForm.elements.quick_active.disabled = snippet.location === 'once';
+    quickForm.elements.quick_active.checked = snippet.location !== 'once' && snippet.active;
     panel.hidden = false;
     button.setAttribute('aria-expanded', 'true');
     quickForm.elements.quick_name.focus();

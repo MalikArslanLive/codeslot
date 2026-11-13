@@ -152,3 +152,9 @@
 .codeslot-wrap .codeslot-bulk>.codeslot-bulk-action{display:flex;flex-direction:column;gap:5px;font-weight:500}
 .codeslot-wrap select{height:36px;line-height:1.5}
 @media(max-width:782px){.codeslot-wrap select{height:42px}.codeslot-wrap .codeslot-bulk>.codeslot-bulk-action{flex-basis:100%}}
+.codeslot-diff-scroll{overflow-x:auto;max-width:100%;margin:12px 0}
+.codeslot-diff-scroll .diff{min-width:480px;width:100%;table-layout:fixed}
+.codeslot-diff-scroll td{overflow-wrap:anywhere;white-space:pre-wrap;padding:8px}
+.codeslot-diff-scroll .diff-deletedline{background:#fce8e8}
+.codeslot-diff-scroll .diff-addedline{background:#e8f5ee}
+.codeslot-revision-diff summary{cursor:pointer;font-weight:500;padding:10px 0}
