@@ -12,7 +12,7 @@ The produced CI ZIP was downloaded and compared byte-for-byte with `packages/cod
 a580ed3101d538ca0ea22b8dead58f48e5d1100fe6166b99caeefa658202c064
 ```
 
-The later `b1f85fa` commit adds an Elementor browser regression only; it does not change production files. That test passed locally. Its automatic CI rerun is tracked separately and must not be inferred from the earlier successful run. Documentation/evidence/package-only commits do not change the tested runtime.
+The later `b1f85fa` commit adds an Elementor browser regression only; it does not change production files. Its complete quality run [43394764238](https://github.com/MalikArslanLive/codeslot/actions/runs/43394764238) also passed **all 33 jobs**, including the expanded **7-test browser suite**. Evidence is in evidence/ci-b1f85fa.json. Documentation/evidence/package-only commits do not change the tested runtime. The project was merged into main in b81202b.
 
 ## Executed local commands and results
 
@@ -20,7 +20,7 @@ Managed-session CLI container: `codeslot-wp`; project root inside it: `/var/www/
 
 | Command | Result |
 |---|---|
-| `docker exec -u root -w /var/www/html/wp-content/plugins/codeslot codeslot-wp sh -c 'find includes templates -name "*.php" -exec php -l {} \; && php -l codeslot.php && php -l uninstall.php'` | Passed; all 9 production PHP files |
+| `docker exec -u root -w /var/www/html/wp-content/plugins/codeslot codeslot-wp sh -c 'find includes templates -name "*.php" -exec php -l {} \; && php -l codeslot.php && php -l uninstall.php'` | Passed; all 8 production PHP files |
 | `docker exec -u root -w /var/www/html/wp-content/plugins/codeslot codeslot-wp php vendor/bin/phpunit` | Passed: 14 tests, 16 assertions; PHPUnit 9.6.33 |
 | Same container/workdir: `php vendor/bin/phpcs` | Passed WordPress-Core standards |
 | Same container/workdir: `php vendor/bin/phpstan analyse --memory-limit=2G --no-progress` | Passed PHPStan level 5; no errors |
@@ -31,7 +31,7 @@ Managed-session CLI container: `codeslot-wp`; project root inside it: `/var/www/
 | `docker exec codeslot-wp wp --path=/var/www/clean eval-file /var/www/html/wp-content/plugins/codeslot/tests/integration.php` | Passed: 36 assertions on installed ZIP/multisite, including reusable fixture, site isolation and non-super-admin denial |
 | `docker exec codeslot-wp wp eval-file wp-content/plugins/codeslot/tests/safe-constant.php` | Passed: constant-based emergency suppression |
 | `CS_WP_CLI='docker exec codeslot-wp wp' python3 tests/isolation.py` | Passed: 99 assertions per run; block/classic/Hello Elementor/Storefront, Rank Math separately, custom post types/taxonomies and unrelated posts/products |
-| `PLAYWRIGHT_BROWSERS_PATH=/workspace/work/browsers npm run test:e2e` | Passed local 6-test admin suite: settings, editor/snippet/conditions/frontend, Classic, Gutenberg, Woo product, missing nonce |
+| `PLAYWRIGHT_BROWSERS_PATH=/workspace/work/browsers npm run test:e2e` | Passed local 6-test admin suite (expanded 7-test suite passed CI): settings, editor/snippet/conditions/frontend, Classic, Gutenberg, Woo product, missing nonce |
 | Same browser command with `-- --grep 'Gutenberg'` and standalone Gutenberg 24.4.0 active | Passed: native meta box and three fields |
 | Same browser command with `-- --grep 'Elementor preview'` | Passed: live Elementor preview iframe retains Page A marker exactly once; Page B absent |
 | `docker exec codeslot-wp wp eval-file wp-content/plugins/codeslot/tests/benchmark.php` | Completed 100/1,000 inactive and active-candidate measurements; see PERFORMANCE.md |

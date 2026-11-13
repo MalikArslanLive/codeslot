@@ -4,7 +4,7 @@ CodeSlot targets WordPress 6.8+ and PHP 7.4+. Tested runtime combinations are li
 
 ## WordPress/PHP
 
-GitHub-hosted jobs on commit `dd2585c` passed all 21 runtime combinations below, including source activation, installed production ZIP, actual WordPress integration, multisite, constant recovery and uninstall checks. The overall run was canceled after these jobs completed because Compose provisioning needed correction; canceled browser/Plugin Check jobs are not passes. The corrected full run 43392868687 subsequently passed all 33 jobs; see docs/TEST-REPORT.md.
+GitHub-hosted jobs on commit `dd2585c` passed all 21 runtime combinations below, including source activation, installed production ZIP, actual WordPress integration, multisite, constant recovery and uninstall checks. The overall run was canceled after these jobs completed because Compose provisioning needed correction; canceled browser/Plugin Check jobs are not passes. Corrected full runs 43392868687 and 43394764238 subsequently passed all 33 jobs each; see docs/TEST-REPORT.md.
 
 | WordPress | PHP 7.4 | 8.0 | 8.1 | 8.2 | 8.3 | 8.4 | 8.5 |
 |---|---|---|---|---|---|---|---|

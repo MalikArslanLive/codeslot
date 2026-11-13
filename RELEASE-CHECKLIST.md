@@ -10,7 +10,7 @@ Status: installable release candidate. The production ZIP exactly matches the pa
 - [x] Dedicated multisite, constant recovery, revisions and uninstall checks.
 - [x] Classic/block/builder/Woo theme and actual warm-cache isolation.
 - [x] Gutenberg/Classic/Woo product browser suite green locally and in gated CI.
-- [x] Live Elementor preview isolation passed locally (new regression CI tracked separately).
+- [x] Live Elementor preview isolation passed locally and in the expanded 7-test CI browser suite.
 - [x] Clean ZIP activation and header/body/footer output; deterministic archive verified.
 - [x] WordPress Plugin Check reviewed; final package has no reported errors.
 - [x] Documentation, compatibility, security review and measured performance evidence.
