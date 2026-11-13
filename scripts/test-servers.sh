@@ -8,8 +8,9 @@ wp() { "${compose[@]}" run --rm cli "$@"; }
 cleanup() {
   local cs_exit_code=$?
   if [ "$cs_exit_code" -ne 0 ]; then
-    local cs_failure
-    cs_failure="$(tail -n 8 work/server-results/*-isolation.txt work/server-results/*-http.txt 2>/dev/null || true)"
+    local cs_failure cs_php_errors
+    cs_php_errors="$("${compose[@]}" exec -T openlitespeed sh -c 'tail -n 12 /tmp/codeslot-php-error.log 2>/dev/null' 2>/dev/null || true)"
+    cs_failure="$cs_php_errors $(tail -n 8 work/server-results/*-isolation.txt work/server-results/*-http.txt work/server-results/*-probe.txt 2>/dev/null || true)"
     cs_failure="${cs_failure//%/%25}"
     cs_failure="${cs_failure//$'\r'/%0D}"
     cs_failure="${cs_failure//$'\n'/%0A}"
@@ -36,7 +37,8 @@ for spec in '8888 apache2handler Apache' '8889 fpm-fcgi nginx' '8890 litespeed L
   wp rewrite flush --hard
   wp eval-file wp-content/plugins/codeslot/tests/servers/fixtures.php
   for attempt in {1..30}; do
-    if curl -fsS --max-time 5 "$url/codeslot-server-probe.php" > /dev/null; then break; fi
+    cs_http_code="$(curl -sS --max-time 5 -o "work/server-results/$port-probe.txt" -w '%{http_code}' "$url/codeslot-server-probe.php" || true)"
+    if [ "$cs_http_code" = 200 ]; then break; fi
     if [ "$attempt" -eq 30 ]; then exit 1; fi
     sleep 1
   done

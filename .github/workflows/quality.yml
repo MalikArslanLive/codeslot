@@ -71,6 +71,7 @@ jobs:
           tools: wp-cli
       - name: Provision WordPress
         run: |
+          source scripts/ci-diagnostics.sh
           mkdir -p /tmp/codeslot-wp
           wp core download --path=/tmp/codeslot-wp --version=${{ matrix.wp }}
           wp config create --path=/tmp/codeslot-wp --dbname=wordpress --dbuser=wordpress --dbpass=disposable --dbhost=127.0.0.1
@@ -80,12 +81,14 @@ jobs:
           wp eval-file tests/integration.php --path=/tmp/codeslot-wp
       - name: Clean production ZIP
         run: |
+          source scripts/ci-diagnostics.sh
           python3 scripts/build.py
           rm /tmp/codeslot-wp/wp-content/plugins/codeslot
           wp plugin install "$GITHUB_WORKSPACE/dist/codeslot-1.0.0.zip" --path=/tmp/codeslot-wp --activate
           wp eval-file tests/integration.php --path=/tmp/codeslot-wp
       - name: Multisite
         run: |
+          source scripts/ci-diagnostics.sh
           wp core multisite-convert --path=/tmp/codeslot-wp
           wp eval-file tests/integration.php --path=/tmp/codeslot-wp
           wp eval-file tests/safe-constant.php --path=/tmp/codeslot-wp
