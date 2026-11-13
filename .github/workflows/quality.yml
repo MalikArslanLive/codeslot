@@ -19,7 +19,7 @@ jobs:
       matrix:
         php: ['7.4', '8.0', '8.1', '8.2', '8.3', '8.4', '8.5']
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php }}
@@ -39,7 +39,7 @@ jobs:
   javascript:
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
@@ -64,7 +64,7 @@ jobs:
         ports: ['3306:3306']
         options: --health-cmd="healthcheck.sh --connect --innodb_initialized" --health-interval=5s --health-retries=20
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php }}
@@ -99,7 +99,7 @@ jobs:
   browser:
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
@@ -126,7 +126,7 @@ jobs:
   plugin-check:
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - run: scripts/provision.sh
       - run: docker compose run --rm cli plugin install plugin-check --activate
       - run: docker compose run --rm cli plugin check codeslot --exclude-directories=tests,scripts,docs,.github,dist,playwright-report,test-results --format=json > plugin-check.json
@@ -138,7 +138,7 @@ jobs:
   servers:
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - run: scripts/provision.sh
       - run: scripts/test-servers.sh
       - if: always()
@@ -164,7 +164,7 @@ jobs:
         ports: ['3306:3306']
         options: --health-cmd="healthcheck.sh --connect --innodb_initialized" --health-interval=5s --health-retries=20
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: shivammathur/setup-php@v2
         with: {php-version: '8.5', tools: none}
       - name: Install verified WP-CLI
@@ -181,7 +181,7 @@ jobs:
     needs: [php, javascript, wordpress, browser, plugin-check, servers]
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - run: python3 scripts/build.py
       - uses: actions/upload-artifact@v4
         with:
