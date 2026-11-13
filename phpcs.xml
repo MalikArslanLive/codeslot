@@ -1,0 +1,1 @@
+<?xml version="1.0"?><ruleset name="CodeSlot"><description>WordPress review baseline</description><file>codeslot.php</file><file>includes</file><file>uninstall.php</file><arg name="extensions" value="php"/><rule ref="WordPress-Core"/><exclude-pattern>vendor/*</exclude-pattern></ruleset>

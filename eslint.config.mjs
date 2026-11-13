@@ -1,0 +1,1 @@
+export default [{files:['assets/*.js','tests/*.js'],languageOptions:{ecmaVersion:2022,sourceType:'module',globals:{window:'readonly',document:'readonly',codeslotEditor:'readonly',console:'readonly',process:'readonly'}},rules:{'no-unused-vars':'error','no-undef':'error'}}];
