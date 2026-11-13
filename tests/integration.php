@@ -63,6 +63,18 @@ cs_assert(!Repository::get($pid)['active'],'runtime exception disables snippet')
 cs_assert(strpos(get_post_meta($pid,'_codeslot_error',true)['message'],'test recovery')!==false,'runtime error recorded');
 $short=Repository::save(['name'=>'short','type'=>'text','location'=>'shortcode','code'=>'<b>safe text</b>','active'=>true]);
 cs_assert(CodeSlot\Runtime::shortcode(['id'=>$short])==='&lt;b&gt;safe text&lt;/b&gt;','shortcode text escaping');
+// Regression: one output per slot, global -> priority snippets -> queried item.
+$global_backup=get_option('codeslot_global',[]);
+update_option('codeslot_global',Permissions::slots(['header'=>['enabled'=>true,'code'=>'CS-ORDER-GLOBAL']]));
+$match_conditions=['include'=>[[['key'=>'singular','value'=>(string)$page]]]];
+$second=Repository::save(['name'=>'Order second','type'=>'text','location'=>'header','code'=>'CS-ORDER-SECOND','priority'=>20,'active'=>true,'conditions'=>$match_conditions]);
+$first=Repository::save(['name'=>'Order first','type'=>'text','location'=>'header','code'=>'CS-ORDER-FIRST','priority'=>-20,'active'=>true,'conditions'=>$match_conditions]);
+query_posts(['page_id'=>$page]);
+ob_start();CodeSlot\Runtime::slot('header');CodeSlot\Runtime::slot('header');$output=ob_get_clean();
+cs_assert(substr_count($output,'CS-ORDER-GLOBAL')===1,'repeated hook does not duplicate global output');
+cs_assert(strpos($output,'CS-ORDER-GLOBAL')<strpos($output,'CS-ORDER-FIRST') && strpos($output,'CS-ORDER-FIRST')<strpos($output,'CS-ORDER-SECOND') && strpos($output,'CS-ORDER-SECOND')<strpos($output,'<!-- secret -->'),'global, snippet priority, individual ordering');
+wp_reset_query();update_option('codeslot_global',$global_backup);
+wp_delete_post($first,true);wp_delete_post($second,true);
 $native=get_post_type_object('codeslot_snippet');
 cs_assert(!$native->show_in_rest && !$native->public,'no public snippet REST routes');
 if(is_multisite()){

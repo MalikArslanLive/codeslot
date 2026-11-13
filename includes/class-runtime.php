@@ -103,9 +103,10 @@ final class Runtime {
 		if ( Permissions::safe() || ! self::frontend() ) {
 			return '';
 		}
-		$out = '';
+		$out     = '';
+		$context = Conditions::context();
 		foreach ( self::snippets( $location ) as $snippet ) {
-			if ( 'php' !== $snippet['type'] && Conditions::matches( $snippet['conditions'] ) ) {
+			if ( 'php' !== $snippet['type'] && Conditions::matches( $snippet['conditions'], $context ) ) {
 				$out .= self::format( $snippet );
 			}
 		}

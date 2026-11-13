@@ -1,0 +1,140 @@
+name: CodeSlot quality
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+  schedule:
+    - cron: '21 5 * * 1'
+permissions:
+  contents: read
+jobs:
+  php:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        php: ['7.4', '8.0', '8.1', '8.2', '8.3', '8.4', '8.5']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          tools: composer:2.8.12
+          coverage: none
+      - uses: actions/cache@v4
+        with:
+          path: ~/.cache/composer/files
+          key: composer-${{ matrix.php }}-${{ hashFiles('composer.lock') }}
+      - run: composer install --no-interaction --prefer-dist
+      - run: find includes templates -name '*.php' -print0 | xargs -0 -n1 php -l
+      - run: php -l codeslot.php && php -l uninstall.php
+      - run: composer test
+      - run: composer analyse
+      - run: composer lint
+      - run: composer audit
+  javascript:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - run: npm run lint
+  wordpress:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        wp: ['6.8.3', '6.9', 'latest']
+        php: ['8.2', '8.3', '8.4']
+    services:
+      mysql:
+        image: mariadb:11.4
+        env:
+          MARIADB_DATABASE: wordpress
+          MARIADB_USER: wordpress
+          MARIADB_PASSWORD: disposable
+          MARIADB_ROOT_PASSWORD: disposable
+        ports: ['3306:3306']
+        options: --health-cmd="healthcheck.sh --connect --innodb_initialized" --health-interval=5s --health-retries=20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          tools: wp-cli
+      - name: Provision WordPress
+        run: |
+          mkdir -p /tmp/codeslot-wp
+          wp core download --path=/tmp/codeslot-wp --version=${{ matrix.wp }}
+          wp config create --path=/tmp/codeslot-wp --dbname=wordpress --dbuser=wordpress --dbpass=disposable --dbhost=127.0.0.1
+          wp core install --path=/tmp/codeslot-wp --url=http://localhost:8888 --title=CodeSlot --admin_user=codeslot-admin --admin_password=disposable-test-password --admin_email=test@example.org --skip-email
+          ln -s "$GITHUB_WORKSPACE" /tmp/codeslot-wp/wp-content/plugins/codeslot
+          wp plugin activate codeslot --path=/tmp/codeslot-wp
+          wp eval-file tests/integration.php --path=/tmp/codeslot-wp
+      - name: Multisite
+        run: |
+          wp core multisite-convert --path=/tmp/codeslot-wp
+          wp eval-file tests/integration.php --path=/tmp/codeslot-wp
+  browser:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - run: scripts/provision.sh
+      - run: npm run test:e2e
+      - run: python3 tests/isolation.py
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: browser-reports
+          path: |
+            playwright-report
+            test-results
+      - if: always()
+        run: docker compose logs > compose.log
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: compose-logs
+          path: compose.log
+  plugin-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: scripts/provision.sh
+      - run: docker compose run --rm cli plugin install plugin-check --activate
+      - run: docker compose run --rm cli plugin check codeslot --format=json > plugin-check.json
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: plugin-check
+          path: plugin-check.json
+  experimental:
+    continue-on-error: true
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.5'
+          tools: wp-cli
+      - run: wp core download --version=nightly --path=/tmp/wordpress
+      - run: find includes -name '*.php' -print0 | xargs -0 -n1 php -l
+  package:
+    needs: [php, javascript, wordpress, browser, plugin-check]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 scripts/build.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: codeslot-1.0.0
+          path: dist/codeslot-1.0.0.zip

@@ -78,7 +78,10 @@ final class Repository {
 				return new \WP_Error( 'php_tags', __( 'Enter PHP without opening or closing PHP tags.', 'codeslot' ) );
 			}
 			try {
-				token_get_all( '<?php ' . $data['code'], TOKEN_PARSE );
+				$tokens = token_get_all( '<?php ' . $data['code'], TOKEN_PARSE );
+				if ( ! $tokens ) {
+					return new \WP_Error( 'syntax', 'Unable to tokenize PHP.' );
+				}
 			} catch ( \Throwable $error ) {
 				return new \WP_Error( 'syntax', $error->getMessage() );
 			}

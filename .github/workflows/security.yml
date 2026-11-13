@@ -1,0 +1,21 @@
+name: Security analysis
+on:
+  push:
+  pull_request:
+  schedule:
+    - cron: '32 4 * * 2'
+permissions:
+  contents: read
+jobs:
+  dependencies:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with: {php-version: '8.3', tools: composer}
+      - run: composer install --no-interaction
+      - run: composer audit
+      - uses: actions/setup-node@v4
+        with: {node-version: '22'}
+      - run: npm ci
+      - run: npm audit --audit-level=high

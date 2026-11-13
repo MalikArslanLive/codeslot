@@ -32,3 +32,22 @@ test('classic content meta box',async({page})=>{
  await expect(page.locator('#codeslot-slots')).toBeVisible();
  await expect(page.locator('#codeslot-slots textarea')).toHaveCount(3);
 });
+test('Gutenberg native meta box integration',async({page})=>{
+ await page.goto('/wp-admin/post-new.php?post_type=page&classic-editor__forget');
+ await expect(page.locator('#editor')).toBeVisible({timeout:30000});
+ const dialog=page.getByRole('dialog');
+ if(await dialog.count()) { await dialog.getByRole('button',{name:/close/i}).click(); }
+ const meta=page.getByRole('button',{name:'Meta Boxes',exact:true});
+ if(await meta.count()) { await meta.click(); }
+ await expect(page.locator('#codeslot-slots')).toBeVisible();
+ await expect(page.locator('#codeslot-slots textarea')).toHaveCount(3);
+});
+test('WooCommerce product code fields',async({page})=>{
+ await page.goto('/wp-admin/post-new.php?post_type=product');
+ await expect(page.locator('#codeslot-slots')).toBeAttached({timeout:30000});
+ await expect(page.locator('#codeslot-slots textarea')).toHaveCount(3);
+});
+test('admin mutation rejects missing nonce',async({page})=>{
+ const response=await page.request.post('/wp-admin/admin-post.php',{form:{action:'codeslot_save',task:'global'}});
+ expect(response.status()).toBe(403);
+});
