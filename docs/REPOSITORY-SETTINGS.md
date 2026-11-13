@@ -10,7 +10,7 @@ These settings are separate from the plugin header and README. Committing a file
 
 ## Verified API status — 2026-11-13
 
-The published environment now permits api.github.com and uploads.github.com. Authenticated repository reads work. The existing v1.0.0 annotated tag was retained. A [draft release](https://github.com/MalikArslanLive/codeslot/releases/tag/untagged-6e2d5cbb860bca7cb2ea) was created and its verified ZIP and SHA256SUMS uploaded. The ZIP asset's GitHub-reported SHA-256 matches the committed checksum. No public release was published.
+The published environment now permits api.github.com and uploads.github.com. Authenticated repository reads work. The existing v1.0.0 annotated tag was retained. A [draft release](https://github.com/MalikArslanLive/codeslot/releases) was created and its verified ZIP and SHA256SUMS uploaded. The ZIP asset's GitHub-reported SHA-256 matches the committed checksum. No public release was published.
 
 These API writes still return **HTTP 403: Resource not accessible by integration** with the current credential:
 

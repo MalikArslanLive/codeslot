@@ -39,7 +39,7 @@
   ],
   "draft_release": {
     "id": 444445230,
-    "url": "https://github.com/MalikArslanLive/codeslot/releases/tag/untagged-6e2d5cbb860bca7cb2ea",
+    "url": "https://github.com/MalikArslanLive/codeslot/releases",
     "draft": true,
     "tag": "v1.0.0",
     "assets": [
@@ -48,7 +48,8 @@
     ],
     "github_asset_sha256": "0422819a7e8536433dab021290cfb6702c03101ae282de4d392f453033d4ec47",
     "pending_asset_update": false,
-    "asset_source_commit": "6bdde4d"
+    "asset_source_commit": "7a8860c",
+    "url_note": "Draft appears in the release list for authorized collaborators; GitHub can regenerate its temporary direct URL."
   },
   "current_candidate": {
     "quality_run": "https://github.com/MalikArslanLive/codeslot/actions/runs/43474411107",
