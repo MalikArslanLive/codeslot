@@ -6,6 +6,7 @@ compose=(docker compose -f compose.yaml -f compose.servers.yaml)
 "${compose[@]}" up -d wordpress nginx openlitespeed
 wp() { "${compose[@]}" run --rm cli "$@"; }
 cleanup() {
+  "${compose[@]}" logs --no-color > work/server-results/compose.log || true
   wp eval 'if (file_exists(ABSPATH . "codeslot-server-probe.php")) { unlink(ABSPATH . "codeslot-server-probe.php"); }' || true
   wp option update home http://localhost:8888 || true
   wp option update siteurl http://localhost:8888 || true

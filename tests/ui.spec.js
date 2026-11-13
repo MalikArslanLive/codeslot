@@ -15,6 +15,11 @@ for (const width of [1440, 768, 390, 320]) {
       await page.goto(`/wp-admin/admin.php?page=${slug}`);
       await expect(page.locator('.codeslot-nav [aria-current="page"]')).toHaveCount(1);
       await expect(page.locator('.codeslot-content')).toBeVisible();
+      if (slug === 'codeslot' && width <= 782) {
+        const priority = page.locator('.codeslot-table td[data-label="Priority"]').first();
+        await expect(priority).toBeVisible();
+        expect(await priority.evaluate(el => window.getComputedStyle(el, '::before').content)).toContain('Priority');
+      }
       expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth + 1), slug).toBe(true);
       for (const button of await page.locator('.codeslot-wrap .button:visible').all()) {
         const box = await button.boundingBox();

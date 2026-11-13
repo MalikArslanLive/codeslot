@@ -6,7 +6,7 @@
  * Author: Malik Arslan
  * Author URI: https://malikarslan.com/
  * Version: 1.0.0
- * Requires at least: 6.8
+ * Requires at least: 6.5
  * Requires PHP: 7.4
  * License: GPL-2.0-or-later
  * Text Domain: codeslot

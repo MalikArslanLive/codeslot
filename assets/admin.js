@@ -61,3 +61,57 @@
   }
   render();
 }());
+
+(function () {
+  'use strict';
+  const panel = document.getElementById('codeslot-quick-edit');
+  const quickForm = document.getElementById('codeslot-quick-form');
+  if (!panel || !quickForm) return;
+  let trigger;
+  function closeQuick() {
+    panel.hidden = true;
+    if (trigger) { trigger.setAttribute('aria-expanded', 'false'); trigger.focus(); }
+  }
+  document.querySelectorAll('.codeslot-quick').forEach(button => button.addEventListener('click', () => {
+    const snippet = JSON.parse(button.dataset.snippet);
+    if (trigger) trigger.setAttribute('aria-expanded', 'false');
+    trigger = button;
+    quickForm.elements.id.value = snippet.id;
+    ['name','description','priority','categories','tags'].forEach(key => {
+      quickForm.elements['quick_' + key].value = Array.isArray(snippet[key]) ? snippet[key].join(', ') : snippet[key];
+    });
+    quickForm.elements.quick_active.checked = snippet.active;
+    panel.hidden = false;
+    button.setAttribute('aria-expanded', 'true');
+    quickForm.elements.quick_name.focus();
+    panel.scrollIntoView({block:'center', behavior: 'instant'});
+  }));
+  document.querySelector('.codeslot-cancel-quick').addEventListener('click', closeQuick);
+  panel.addEventListener('keydown', event => { if (event.key === 'Escape') closeQuick(); });
+  const bulkForm = document.getElementById('codeslot-bulk-form');
+  const bulkEditor = bulkForm.querySelector('.codeslot-bulk-editor');
+  bulkForm.elements.bulk.addEventListener('change', () => {
+    const editing = bulkForm.elements.bulk.value === 'edit';
+    bulkEditor.hidden = !editing;
+    bulkEditor.disabled = !editing;
+  });
+  const all = [document.getElementById('codeslot-select-all'), document.getElementById('codeslot-select-page')];
+  const checkboxes = Array.from(bulkForm.querySelectorAll('[name="ids[]"]'));
+  all.forEach(control => control.addEventListener('change', () => {
+    checkboxes.forEach(box => { box.checked = control.checked; });
+    all.forEach(item => { item.checked = control.checked; item.indeterminate = false; });
+  }));
+  checkboxes.forEach(box => box.addEventListener('change', () => {
+    all.forEach(control => {
+      control.checked = checkboxes.length > 0 && checkboxes.every(item => item.checked);
+      control.indeterminate = checkboxes.some(item => item.checked) && !control.checked;
+    });
+  }));
+  const deleteForm = document.getElementById('codeslot-delete-form');
+  document.querySelectorAll('.codeslot-remove').forEach(button => button.addEventListener('click', () => {
+    if (!window.confirm('Permanently delete "' + button.dataset.name + '"? This cannot be undone.')) return;
+    deleteForm.elements.id.value = button.dataset.id;
+    deleteForm.elements.confirm.value = '1';
+    deleteForm.requestSubmit();
+  }));
+}());

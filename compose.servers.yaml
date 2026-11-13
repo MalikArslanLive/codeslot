@@ -7,6 +7,7 @@ services:
       WORDPRESS_DB_PASSWORD: disposable-local-only
       WORDPRESS_DB_NAME: wordpress
       WORDPRESS_DEBUG: 1
+      WORDPRESS_CONFIG_EXTRA: "define( 'WP_MEMORY_LIMIT', '512M' ); define( 'WP_MAX_MEMORY_LIMIT', '512M' );"
     depends_on:
       db: {condition: service_healthy}
     volumes:
@@ -30,6 +31,7 @@ services:
       WORDPRESS_DB_PASSWORD: disposable-local-only
       WORDPRESS_DB_NAME: wordpress
       WORDPRESS_DEBUG: 1
+      WORDPRESS_CONFIG_EXTRA: "define( 'WP_MEMORY_LIMIT', '512M' ); define( 'WP_MAX_MEMORY_LIMIT', '512M' );"
       LSAPI_MAX_IDLE: 60
     depends_on:
       db: {condition: service_healthy}

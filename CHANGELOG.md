@@ -4,6 +4,7 @@
 
 - Redesigned all six admin pages with responsive navigation, forms, buttons and mobile snippet cards.
 - Added always-visible Edit links and fallback names for legacy unnamed snippets; new editor submissions require a name.
+- Added Quick Edit, bulk metadata updates, page selection, guarded Delete and first/previous/next/last pagination.
 - Preserved list filters and added a reset action and empty state.
 - Added author branding, descriptive plugin title, UI regression tests and HTTP server/SAPI coverage.
 - Styles refresh by content hash even when reinstalling version 1.0.0.

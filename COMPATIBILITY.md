@@ -1,6 +1,6 @@
 # Compatibility evidence
 
-CodeSlot targets WordPress 6.8+ and PHP 7.4+. Tested runtime combinations are listed below; these do not certify every third-party configuration. Tests use disposable sites, not a production deployment. Repository source and ZIP are release candidates pending final gate reporting.
+CodeSlot targets WordPress 6.5+ and PHP 7.4+. Tested runtime combinations are listed below; these do not certify every third-party configuration. Tests use disposable sites, not a production deployment. Repository source and ZIP are release candidates pending final gate reporting.
 
 ## WordPress/PHP
 
@@ -46,4 +46,4 @@ Page caches must vary or bypass role/login/device conditions and be purged after
 
 ## Current responsive UI build
 
-The tables above preserve the earlier baseline. The current 1.0.0 UI build is documented in [docs/UI-VALIDATION.md](docs/UI-VALIDATION.md). Its local execution covers WordPress 7.1.4, PHP 8.3.36 on Apache/mod_php and Nginx/FPM, PHP 8.2.35 on OpenLiteSpeed/LSAPI, and PHP 8.5.12 CLI tooling. Server identities and SAPIs are measured through HTTP. The expanded CI configuration selects eight WordPress targets (6.5, 6.6, 6.7, 6.8.3, 6.9, 7.0, 7.1.4 and latest) across PHP 7.4–8.5; configuration alone is not a pass. Requirements remain WordPress 6.8+ and PHP 7.4+; no lower minimum is advertised from unexecuted matrix jobs. LiteSpeed Enterprise, CGI, Windows and macOS are not tested.
+The tables above preserve the earlier baseline. The current 1.0.0 UI build is documented in [docs/UI-VALIDATION.md](docs/UI-VALIDATION.md). Its local execution covers WordPress 7.1.4, PHP 8.3.36 on Apache/mod_php and Nginx/FPM, PHP 8.2.35 on OpenLiteSpeed/LSAPI, and PHP 8.5.12 CLI tooling. Server identities and SAPIs are measured through HTTP. The expanded CI configuration selects eight WordPress targets (6.5, 6.6, 6.7, 6.8.3, 6.9, 7.0, 7.1.4 and latest) across PHP 7.4–8.5; configuration alone is not a pass. WordPress 6.5 activation and 33 integration assertions passed locally on PHP 8.3.36; the minimum is now 6.5. The newly expanded cross-version CI results must still be checked. LiteSpeed Enterprise, CGI, Windows and macOS are not tested.

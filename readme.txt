@@ -1,6 +1,6 @@
 === CodeSlot – Header, Body & Footer Code + Snippet Manager ===
 Tags: code snippets, header, footer, custom code, scripts
-Requires at least: 6.8
+Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 7.4
 Stable tag: 1.0.0
@@ -29,7 +29,7 @@ This is a release candidate; see the repository compatibility and test reports f
 4. Use the CodeSlot meta box in an item's native WordPress editor, or the fields on term editing screens.
 
 == Configuration ==
-Use CodeSlot -> Header, Body & Footer for global slots. Open an item in its native WordPress editor for individual slots. Create snippets through CodeSlot -> Add New, give each a name, choose its type and location, review conditions and save. Only activate code you trust. Edit existing snippets using their name or the Edit link in All Snippets. Unnamed legacy entries have an ID-based fallback title.
+Use CodeSlot -> Header, Body & Footer for global slots. Open an item in its native WordPress editor for individual slots. Create snippets through CodeSlot -> Add New, give each a name, choose its type and location, review conditions and save. Only activate code you trust. Edit existing snippets using their name or the Edit link in All Snippets. Quick Edit updates metadata without changing code. Select page and Bulk Edit update selected snippets; Delete requires confirmation. Search, filters and first/previous/next/last pagination help navigate larger libraries. Unnamed legacy entries have an ID-based fallback title.
 
 == Frequently Asked Questions ==
 

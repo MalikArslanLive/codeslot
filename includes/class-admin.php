@@ -115,7 +115,8 @@ final class Admin {
 			return;
 		}
 		wp_enqueue_code_editor( array( 'type' => 'text/html' ) );
-		wp_enqueue_script( 'codeslot-admin', plugins_url( 'assets/admin.js', CODESLOT_FILE ), array( 'code-editor' ), CODESLOT_VERSION, true );
+		$script_version = CODESLOT_VERSION . '-' . substr( hash_file( 'sha256', dirname( CODESLOT_FILE ) . '/assets/admin.js' ), 0, 12 );
+		wp_enqueue_script( 'codeslot-admin', plugins_url( 'assets/admin.js', CODESLOT_FILE ), array( 'code-editor' ), $script_version, true );
 		// Content-based cache key also refreshes styles when reinstalling version 1.0.0.
 		$style_version = CODESLOT_VERSION . '-' . substr( hash_file( 'sha256', dirname( CODESLOT_FILE ) . '/assets/admin.css' ), 0, 12 );
 		wp_enqueue_style( 'codeslot-admin', plugins_url( 'assets/admin.css', CODESLOT_FILE ), array(), $style_version );
@@ -136,8 +137,8 @@ final class Admin {
 		}
 	}
 
-	private static function form_start( $task, $id = 0 ) {
-		echo '<form class="codeslot-panel" method="post" action="' . esc_url( admin_url( 'admin-post.php' ) ) . '"><input type="hidden" name="action" value="codeslot_save"><input type="hidden" name="task" value="' . esc_attr( $task ) . '"><input type="hidden" name="id" value="' . absint( $id ) . '">';
+	private static function form_start( $task, $id = 0, $form_id = '' ) {
+		echo '<form' . ( $form_id ? ' id="' . esc_attr( $form_id ) . '"' : '' ) . ' class="codeslot-panel" method="post" action="' . esc_url( admin_url( 'admin-post.php' ) ) . '"><input type="hidden" name="action" value="codeslot_save"><input type="hidden" name="task" value="' . esc_attr( $task ) . '"><input type="hidden" name="id" value="' . absint( $id ) . '">';
 		wp_nonce_field( 'codeslot_save' );
 	}
 
@@ -146,7 +147,7 @@ final class Admin {
 			wp_die( esc_html__( 'Code access denied.', 'codeslot' ), '', array( 'response' => 403 ) );
 		}
 		$page = isset( $_GET['page'] ) ? sanitize_key( $_GET['page'] ) : 'codeslot'; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-		echo '<div class="wrap codeslot-wrap"><header class="codeslot-header"><div><h1>CodeSlot</h1><p>Manage your site code, all in one place.</p></div><span class="codeslot-version">' . esc_html( CODESLOT_VERSION ) . '</span></header>';
+		echo '<div class="wrap codeslot-wrap"><header class="codeslot-header"><div class="codeslot-brand"><span class="codeslot-mark" aria-hidden="true">&lt;/&gt;</span><div><h1>CodeSlot</h1><p>Your code. Precisely where it belongs.</p></div></div><span class="codeslot-version">' . esc_html( CODESLOT_VERSION ) . '</span></header>';
 		echo '<nav class="codeslot-nav" aria-label="CodeSlot pages">';
 		foreach ( array(
 			'codeslot'          => 'All Snippets',
@@ -233,9 +234,11 @@ final class Admin {
 		foreach ( array_unique( array_merge( Repository::locations( 'php' ), Repository::locations( 'html' ) ) ) as $location ) {
 			echo '<option ' . selected( $s['location'], $location, false ) . '>' . esc_html( $location ) . '</option>'; }
 		echo '</select></p></div><label for="codeslot-source">Code (PHP without tags; JS/CSS without wrappers)</label><textarea id="codeslot-source" name="code" rows="18" class="large-text code codeslot-code" data-codeslot-mode="' . esc_attr( self::mode( $s['type'] ) ) . '">' . esc_textarea( $s['code'] ) . '</textarea>';
+		echo '<div class="codeslot-metadata">';
 		self::input( 'priority', 'Priority (lower runs first)', $s['priority'], 'number' );
 		self::input( 'categories', 'Categories (comma separated)', implode( ',', $s['categories'] ) );
 		self::input( 'tags', 'Tags (comma separated)', implode( ',', $s['tags'] ) );
+		echo '</div>';
 		echo '<h3>Conditions</h3><p>OR between groups; AND within a group. Exclusions always win. Empty inclusion means all matching locations. Singular IDs match pages/posts/products; terms use taxonomy:ID. URL uses exact site-relative path. Mobile detection is advisory and requires cache variation.</p>';
 		echo '<div id="codeslot-conditions"></div><input id="codeslot-conditions-json" type="hidden" name="conditions" value="' . esc_attr( wp_json_encode( $s['conditions'] ) ) . '">';
 		echo '<p><label><input type="checkbox" name="active" value="1" ' . checked( $s['active'], true, false ) . '> Active</label> <label><input type="checkbox" name="locked" value="1" ' . checked( $s['locked'], true, false ) . '> Lock against changes</label></p>';
@@ -272,7 +275,7 @@ final class Admin {
 	}
 
 	private static function input( $name, $label, $value, $type = 'text' ) {
-		echo '<p class="codeslot-field"><label for="codeslot-' . esc_attr( $name ) . '">' . esc_html( $label ) . '</label><br><input class="regular-text" id="codeslot-' . esc_attr( $name ) . '" type="' . esc_attr( $type ) . '" name="' . esc_attr( $name ) . '" value="' . esc_attr( $value ) . '"' . ( 'name' === $name ? ' required aria-required="true"' : '' ) . '></p>';
+		echo '<p class="codeslot-field"><label for="codeslot-' . esc_attr( $name ) . '">' . esc_html( $label ) . '</label><br><input class="regular-text" id="codeslot-' . esc_attr( $name ) . '" type="' . esc_attr( $type ) . '" name="' . esc_attr( $name ) . '" value="' . esc_attr( $value ) . '"' . ( in_array( $name, array( 'name', 'quick_name' ), true ) ? ' required aria-required="true"' : '' ) . '></p>';
 	}
 
 	private static function listing() {
@@ -305,24 +308,52 @@ final class Admin {
 		echo '<div class="codeslot-section-heading"><div><h2>All Snippets</h2><p>Create, organize and edit your site code.</p></div><a class="button button-primary" href="' . esc_url( admin_url( 'admin.php?page=codeslot-new' ) ) . '">Add New</a></div>';
 		$category = isset( $_GET['category'] ) ? sanitize_title( wp_unslash( $_GET['category'] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only filter.
 		echo '<form class="codeslot-filters" method="get"><input type="hidden" name="page" value="codeslot"><label>Search<input name="s" placeholder="Search snippets" value="' . esc_attr( $search ) . '"></label><label>Status<select name="status"><option value="">All statuses</option><option value="publish" ' . selected( $filter, 'publish', false ) . '>Active</option><option value="draft" ' . selected( $filter, 'draft', false ) . '>Inactive</option></select></label><label>Sort<select name="sort"><option value="priority" ' . selected( $order, 'menu_order', false ) . '>Priority</option><option value="title" ' . selected( $order, 'title', false ) . '>Name</option></select></label><label>Category slug<input name="category" placeholder="All categories" value="' . esc_attr( $category ) . '"></label><button class="button" type="submit">Filter</button><a class="button" href="' . esc_url( admin_url( 'admin.php?page=codeslot' ) ) . '">Reset</a></form>';
-		self::form_start( 'bulk' );
-		echo '<div class="codeslot-bulk"><label>Bulk action<select name="bulk"><option value="deactivate">Deactivate</option><option value="activate">Activate</option><option value="duplicate">Duplicate inactive</option><option value="delete">Delete permanently</option></select></label><label class="codeslot-confirm"><input type="checkbox" name="confirm" value="1"> Confirm changes to selected snippets</label><button class="button" type="submit">Apply</button></div><table class="wp-list-table widefat striped codeslot-table"><caption class="screen-reader-text">Saved snippets and editing actions</caption><thead><tr><th scope="col">Select</th><th scope="col">Name</th><th scope="col">Type / Location</th><th scope="col">Status</th><th scope="col">Priority</th><th scope="col">Tags</th></tr></thead><tbody>';
+		echo '<section id="codeslot-quick-edit" class="codeslot-quick-panel" hidden><h3>Quick Edit</h3>';
+		self::form_start( 'quick_edit', 0, 'codeslot-quick-form' );
+		self::input( 'quick_name', 'Snippet name', '' );
+		self::input( 'quick_description', 'Description', '' );
+		echo '<div class="codeslot-metadata">';
+		self::input( 'quick_priority', 'Priority', 10, 'number' );
+		self::input( 'quick_categories', 'Categories (comma separated)', '' );
+		self::input( 'quick_tags', 'Tags (comma separated)', '' );
+		echo '</div><p><label><input type="checkbox" name="quick_active" value="1"> Active</label></p><p>Code, location and conditions are preserved. Use Edit for the full snippet editor.</p><div class="codeslot-actions"><button type="submit" class="button button-primary">Update Snippet</button><button type="button" class="button codeslot-cancel-quick">Cancel</button></div></form></section>';
+		self::form_start( 'bulk', 0, 'codeslot-bulk-form' );
+		echo '<div class="codeslot-bulk"><label class="codeslot-select-page"><input type="checkbox" id="codeslot-select-page"> Select page</label><label>Bulk action<select name="bulk"><option value="deactivate">Deactivate</option><option value="activate">Activate</option><option value="edit">Edit selected</option><option value="duplicate">Duplicate inactive</option><option value="delete">Delete permanently</option></select></label><label class="codeslot-confirm"><input type="checkbox" name="confirm" value="1"> Confirm changes to selected snippets</label><button class="button" type="submit">Apply</button></div><fieldset class="codeslot-bulk-editor" hidden disabled><legend>Bulk Edit</legend><p>Only checked fields are changed. Code and conditions are preserved.</p><div class="codeslot-metadata"><label><input type="checkbox" name="bulk_priority_enabled" value="1"> Change priority<input type="number" name="bulk_priority" value="10" min="-1000" max="1000"></label><label>Status<select name="bulk_status"><option value="keep">No change</option><option value="active">Active</option><option value="inactive">Inactive</option></select></label><label><input type="checkbox" name="bulk_categories_enabled" value="1"> Replace categories<input name="bulk_categories"></label><label><input type="checkbox" name="bulk_tags_enabled" value="1"> Replace tags<input name="bulk_tags"></label></div></fieldset><table class="wp-list-table widefat striped codeslot-table"><caption class="screen-reader-text">Saved snippets and editing actions</caption><thead><tr><th scope="col" class="check-column"><input type="checkbox" id="codeslot-select-all" aria-label="Select all snippets on this page"></th><th scope="col">Name</th><th scope="col">Type / Location</th><th scope="col">Status</th><th scope="col">Priority</th><th scope="col">Tags</th></tr></thead><tbody>';
 		foreach ( $query->posts as $post ) {
 			$s = Repository::get( $post->ID );
 			if ( ! $s ) {
 				continue; }
 			/* translators: %d: ID of a saved snippet that has no name. */
-			$name = '' !== trim( $s['name'] ) ? $s['name'] : sprintf( __( 'Untitled snippet #%d', 'codeslot' ), $post->ID );
-			$edit = admin_url( 'admin.php?page=codeslot-new&id=' . $post->ID );
-			echo '<tr><td data-label="Select"><input type="checkbox" aria-label="' . esc_attr( 'Select ' . $name ) . '" name="ids[]" value="' . absint( $post->ID ) . '"></td><td data-label="Name" class="codeslot-name"><strong><a href="' . esc_url( $edit ) . '">' . esc_html( $name ) . '</a></strong>' . ( $s['locked'] ? ' <span class="codeslot-lock">Locked</span>' : '' ) . '<p class="codeslot-description">' . esc_html( $s['description'] ) . '</p><a class="codeslot-edit" aria-label="' . esc_attr( 'Edit ' . $name ) . '" href="' . esc_url( $edit ) . '">Edit</a><span class="codeslot-id">ID: ' . absint( $post->ID ) . '</span></td><td data-label="Type / Location"><span class="codeslot-type">' . esc_html( $s['type'] ) . '</span><span class="codeslot-location">' . esc_html( str_replace( '_', ' ', $s['location'] ) ) . '</span></td><td data-label="Status"><span class="codeslot-status ' . ( $s['active'] ? 'is-active' : 'is-inactive' ) . '">' . esc_html( $s['active'] ? 'Active' : 'Inactive' ) . '</span></td><td data-label="Priority">' . (int) $s['priority'] . '</td><td data-label="Tags">' . esc_html( $s['tags'] ? implode( ', ', $s['tags'] ) : '—' ) . '</td></tr>';
+			$name  = '' !== trim( $s['name'] ) ? $s['name'] : sprintf( __( 'Untitled snippet #%d', 'codeslot' ), $post->ID );
+			$edit  = admin_url( 'admin.php?page=codeslot-new&id=' . $post->ID );
+			$quick = wp_json_encode( array_intersect_key( $s, array_flip( array( 'id', 'name', 'description', 'priority', 'active', 'categories', 'tags' ) ) ) );
+			echo '<tr><td class="check-column" data-label="Select" data-colname="Select"><input type="checkbox" aria-label="' . esc_attr( 'Select ' . $name ) . '" name="ids[]" value="' . absint( $post->ID ) . '"></td><td data-label="Name" data-colname="Name" class="codeslot-name"><strong><a href="' . esc_url( $edit ) . '">' . esc_html( $name ) . '</a></strong>' . ( $s['locked'] ? ' <span class="codeslot-lock">Locked</span>' : '' ) . '<p class="codeslot-description">' . esc_html( $s['description'] ) . '</p><a class="codeslot-edit" aria-label="' . esc_attr( 'Edit ' . $name ) . '" href="' . esc_url( $edit ) . '">Edit</a> <button type="button" class="button-link codeslot-quick" data-snippet="' . esc_attr( $quick ) . '" aria-controls="codeslot-quick-edit" aria-expanded="false"' . disabled( $s['locked'], true, false ) . '>Quick Edit</button> <button type="button" class="button-link codeslot-remove" data-id="' . absint( $post->ID ) . '" data-name="' . esc_attr( $name ) . '"' . disabled( $s['locked'], true, false ) . '>Delete</button><span class="codeslot-id">ID: ' . absint( $post->ID ) . '</span></td><td data-label="Type / Location" data-colname="Type / Location"><span class="codeslot-type">' . esc_html( $s['type'] ) . '</span><span class="codeslot-location">' . esc_html( str_replace( '_', ' ', $s['location'] ) ) . '</span></td><td data-label="Status" data-colname="Status"><span class="codeslot-status ' . ( $s['active'] ? 'is-active' : 'is-inactive' ) . '">' . esc_html( $s['active'] ? 'Active' : 'Inactive' ) . '</span></td><td data-label="Priority" data-colname="Priority">' . (int) $s['priority'] . '</td><td data-label="Tags" data-colname="Tags">' . esc_html( $s['tags'] ? implode( ', ', $s['tags'] ) : '—' ) . '</td></tr>';
 		}
 		if ( ! $query->post_count ) {
 			echo '<tr><td colspan="6" class="codeslot-empty"><h3>No snippets found</h3><p>Add your first snippet or adjust the filters above.</p><a class="button button-primary" href="' . esc_url( admin_url( 'admin.php?page=codeslot-new' ) ) . '">Add New</a></td></tr>';
 		}
-		echo '</tbody></table></form><nav class="codeslot-pagination" aria-label="Snippet pages">';
-		for ( $i = 1; $i <= $query->max_num_pages; ++$i ) {
-			echo '<a class="button"' . ( $i === $paged ? ' aria-current="page"' : '' ) . ' href="' . esc_url( add_query_arg( 'paged', $i ) ) . '">' . absint( $i ) . '</a> '; }
-		echo '</nav>';
+		echo '</tbody></table></form>';
+		self::form_start( 'delete', 0, 'codeslot-delete-form' );
+		echo '<input type="hidden" name="confirm" value="0"></form>';
+		$total = (int) $query->max_num_pages;
+		echo '<nav class="codeslot-pagination tablenav" aria-label="Snippet pages"><span class="displaying-num">' . esc_html( number_format_i18n( $query->found_posts ) ) . ' items</span><span class="pagination-links">';
+		foreach ( array(
+			'first'    => 1,
+			'previous' => max( 1, $paged - 1 ),
+			'next'     => min( $total, $paged + 1 ),
+			'last'     => $total,
+		) as $label => $target ) {
+			$disabled = ! $total || ( in_array( $label, array( 'first', 'previous' ), true ) ? $paged <= 1 : $paged >= $total );
+			if ( $disabled ) {
+				echo '<span class="button disabled" aria-disabled="true">' . esc_html( ucfirst( $label ) ) . '</span>';
+			} else {
+				echo '<a class="button" aria-label="' . esc_attr( ucfirst( $label ) . ' page' ) . '" href="' . esc_url( add_query_arg( 'paged', $target ) ) . '">' . esc_html( ucfirst( $label ) ) . '</a>';
+			}
+			if ( 'previous' === $label ) {
+				echo '<span class="codeslot-page-count">' . esc_html( (string) ( $total ? $paged : 0 ) ) . ' / ' . esc_html( (string) $total ) . '</span>';
+			}
+		}
+		echo '</span></nav>';
 	}
 
 	private static function tools() {
@@ -364,6 +395,34 @@ final class Admin {
 					$id = $result; }
 				$page = 'codeslot-new';
 				break;
+			case 'quick_edit':
+				$s = Repository::get( $id );
+				if ( ! $s || $s['locked'] ) {
+					$result = new \WP_Error( 'locked', 'Missing or locked snippet. Use the full editor to unlock it.' );
+					break;
+				}
+				$s['name'] = isset( $_POST['quick_name'] ) ? sanitize_text_field( wp_unslash( $_POST['quick_name'] ) ) : '';
+				if ( '' === trim( $s['name'] ) ) {
+					$result = new \WP_Error( 'name', 'A snippet name is required.' );
+					break;
+				}
+				foreach ( array( 'description', 'categories', 'tags', 'priority' ) as $field ) {
+					if ( isset( $_POST[ 'quick_' . $field ] ) && is_scalar( $_POST[ 'quick_' . $field ] ) ) {
+						$s[ $field ] = sanitize_text_field( wp_unslash( $_POST[ 'quick_' . $field ] ) );
+					}
+				}
+				$s['active'] = ! empty( $_POST['quick_active'] );
+				$result      = Repository::save( $s, $id );
+				break;
+			case 'delete':
+				$s = Repository::get( $id );
+				if ( empty( $_POST['confirm'] ) || ! $s || $s['locked'] ) {
+					$result = new \WP_Error( 'delete', 'Confirm deletion of an unlocked snippet.' );
+					break;
+				}
+				$result = wp_delete_post( $id, true ) ? true : new \WP_Error( 'delete', 'Unable to delete the snippet.' );
+				Runtime::clear_cache();
+				break;
 			case 'rollback':
 				$s       = Repository::get( $id );
 				$history = get_post_meta( $id, '_codeslot_history', true );
@@ -390,7 +449,20 @@ final class Admin {
 					if ( 'delete' === $action ) {
 						wp_delete_post( $target, true );
 						continue; }
-					if ( 'duplicate' === $action ) {
+					if ( 'edit' === $action ) {
+						$changed = false;
+						foreach ( array( 'priority', 'categories', 'tags' ) as $field ) {
+							if ( ! empty( $_POST[ 'bulk_' . $field . '_enabled' ] ) && isset( $_POST[ 'bulk_' . $field ] ) && is_scalar( $_POST[ 'bulk_' . $field ] ) ) {
+								$s[ $field ] = sanitize_text_field( wp_unslash( $_POST[ 'bulk_' . $field ] ) );
+								$changed     = true;
+							}
+						}
+						if ( isset( $_POST['bulk_status'] ) && in_array( $_POST['bulk_status'], array( 'active', 'inactive' ), true ) ) {
+							$s['active'] = 'active' === $_POST['bulk_status'];
+							$changed     = true;
+						}
+						$result = $changed ? Repository::save( $s, $target ) : new \WP_Error( 'bulk', 'Choose at least one field to change.' );
+					} elseif ( 'duplicate' === $action ) {
 						$s['name']  .= ' (copy)';
 						$s['active'] = false;
 						$result      = Repository::save( $s ); } elseif ( in_array( $action, array( 'activate', 'deactivate' ), true ) ) {
