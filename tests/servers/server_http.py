@@ -19,3 +19,14 @@ for key, fixture in fixtures.items():
         expected = (key != 'page-a') if marker == 'EXCLUDED' else (key == 'page-a')
         assert body.count('CS-SERVER-' + marker) == int(expected), (key, marker)
 print('PASS: server identity/SAPI and 27 conditions, exclusions and shortcode assertions')
+for name, mime, marker in [
+    ('ads.txt','text/plain','CS-SERVER-VIRTUAL'),
+    ('app-ads.txt','text/plain','CS-SERVER-VIRTUAL'),
+    ('service-worker.js','application/javascript','CS-SERVER-VIRTUAL-WORKER'),
+    ('robots.txt','text/plain','Disallow: /codeslot-server-test/'),
+]:
+    with urllib.request.urlopen(base+'/'+name,timeout=30) as response:
+        assert response.status == 200, (name,response.status)
+        assert mime in response.headers.get('Content-Type',''), (name,response.headers)
+        assert marker in response.read().decode(), name
+print('PASS: 12 virtual public-file status/MIME/content assertions')

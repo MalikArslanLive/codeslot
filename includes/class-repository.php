@@ -63,7 +63,7 @@ final class Repository {
 	}
 
 	public static function locations( $type ) {
-		return 'php' === $type ? array( 'frontend', 'admin', 'everywhere', 'manual', 'once' ) : array( 'header', 'body', 'footer', 'before_content', 'after_content', 'before_paragraph', 'after_paragraph', 'shortcode', 'manual', 'woocommerce_before_single_product', 'woocommerce_after_single_product', 'woocommerce_before_shop_loop', 'woocommerce_after_shop_loop' );
+		return 'php' === $type ? array( 'frontend', 'admin', 'everywhere', 'bootstrap', 'manual', 'once' ) : array( 'header', 'body', 'footer', 'before_content', 'after_content', 'before_paragraph', 'after_paragraph', 'shortcode', 'manual', 'woocommerce_before_single_product', 'woocommerce_after_single_product', 'woocommerce_before_shop_loop', 'woocommerce_after_shop_loop' );
 	}
 
 	public static function validate( $data ) {
@@ -94,8 +94,8 @@ final class Repository {
 		if ( in_array( $data['location'], array( 'before_paragraph', 'after_paragraph' ), true ) && ( ! is_scalar( $paragraph ) || ! preg_match( '/^[0-9]{1,4}$/', (string) $paragraph ) || (int) $paragraph < 1 || (int) $paragraph > 1000 ) ) {
 			return new \WP_Error( 'paragraph', 'Choose a paragraph number from 1 to 1000.' );
 		}
-		if ( 'once' === $data['location'] && ( $conditions['include'] || $conditions['exclude'] ) ) {
-			return new \WP_Error( 'conditions', 'Run Once is explicitly manual; remove automatic conditions.' );
+		if ( in_array( $data['location'], array( 'once', 'bootstrap' ), true ) && ( $conditions['include'] || $conditions['exclude'] ) ) {
+			return new \WP_Error( 'conditions', 'Run Once and early-hook snippets do not support query conditions; remove automatic conditions.' );
 		}
 		return array(
 			'paragraph'   => is_scalar( $paragraph ) ? max( 1, min( 1000, (int) $paragraph ) ) : 1,

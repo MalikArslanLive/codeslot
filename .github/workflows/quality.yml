@@ -82,6 +82,7 @@ jobs:
           wp plugin activate codeslot --path=/tmp/codeslot-wp
           wp eval-file tests/integration.php --path=/tmp/codeslot-wp
           wp eval-file tests/local-features.php --path=/tmp/codeslot-wp
+          wp eval-file tests/extended-features.php --path=/tmp/codeslot-wp
       - name: Clean production ZIP
         run: |
           source scripts/ci-diagnostics.sh
@@ -90,12 +91,14 @@ jobs:
           wp plugin install "$GITHUB_WORKSPACE/dist/codeslot-1.0.0.zip" --path=/tmp/codeslot-wp --activate
           wp eval-file tests/integration.php --path=/tmp/codeslot-wp
           wp eval-file tests/local-features.php --path=/tmp/codeslot-wp
+          wp eval-file tests/extended-features.php --path=/tmp/codeslot-wp
       - name: Multisite
         run: |
           source scripts/ci-diagnostics.sh
           wp core multisite-convert --path=/tmp/codeslot-wp
           wp eval-file tests/integration.php --path=/tmp/codeslot-wp
           wp eval-file tests/local-features.php --path=/tmp/codeslot-wp
+          wp eval-file tests/extended-features.php --path=/tmp/codeslot-wp
           wp eval-file tests/safe-constant.php --path=/tmp/codeslot-wp
           wp eval-file tests/uninstall.php --path=/tmp/codeslot-wp
           CS_DELETE_TEST=1 wp eval-file tests/uninstall.php --path=/tmp/codeslot-wp

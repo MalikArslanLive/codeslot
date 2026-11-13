@@ -25,6 +25,18 @@ Executable code is privileged functionality. Access requires manage_options, unf
 
 This is a release candidate; see the repository compatibility and test reports for actual tested combinations. A minimum version expresses a target, not proof of every combination.
 
+= Tools, library, files and pixels =
+
+Browse 142 original local recipes and setup guides without an account. Executable templates open inactive for review. Manual wp-config.php guides are labeled and are not offered for activation. Library recipes requiring another plugin are excluded.
+
+Tools provides private System Info, copy/download, bounded local logs and recovery instructions. Identifying site URLs and paths are excluded unless explicitly requested. No report is sent automatically. Logs exclude source and credentials.
+
+Virtual File Editor serves ads.txt, app-ads.txt and service-worker.js, and appends custom robots.txt directives. Physical files take precedence and are never overwritten. Server routing to WordPress and pretty permalinks are required. Service-worker registration is off by default; existing workers/caches require separate browser recovery.
+
+Conversion Pixels supports Meta, Google, Pinterest, TikTok and Snapchat. All integrations are off by default and no vendor script loads before explicit marketing consent. Optional WooCommerce product/cart/checkout/paid-purchase events run only with WooCommerce. These browser integrations are not a cookie banner, legal-compliance certification, payment test or server-side conversion API. Enabling a provider sends tracking events to that provider after consent; review its policies and configure your consent handling.
+
+Full backup JSON additionally includes global/individual code slots, settings, files and pixel settings; revisions, logs, execution records and WordPress content are excluded. Restore selected sections replaces matching data, maps existing content by type/path or taxonomy/slug, reports missing matches, disables restored execution and enables Safe Mode. Back up first.
+
 == Installation ==
 1. Upload the codeslot directory to wp-content/plugins, or upload the generated plugin ZIP.
 2. Activate CodeSlot.
@@ -64,5 +76,19 @@ Data is retained by default. Enable the explicit deletion option in CodeSlot Set
 == Changelog ==
 
 = 1.0.0 =
+* Remove redundant bulk-confirm checkbox; prefill untitled Quick Edit names, metadata and accessible status switches.
+* Add confirmed permanent revision clearing, 142 local recipes/guides, System Info and local event logs.
+* Add virtual public files, consent-gated browser pixels/WooCommerce events and selected full-backup restore.
+* Add explicit all-request bootstrap PHP location for early hooks; query conditions are unsupported in this mode.
 * Local snippet manager, global and individual slots, conditions and recovery controls.
 * Responsive admin screens, visible Edit actions, fallback snippet titles and retained list filters.
+
+== External services ==
+
+Conversion Pixels is optional and disabled by default. After the administrator enables a provider and the visitor explicitly grants marketing consent, that provider's browser SDK receives selected page/click events and, when WooCommerce is available, opted-in commerce events. Browser requests inherently disclose IP address/user agent and may include page/referrer information or set provider cookies. CodeSlot does not add customer contact data or advanced matching. The administrator is responsible for provider-account configuration and consent handling, including third-party cookies after withdrawal. No SDK loads from CodeSlot before consent. No cloud/AI/library service is used.
+
+* Meta: https://www.facebook.com/legal/terms and https://www.facebook.com/privacy/policy/
+* Google: https://policies.google.com/terms and https://policies.google.com/privacy
+* Pinterest: https://policy.pinterest.com/en/terms-of-service and https://policy.pinterest.com/en/privacy-policy
+* TikTok: https://www.tiktok.com/legal/page/row/terms-of-service/en and https://www.tiktok.com/legal/page/row/privacy-policy/en
+* Snapchat: https://www.snap.com/terms and https://values.snap.com/privacy/privacy-policy

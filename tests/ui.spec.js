@@ -1,7 +1,7 @@
 import { login } from './login.js';
 import { test, expect } from '@playwright/test';
 import { execFileSync } from 'node:child_process';
-const pages = ['codeslot', 'codeslot-new', 'codeslot-global', 'codeslot-transfer', 'codeslot-tools', 'codeslot-settings'];
+const pages = ['codeslot', 'codeslot-new', 'codeslot-global', 'codeslot-transfer', 'codeslot-tools', 'codeslot-settings', 'codeslot-library', 'codeslot-files', 'codeslot-pixels'];
 test.beforeEach(async ({ page }) => {
   await login(page);
 });

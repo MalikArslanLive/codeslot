@@ -158,3 +158,5 @@
 .codeslot-diff-scroll .diff-deletedline{background:#fce8e8}
 .codeslot-diff-scroll .diff-addedline{background:#e8f5ee}
 .codeslot-revision-diff summary{cursor:pointer;font-weight:500;padding:10px 0}
+
+.codeslot-library-grid {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem}.codeslot-recipe{border:1px solid #dce2ed;border-radius:12px;padding:1rem;min-width:0;background:#fff}.codeslot-recipe pre{max-height:20rem;overflow:auto;white-space:pre-wrap;overflow-wrap:anywhere}.codeslot-wrap textarea[readonly]{max-width:100%;white-space:pre-wrap;overflow-wrap:anywhere}.codeslot-status-toggle[aria-checked="true"]{border-color:#168366;background:#e9f8f1;color:#135c48}#codeslot-toggle-form{display:none}@media(max-width:700px){.codeslot-library-grid{grid-template-columns:1fr}.codeslot-wrap .regular-text{max-width:100%;width:100%}}

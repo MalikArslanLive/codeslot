@@ -68,3 +68,5 @@ For emergency suppression, add `define( 'CODESLOT_SAFE_MODE', true );` to `wp-co
 ## Documentation
 
 [Features](docs/FEATURES.md) · [Development](docs/DEVELOPMENT.md) · [Testing](docs/TESTING.md) · [Test report](docs/TEST-REPORT.md) · [Compatibility](docs/COMPATIBILITY.md) · [Import schema](docs/IMPORT-SCHEMA.md) · [Support](SUPPORT.md) · [Publishing](docs/PUBLISHING.md)
+
+Local library: **142 original recipes and setup guides**, searchable by name/category, no companion-plugin requirement for library entries. Tools includes private System Info and bounded event logs. Virtual public files and consent-gated browser pixels are opt-in. See [usage and boundaries](docs/NEW-FEATURES.md) and [library scope/skipped entries](docs/LIBRARY-SCOPE.md).

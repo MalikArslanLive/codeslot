@@ -12,6 +12,6 @@ Storage: `codeslot_global` (non-autoloaded option), `_codeslot_slots` post/term 
 
 Output sequence: global → matching snippets ordered by numeric priority then ID → queried singular/term slots. No post-loop inference for individual slots. Body omission warning uses an observed frontend request and never relocates body code.
 
-PHP starts at wp (frontend) or admin_init (explicit admin location). Early plugins_loaded/init hooks are intentionally unavailable because query conditions cannot be evaluated there. Manual execution uses the fixed `codeslot_manual` action with a name, never arbitrary hook registration from imported data.
+PHP starts at wp (frontend) or admin_init (explicit admin location). The separate bootstrap location executes at init priority 20 on all request types for early filters; query conditions are rejected there. plugins_loaded constants still belong in wp-config.php. Manual execution uses the fixed `codeslot_manual` action with a name, never arbitrary hook registration from imported data.
 
 Numbered paragraph insertion preserves existing content bytes and ignores raw-text/code containers. One-time PHP tasks use a separate inactive location, explicit confirmation and nonce checks, plus an atomic per-site execution claim. A claimed task is never automatically retried after failure or interruption. Saved/current code comparisons use escaped WordPress text diffs.

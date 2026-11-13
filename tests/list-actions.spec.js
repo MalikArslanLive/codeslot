@@ -28,7 +28,7 @@ test('Quick Edit and Bulk Edit preserve executable code and update selected meta
   await page.locator('[name="bulk_priority_enabled"]').check();
   await page.locator('[name="bulk_priority"]').fill('48');
   await page.locator('[name="bulk_status"]').selectOption('active');
-  await page.locator('#codeslot-bulk-form [name="confirm"]').check();
+  await expect(page.locator('#codeslot-bulk-form [name="confirm"]')).toHaveCount(0);
   await page.getByRole('button',{name:'Apply',exact:true}).click();
   await expect(page.locator('.notice-success')).toContainText('saved');
   expect(snippet(id)).toMatchObject({name:'Quick Updated',priority:48,active:true,code:'<!-- CS-KEEP-CODE -->',tags:['ui','verified']});

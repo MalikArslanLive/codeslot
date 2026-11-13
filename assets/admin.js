@@ -1,7 +1,7 @@
 (function () {
   'use strict';
   const types = ['entire_site','frontend','admin','front_page','home','singular','post_type','term','archive','search','404','logged_in','role','url','mobile','shop','product','cart','checkout','account'];
-  const phpLocations = ['frontend','admin','everywhere','manual','once'];
+  const phpLocations = ['frontend','admin','everywhere','bootstrap','manual','once'];
   const htmlLocations = ['header','body','footer','before_content','after_content','before_paragraph','after_paragraph','shortcode','manual','woocommerce_before_single_product','woocommerce_after_single_product','woocommerce_before_shop_loop','woocommerce_after_shop_loop'];
   const editors = [];
   document.querySelectorAll('.codeslot-code').forEach(function (el) {
@@ -118,5 +118,42 @@
     deleteForm.elements.id.value = button.dataset.id;
     deleteForm.elements.confirm.value = '1';
     deleteForm.requestSubmit();
+  }));
+}());
+
+(function () {
+  'use strict';
+  document.querySelectorAll('.codeslot-clear-history').forEach(button => button.closest('form').addEventListener('submit', event => {
+    if (!window.confirm('Permanently delete all saved versions? They cannot be recovered. Current code will be retained.')) event.preventDefault();
+  }));
+  const bulk = document.getElementById('codeslot-bulk-form');
+  if (bulk) bulk.addEventListener('submit', event => {
+    if (bulk.elements.bulk.value === 'delete' && !window.confirm('Permanently delete the selected snippets and their saved versions? This cannot be undone.')) event.preventDefault();
+  });
+}());
+
+(function () {
+  'use strict';
+  document.querySelectorAll('.codeslot-status-toggle').forEach(button => button.addEventListener('click', () => {
+    const form = document.getElementById('codeslot-toggle-form');
+    form.elements.id.value = button.dataset.id;
+    form.elements.active.value = button.getAttribute('aria-checked') === 'true' ? '0' : '1';
+    button.disabled = true; form.requestSubmit();
+  }));
+  document.querySelectorAll('.codeslot-copy-info').forEach(button => button.addEventListener('click', async () => {
+    const textarea = document.getElementById('codeslot-system-info');
+    try { await window.navigator.clipboard.writeText(textarea.value); button.textContent = 'Copied'; } catch { textarea.focus(); textarea.select(); button.textContent = 'Select and copy the text'; }
+  }));
+  document.querySelectorAll('.codeslot-clear-logs').forEach(button => button.closest('form').addEventListener('submit', event => {
+    if (!window.confirm('Permanently clear all CodeSlot log entries? They cannot be recovered.')) event.preventDefault();
+  }));
+}());
+
+(function () {
+  'use strict';
+  document.querySelectorAll('.codeslot-download').forEach(button => button.addEventListener('click', () => {
+    const value = document.getElementById(button.dataset.target).value;
+    const url = window.URL.createObjectURL(new window.Blob([value], {type:'text/plain;charset=utf-8'}));
+    const link = document.createElement('a'); link.href = url; link.download = button.dataset.filename; link.click(); window.URL.revokeObjectURL(url);
   }));
 }());

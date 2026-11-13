@@ -12,6 +12,13 @@ final class Runtime {
 	private static $running  = 0;
 
 	public static function boot() {
+		add_action(
+			'init',
+			static function () {
+				self::php( 'bootstrap' );
+			},
+			20
+		);
 		foreach ( array(
 			'header' => 'wp_head',
 			'body'   => 'wp_body_open',
@@ -216,11 +223,11 @@ final class Runtime {
 	}
 
 	public static function php( $location ) {
-		if ( Permissions::safe() || wp_doing_ajax() || wp_doing_cron() || ( defined( 'REST_REQUEST' ) && REST_REQUEST ) ) {
+		if ( Permissions::safe() || ( 'bootstrap' !== $location && ( wp_doing_ajax() || wp_doing_cron() || ( defined( 'REST_REQUEST' ) && REST_REQUEST ) ) ) ) {
 			return;
 		}
 		foreach ( self::snippets( $location ) as $snippet ) {
-			if ( 'php' === $snippet['type'] && Conditions::matches( $snippet['conditions'] ) ) {
+			if ( 'php' === $snippet['type'] && Conditions::matches( $snippet['conditions'], 'bootstrap' === $location ? array() : null ) ) {
 				self::execute( $snippet );
 			}
 		}

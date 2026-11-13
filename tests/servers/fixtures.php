@@ -15,3 +15,14 @@ foreach ([['conditional','header',['include'=>[[$rule]]]],['excluded','footer',[
 }
 $probe = '<?php require __DIR__."/wp-load.php"; header("Content-Type: application/json"); echo json_encode(["wordpress"=>get_bloginfo("version"),"php"=>PHP_VERSION,"sapi"=>PHP_SAPI,"server"=>$_SERVER["SERVER_SOFTWARE"]]);';
 file_put_contents(ABSPATH.'codeslot-server-probe.php', $probe);
+// Virtual files are explicit disposable fixtures; save/restore the pre-test option.
+if ( ! get_option( 'codeslot_server_files_saved' ) ) {
+ update_option( 'codeslot_server_files_backup', get_option( 'codeslot_files', null ), false );
+ update_option( 'codeslot_server_files_saved', true, false );
+}
+$virtual = [];
+foreach ( CodeSlot\Files::NAMES as $name ) {
+ $virtual[$name] = ['enabled'=>true,'code'=>$name==='service-worker.js' ? '/* CS-SERVER-VIRTUAL-WORKER */' : ($name==='robots.txt' ? 'Disallow: /codeslot-server-test/' : 'example.com, CS-SERVER-VIRTUAL, DIRECT')];
+}
+$virtual['register_worker'] = false;
+update_option('codeslot_files',$virtual,false);

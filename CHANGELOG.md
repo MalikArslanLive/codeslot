@@ -19,3 +19,10 @@
 - Docker, WordPress integration, unit and browser tests, quality workflows and deterministic ZIP build.
 
 No public release has been created. See release gates and actual test results before production use.
+
+## 1.0.0 — additional administration and tools
+
+- Apply bulk actions without the redundant confirmation checkbox; prefill legacy untitled Quick Edit fields and add guarded accessible status switches.
+- Add confirmed permanent history clearing, slot placement help, private diagnostics/local event logs, and a searchable original 142-item local library including three clearly marked setup guides.
+- Add selected full-backup restore, safe virtual public-file handling and consent-gated browser pixel adapters with optional WooCommerce events.
+- Add explicit init bootstrap PHP for early-hook recipes without query conditions. Keep version 1.0.0; cloud/AI and companion-dependent library recipes are excluded.
