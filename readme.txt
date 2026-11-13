@@ -15,19 +15,19 @@ Plugin website: https://github.com/MalikArslanLive/codeslot
 WordPress.org: https://wordpress.org/plugins/codeslot/
 Source and documentation: https://github.com/MalikArslanLive/codeslot
 
-All included CodeSlot features are free. There is no Pro tier, license key, subscription or feature paywall.
+All included CodeSlot features are free under GPL-2.0-or-later.
 
 CodeSlot manages global code and individual page, post, public custom post type, WooCommerce product and term-archive code. Global and individual settings coexist. Output order is global, matching snippets, individual code.
 
 A separate local snippet manager supports PHP, JavaScript, CSS, HTML, plain text, reusable content and shortcode content, priorities, conditions, import/export, locks, local templates and the last 30 saved versions with code comparison. Visual snippets can also run before or after a selected numbered paragraph. Explicit Run Once PHP tasks stay inactive, require confirmation, record output/status and cannot be automatically retried.
 
-Executable code is privileged functionality. Access requires manage_options, unfiltered_html and edit_plugins; multisite additionally requires super-admin. PHP is not sandboxed. Review every snippet and keep backups and filesystem access. No cloud account is required.
+Executable code is privileged functionality. Access requires manage_options, unfiltered_html and edit_plugins; multisite additionally requires super-admin. PHP is not sandboxed. Review every snippet and keep backups and filesystem access.
 
 This is a release candidate; see the repository compatibility and test reports for actual tested combinations. A minimum version expresses a target, not proof of every combination.
 
 = Tools, library, files and pixels =
 
-Browse 142 original local recipes and setup guides without an account. Executable templates open inactive for review. Manual wp-config.php guides are labeled and are not offered for activation. Library recipes requiring another plugin are excluded.
+Browse 142 original local recipes and setup guides without an account. Executable templates open inactive for review. Manual wp-config.php guides are labeled and are not offered for activation.
 
 Tools provides private System Info, copy/download, bounded local logs and recovery instructions. Identifying site URLs and paths are excluded unless explicitly requested. No report is sent automatically. Logs exclude source and credentials.
 
@@ -49,7 +49,7 @@ Use CodeSlot -> Header, Body & Footer for global slots. Open an item in its nati
 == Frequently Asked Questions ==
 
 = Is everything free? =
-Yes. All features included in CodeSlot are free under GPL-2.0-or-later: global and individual slots, every supported snippet type, conditions, priorities, shortcodes/manual insertion, import/export, saved versions and code comparison, paragraph insertion, confirmed one-time tasks, locking, templates and recovery controls. No Pro upgrade or account is needed. Third-party plugins have their own licenses and requirements.
+Yes. All features included in CodeSlot are free under GPL-2.0-or-later: global and individual slots, every supported snippet type, conditions, priorities, shortcodes/manual insertion, import/export, saved versions and code comparison, paragraph insertion, confirmed one-time tasks, locking, templates and recovery controls.
 
 = Can I add code to one page or post only? =
 Yes. Open the native WordPress editor and use the CodeSlot — Header, Body & Footer meta box. Each Header, Body and Footer field has its own enable switch. The code runs only on that item's singular URL. Public custom post types and WooCommerce products have the same native fields. Categories, tags and public custom taxonomy terms have fields for their own archive URLs. Private internal post types and attachments are excluded.
@@ -85,7 +85,7 @@ Data is retained by default. Enable the explicit deletion option in CodeSlot Set
 
 == External services ==
 
-Conversion Pixels is optional and disabled by default. After the administrator enables a provider and the visitor explicitly grants marketing consent, that provider's browser SDK receives selected page/click events and, when WooCommerce is available, opted-in commerce events. Browser requests inherently disclose IP address/user agent and may include page/referrer information or set provider cookies. CodeSlot does not add customer contact data or advanced matching. The administrator is responsible for provider-account configuration and consent handling, including third-party cookies after withdrawal. No SDK loads from CodeSlot before consent. No cloud/AI/library service is used.
+Conversion Pixels is optional and disabled by default. After the administrator enables a provider and the visitor explicitly grants marketing consent, that provider's browser SDK receives selected page/click events and, when WooCommerce is available, opted-in commerce events. Browser requests inherently disclose IP address/user agent and may include page/referrer information or set provider cookies. CodeSlot does not add customer contact data or advanced matching. The administrator is responsible for provider-account configuration and consent handling, including third-party cookies after withdrawal. No SDK loads from CodeSlot before consent.
 
 * Meta: https://www.facebook.com/legal/terms and https://www.facebook.com/privacy/policy/
 * Google: https://policies.google.com/terms and https://policies.google.com/privacy

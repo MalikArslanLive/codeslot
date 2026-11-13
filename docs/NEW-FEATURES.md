@@ -1,6 +1,6 @@
 # Administration and local tools
 
-Version remains 1.0.0. All included features are free. No cloud sync or AI integration is included.
+Version remains 1.0.0. All included features are free.
 
 ## Lists, locks and versions
 
@@ -34,7 +34,7 @@ Service-worker content is public privileged JavaScript. Automatic registration i
 
 ## Conversion pixels
 
-Meta, Google Ads/Analytics, Pinterest, TikTok and Snapchat accept public tracking IDs, never account secrets. Each integration and event is opt-in. With no marketing consent, no CodeSlot vendor script/request is loaded. Base/click events need no companion plugin. WooCommerce view-content/add-to-cart/checkout/paid-purchase events are optional integrations and remain included; the library itself excludes companion-dependent recipes.
+Meta, Google Ads/Analytics, Pinterest, TikTok and Snapchat accept public tracking IDs, never account secrets. Each integration and event is opt-in. With no marketing consent, no CodeSlot vendor script/request is loaded. Base/click events need no companion plugin. WooCommerce view-content/add-to-cart/checkout/paid-purchase events are optional integrations and remain included.
 
 An existing consent manager or your own reviewed code must explicitly grant consent:
 

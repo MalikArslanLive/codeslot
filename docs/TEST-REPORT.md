@@ -57,7 +57,7 @@ Old duplicate raw logs and incomplete reports were consolidated into this report
 
 ## Additional local features
 
-Saved/current code diffs, numbered-paragraph insertion and confirmed Run Once PHP were added after the baseline. Local verification passed 18 unit tests/20 assertions, 14 WordPress feature assertions and three new browser regressions (nonce/confirmation/repeat prevention, escaped mobile diffs, and paragraph HTTP isolation). The matrix now runs local-features.php for source, ZIP and multisite. The combined 69-job CI run above passed, including the 29-test browser suite and the added source/ZIP/multisite assertions. Cloud sync and AI are excluded by explicit user instruction. These additions do not claim every possible feature or guaranteed recovery from arbitrary privileged PHP.
+Saved/current code diffs, numbered-paragraph insertion and confirmed Run Once PHP were added after the baseline. Local verification passed 18 unit tests/20 assertions, 14 WordPress feature assertions and three new browser regressions (nonce/confirmation/repeat prevention, escaped mobile diffs, and paragraph HTTP isolation). The matrix now runs local-features.php for source, ZIP and multisite. The combined 69-job CI run above passed, including the 29-test browser suite and the added source/ZIP/multisite assertions. These additions do not claim every possible feature or guaranteed recovery from arbitrary privileged PHP.
 
 ## Expanded local tools candidate (6bdde4d)
 
@@ -76,3 +76,5 @@ npx playwright test tests/ui.spec.js
 ```
 
 The final hosted run completed successfully on source 6bdde4d: all 69 jobs passed, including all 29 browser tests on freshly provisioned fixtures. The earlier local fixture-contamination failure and its correction remain documented above; no failed run was relabeled as passing.
+
+Documentation wording was subsequently limited to actual included features and usage. Runtime PHP/JavaScript/CSS/templates remain unchanged from the successful 69-job run. The production readme was rebuilt into the ZIP; archive/source-byte checks and clean-installed Plugin Check were rerun successfully.

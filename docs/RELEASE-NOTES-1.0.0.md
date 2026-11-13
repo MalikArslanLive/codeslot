@@ -19,7 +19,7 @@ Upload codeslot-1.0.0.zip through Plugins -> Add New -> Upload Plugin. If replac
 SHA-256:
 
 ```
-7bd9b49bea23ee2f112cb944a3f2e5996f5d6336b49e1b907175a5577ada56c1
+0422819a7e8536433dab021290cfb6702c03101ae282de4d392f453033d4ec47
 ```
 
 PHP snippets execute arbitrary privileged code; this is not a secure sandbox or independent penetration-test certification. Safe Mode recovery, permissions, imports, rollback, multisite and uninstall behavior are covered by regression checks. Page caches must be purged/varied appropriately. LiteSpeed Enterprise, premium plugins, every payment flow and arbitrary production configurations are not certified.
@@ -29,7 +29,6 @@ WordPress.org: https://wordpress.org/plugins/codeslot/ (listing availability/app
 Plugin website/Plugin URI: https://github.com/MalikArslanLive/codeslot. All included features are free. README self-links and duplicate historical reports were removed; development and compatibility guidance is organized under docs/.
 
 - Saved/current revision code diffs, before/after numbered-paragraph insertion, and confirmed one-time PHP tasks with repeat protection and recorded outcomes.
-- Cloud sync and AI generation are excluded from this release.
 
 Validation: [69 quality jobs passed](https://github.com/MalikArslanLive/codeslot/actions/runs/43474411107), including 56 runtime combinations and 29 browser tests; [dependency security audit passed](https://github.com/MalikArslanLive/codeslot/actions/runs/43474411465).
 
@@ -41,6 +40,6 @@ Validation: [69 quality jobs passed](https://github.com/MalikArslanLive/codeslot
 - Full CodeSlot backup restores selected global/individual/settings/file/pixel sections with inactive output and Safe Mode.
 - Virtual ads.txt, app-ads.txt, service-worker.js and appended robots.txt directives preserve physical files; worker registration is opt-in.
 - Consent-gated Meta/Google/Pinterest/TikTok/Snapchat pixels include optional WooCommerce events, order authorization and session deduplication.
-- 142 original local recipes/setup guides; library entries requiring a companion plugin are excluded. WooCommerce integration remains separate and included. See docs/LIBRARY-SCOPE.md for the skipped categories and reasons.
+- 142 original local recipes/setup guides with search, category filtering, previews and inactive drafts. See docs/LIBRARY.md for usage.
 
-The owner authorized reconciling the unpublished v1.0.0 tag with the final source. Its production files match the verified ZIP built from 6bdde4d; later source commits only update documentation. The old annotated tag is preserved in a local Git bundle before replacement. Public release publication and WordPress.org submission still require explicit approval.
+The owner authorized reconciling the unpublished v1.0.0 tag with the final source. Its PHP, JavaScript, CSS and templates match the verified runtime at 6bdde4d. The readme has been updated to describe included functionality, and the package was rebuilt and checked again. The old annotated tag is preserved in a local Git bundle before replacement. Public release publication and WordPress.org submission still require explicit approval.

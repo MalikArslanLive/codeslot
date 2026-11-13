@@ -4,7 +4,7 @@
   "author_uri": "https://malikarslan.com/",
   "package": {
     "path": "packages/codeslot-1.0.0.zip",
-    "sha256": "7bd9b49bea23ee2f112cb944a3f2e5996f5d6336b49e1b907175a5577ada56c1",
+    "sha256": "0422819a7e8536433dab021290cfb6702c03101ae282de4d392f453033d4ec47",
     "production_file_count": 21,
     "followup_validation": "passed"
   },
@@ -46,12 +46,11 @@
       "codeslot-1.0.0.zip",
       "SHA256SUMS"
     ],
-    "github_asset_sha256": "7bd9b49bea23ee2f112cb944a3f2e5996f5d6336b49e1b907175a5577ada56c1",
+    "github_asset_sha256": "0422819a7e8536433dab021290cfb6702c03101ae282de4d392f453033d4ec47",
     "pending_asset_update": false,
     "asset_source_commit": "6bdde4d"
   },
   "current_candidate": {
-    "source_commit": "6bdde4d",
     "quality_run": "https://github.com/MalikArslanLive/codeslot/actions/runs/43474411107",
     "quality_conclusion": "success",
     "security_run": "https://github.com/MalikArslanLive/codeslot/actions/runs/43474411465",
@@ -77,7 +76,9 @@
     "pixel_vendor_sdk_tests": "mocked SDK requests and inspected queues; live account delivery not certified",
     "woocommerce_purchase": "passed authorized paid-order fixture; wrong-key denial, no contact data and session deduplication; not a payment-gateway certification",
     "quality_jobs_passed": 69,
-    "browser_tests_passed": 29
+    "browser_tests_passed": 29,
+    "documentation_only_update": true,
+    "runtime_source_commit": "6bdde4d"
   },
   "tag": {
     "name": "v1.0.0",

@@ -8,7 +8,7 @@ By [Malik Arslan](https://malikarslan.com/) · [WordPress.org](https://wordpress
 
 **Add code across your site or only where you need it. Every included CodeSlot feature is free.** Manage global Header, Body and Footer code, individual content slots, and a local PHP/JavaScript/CSS/HTML snippet library from WordPress.
 
-No Pro tier, license key, subscription, cloud account, developer telemetry or feature paywall. CodeSlot is GPL-2.0-or-later. Third-party plugins have their own licenses and requirements.
+All included features are free under GPL-2.0-or-later.
 
 ## Where can I add code?
 
@@ -69,4 +69,4 @@ For emergency suppression, add `define( 'CODESLOT_SAFE_MODE', true );` to `wp-co
 
 [Features](docs/FEATURES.md) · [Development](docs/DEVELOPMENT.md) · [Testing](docs/TESTING.md) · [Test report](docs/TEST-REPORT.md) · [Compatibility](docs/COMPATIBILITY.md) · [Import schema](docs/IMPORT-SCHEMA.md) · [Support](SUPPORT.md) · [Publishing](docs/PUBLISHING.md)
 
-Local library: **142 original recipes and setup guides**, searchable by name/category, no companion-plugin requirement for library entries. Tools includes private System Info and bounded event logs. Virtual public files and consent-gated browser pixels are opt-in. See [usage and boundaries](docs/NEW-FEATURES.md) and [library scope/skipped entries](docs/LIBRARY-SCOPE.md).
+Local library: **142 original recipes and setup guides**, searchable by name/category, no companion-plugin requirement for library entries. Tools includes private System Info and bounded event logs. Virtual public files and consent-gated browser pixels are opt-in. See [feature usage](docs/NEW-FEATURES.md) and [library guide](docs/LIBRARY.md).
