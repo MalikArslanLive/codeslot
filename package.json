@@ -1,1 +1,1 @@
-{"name":"codeslot","version":"1.0.0","private":true,"scripts":{"test:e2e":"playwright test","lint":"eslint assets/*.js tests/*.js"},"devDependencies":{"@playwright/test":"1.56.1","eslint":"9.39.1"}}
+{"name":"codeslot","version":"1.0.0","private":true,"scripts":{"test:e2e":"playwright test","lint":"eslint assets/*.js tests/*.js"},"devDependencies":{"@playwright/test":"1.65.0","eslint":"9.39.1"}}
