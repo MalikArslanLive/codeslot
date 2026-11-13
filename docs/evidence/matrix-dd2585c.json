@@ -1,0 +1,140 @@
+{
+  "run_url": "https://github.com/MalikArslanLive/codeslot/actions/runs/43391824525",
+  "head_sha": "dd2585c753e5b49c6d9d83e81da16538ee16f7e3",
+  "overall_status": "cancelled",
+  "note": "Superseded run canceled after completed matrix jobs; canceled browser jobs are not passes. See final report for corrected full-run results.",
+  "jobs": [
+    {
+      "name": "plugin-check",
+      "conclusion": "cancelled"
+    },
+    {
+      "name": "javascript",
+      "conclusion": "success"
+    },
+    {
+      "name": "php (7.4)",
+      "conclusion": "success"
+    },
+    {
+      "name": "wordpress (6.8.3, 8.3)",
+      "conclusion": "success"
+    },
+    {
+      "name": "php (8.1)",
+      "conclusion": "success"
+    },
+    {
+      "name": "wordpress (6.8.3, 8.4)",
+      "conclusion": "success"
+    },
+    {
+      "name": "php (8.4)",
+      "conclusion": "success"
+    },
+    {
+      "name": "php (8.0)",
+      "conclusion": "success"
+    },
+    {
+      "name": "browser",
+      "conclusion": "cancelled"
+    },
+    {
+      "name": "wordpress (6.8.3, 8.1)",
+      "conclusion": "success"
+    },
+    {
+      "name": "php (8.5)",
+      "conclusion": "success"
+    },
+    {
+      "name": "wordpress (6.9, 8.3)",
+      "conclusion": "success"
+    },
+    {
+      "name": "wordpress (latest, 8.0)",
+      "conclusion": "success"
+    },
+    {
+      "name": "wordpress (6.8.3, 7.4)",
+      "conclusion": "success"
+    },
+    {
+      "name": "php (8.3)",
+      "conclusion": "success"
+    },
+    {
+      "name": "wordpress (latest, 7.4)",
+      "conclusion": "success"
+    },
+    {
+      "name": "wordpress (latest, 8.2)",
+      "conclusion": "success"
+    },
+    {
+      "name": "wordpress (6.9, 8.4)",
+      "conclusion": "success"
+    },
+    {
+      "name": "wordpress (6.9, 8.1)",
+      "conclusion": "success"
+    },
+    {
+      "name": "experimental",
+      "conclusion": "success"
+    },
+    {
+      "name": "wordpress (latest, 8.4)",
+      "conclusion": "success"
+    },
+    {
+      "name": "php (8.2)",
+      "conclusion": "success"
+    },
+    {
+      "name": "wordpress (6.8.3, 8.5)",
+      "conclusion": "success"
+    },
+    {
+      "name": "wordpress (6.9, 7.4)",
+      "conclusion": "success"
+    },
+    {
+      "name": "wordpress (6.9, 8.5)",
+      "conclusion": "success"
+    },
+    {
+      "name": "wordpress (6.9, 8.0)",
+      "conclusion": "success"
+    },
+    {
+      "name": "wordpress (latest, 8.1)",
+      "conclusion": "success"
+    },
+    {
+      "name": "wordpress (6.8.3, 8.2)",
+      "conclusion": "success"
+    },
+    {
+      "name": "wordpress (latest, 8.5)",
+      "conclusion": "success"
+    },
+    {
+      "name": "wordpress (6.9, 8.2)",
+      "conclusion": "success"
+    },
+    {
+      "name": "wordpress (6.8.3, 8.0)",
+      "conclusion": "success"
+    },
+    {
+      "name": "wordpress (latest, 8.3)",
+      "conclusion": "success"
+    },
+    {
+      "name": "package",
+      "conclusion": "cancelled"
+    }
+  ]
+}

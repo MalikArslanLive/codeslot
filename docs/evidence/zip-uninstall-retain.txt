@@ -1,0 +1,5 @@
+PASS: uninstall snippet retain/delete preference
+PASS: uninstall post metadata preference
+PASS: uninstall term metadata preference
+PASS: uninstall global preference
+PASS: multisite uninstall preference site 2

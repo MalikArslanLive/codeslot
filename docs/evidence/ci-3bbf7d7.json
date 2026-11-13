@@ -1,0 +1,139 @@
+{
+  "run_url": "https://github.com/MalikArslanLive/codeslot/actions/runs/43392868687",
+  "head_sha": "3bbf7d7f0dd562d125e47509288edfe6aabc016f",
+  "conclusion": "success",
+  "jobs": [
+    {
+      "name": "browser",
+      "conclusion": "success"
+    },
+    {
+      "name": "experimental",
+      "conclusion": "success"
+    },
+    {
+      "name": "javascript",
+      "conclusion": "success"
+    },
+    {
+      "name": "php (8.3)",
+      "conclusion": "success"
+    },
+    {
+      "name": "wordpress (6.9, 7.4)",
+      "conclusion": "success"
+    },
+    {
+      "name": "php (8.2)",
+      "conclusion": "success"
+    },
+    {
+      "name": "php (8.5)",
+      "conclusion": "success"
+    },
+    {
+      "name": "plugin-check",
+      "conclusion": "success"
+    },
+    {
+      "name": "wordpress (6.8.3, 8.1)",
+      "conclusion": "success"
+    },
+    {
+      "name": "wordpress (6.8.3, 7.4)",
+      "conclusion": "success"
+    },
+    {
+      "name": "wordpress (latest, 8.1)",
+      "conclusion": "success"
+    },
+    {
+      "name": "wordpress (6.8.3, 8.0)",
+      "conclusion": "success"
+    },
+    {
+      "name": "php (8.0)",
+      "conclusion": "success"
+    },
+    {
+      "name": "wordpress (6.9, 8.5)",
+      "conclusion": "success"
+    },
+    {
+      "name": "wordpress (latest, 8.0)",
+      "conclusion": "success"
+    },
+    {
+      "name": "wordpress (6.9, 8.4)",
+      "conclusion": "success"
+    },
+    {
+      "name": "php (7.4)",
+      "conclusion": "success"
+    },
+    {
+      "name": "wordpress (6.8.3, 8.5)",
+      "conclusion": "success"
+    },
+    {
+      "name": "wordpress (6.9, 8.2)",
+      "conclusion": "success"
+    },
+    {
+      "name": "wordpress (6.8.3, 8.3)",
+      "conclusion": "success"
+    },
+    {
+      "name": "php (8.1)",
+      "conclusion": "success"
+    },
+    {
+      "name": "wordpress (latest, 8.4)",
+      "conclusion": "success"
+    },
+    {
+      "name": "wordpress (6.9, 8.1)",
+      "conclusion": "success"
+    },
+    {
+      "name": "wordpress (6.8.3, 8.4)",
+      "conclusion": "success"
+    },
+    {
+      "name": "wordpress (6.9, 8.0)",
+      "conclusion": "success"
+    },
+    {
+      "name": "wordpress (latest, 8.2)",
+      "conclusion": "success"
+    },
+    {
+      "name": "wordpress (6.9, 8.3)",
+      "conclusion": "success"
+    },
+    {
+      "name": "wordpress (6.8.3, 8.2)",
+      "conclusion": "success"
+    },
+    {
+      "name": "php (8.4)",
+      "conclusion": "success"
+    },
+    {
+      "name": "wordpress (latest, 7.4)",
+      "conclusion": "success"
+    },
+    {
+      "name": "wordpress (latest, 8.5)",
+      "conclusion": "success"
+    },
+    {
+      "name": "wordpress (latest, 8.3)",
+      "conclusion": "success"
+    },
+    {
+      "name": "package",
+      "conclusion": "success"
+    }
+  ]
+}

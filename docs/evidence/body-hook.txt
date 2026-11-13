@@ -1,0 +1,4 @@
+Success: Switched to 'CodeSlot Test Missing Body Hook' theme.
+PASS: missing body hook does not relocate body code
+missing
+Success: Switched to 'Twenty Twenty-Five' theme.
