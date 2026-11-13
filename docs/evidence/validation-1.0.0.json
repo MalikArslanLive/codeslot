@@ -35,7 +35,7 @@
     "all arbitrary PHP side effects"
   ],
   "blocked": [
-    "GitHub API returns 403 Resource not accessible by integration for repository Administration, Environments, vulnerability reporting/alerts and Actions permissions endpoints; network access now works."
+    "Repository administrative writes still return 403 Resource not accessible by integration. Controlled /user probes return the same authenticated account for configured, absent and deliberately invalid Authorization headers; managed route authentication is being injected, so missing PAT permissions are not established."
   ],
   "draft_release": {
     "id": 444445230,
@@ -81,9 +81,11 @@
   },
   "tag": {
     "name": "v1.0.0",
-    "source_commit": "e4ae4ddd073392cd5d9ac0789e48a869e651de04",
-    "preserved": true,
-    "publication_blocker": "Earlier source snapshot; updated candidate must not be publicly released under mismatched source tag."
+    "build_source_commit": "6bdde4d",
+    "reconciled_to_final_source": true,
+    "owner_authorized": true,
+    "old_tag_backup": "ignored local work/backups/v1.0.0-before-reconciliation.bundle",
+    "publication_blocker": "Public release publication still requires owner approval."
   },
   "prior_verified_candidate": {
     "commit": "4741eef1cb737d0328f0d6f43de8ee5307b43cfd",

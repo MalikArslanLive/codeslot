@@ -43,4 +43,4 @@ Validation: [69 quality jobs passed](https://github.com/MalikArslanLive/codeslot
 - Consent-gated Meta/Google/Pinterest/TikTok/Snapchat pixels include optional WooCommerce events, order authorization and session deduplication.
 - 142 original local recipes/setup guides; library entries requiring a companion plugin are excluded. WooCommerce integration remains separate and included. See docs/LIBRARY-SCOPE.md for the skipped categories and reasons.
 
-The existing v1.0.0 tag was not moved: it records the earlier candidate at e4ae4dd. These updated assets are built from 6bdde4d. Do not publish this draft until the owner resolves the source-tag/candidate mismatch. No public release or WordPress.org submission is authorized by this update.
+The owner authorized reconciling the unpublished v1.0.0 tag with the final source. Its production files match the verified ZIP built from 6bdde4d; later source commits only update documentation. The old annotated tag is preserved in a local Git bundle before replacement. Public release publication and WordPress.org submission still require explicit approval.

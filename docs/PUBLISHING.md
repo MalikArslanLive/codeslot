@@ -15,4 +15,4 @@ See [repository settings](REPOSITORY-SETTINGS.md) for administrative endpoints s
 
 Current status: annotated v1.0.0 is pushed; the [draft release](https://github.com/MalikArslanLive/codeslot/releases/tag/untagged-6e2d5cbb860bca7cb2ea) contains the verified ZIP and SHA256SUMS. It remains unpublished. The draft is visible to authorized repository collaborators; public ZIP download remains available from packages/ in the repository.
 
-Updated source candidate: 6bdde4d. The existing v1.0.0 tag remains at the earlier e4ae4dd snapshot and must not be silently moved. Updated draft assets identify their source commit explicitly; public publication is held pending owner resolution of the tag/source mismatch.
+The owner subsequently authorized reconciliation of the unpublished v1.0.0 tag. It is updated to the final source/documentation checkpoint, with production files byte-identical to the ZIP built from 6bdde4d. The previous tag is backed up locally. Main/develop are synchronized. Public publication remains a separate approval step.
