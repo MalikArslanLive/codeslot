@@ -2,7 +2,7 @@
 
 CodeSlot – Header, Body & Footer Code + Snippet Manager, by Malik Arslan (https://malikarslan.com/). GPL-2.0-or-later. Slug and version remain codeslot / 1.0.0.
 
-This build replaces the original 1.0.0 release candidate with a responsive administration interface and WordPress-style snippet management. Existing data and executable-code semantics are preserved.
+Add Header, Body and Footer code site-wide or to a single page, post, WooCommerce product or public custom post type. Categories, tags and public custom taxonomy terms have their own archive fields. Global and individual slots can run together.
 
 - Branded header, clear navigation and polished layouts across all nine CodeSlot admin pages.
 - Separate selection column on desktop and dedicated selection controls on mobile, tested down to 320 pixels.
@@ -19,7 +19,7 @@ Upload codeslot-1.0.0.zip through Plugins -> Add New -> Upload Plugin. If replac
 SHA-256:
 
 ```
-0422819a7e8536433dab021290cfb6702c03101ae282de4d392f453033d4ec47
+6501d173a809fd29f3f5c5f8443a26c320a10531fa9d9fe24cae0157602251ff
 ```
 
 PHP snippets execute arbitrary privileged code; this is not a secure sandbox or independent penetration-test certification. Safe Mode recovery, permissions, imports, rollback, multisite and uninstall behavior are covered by regression checks. Page caches must be purged/varied appropriately. LiteSpeed Enterprise, premium plugins, every payment flow and arbitrary production configurations are not certified.
@@ -42,4 +42,4 @@ Validation: [69 quality jobs passed](https://github.com/MalikArslanLive/codeslot
 - Consent-gated Meta/Google/Pinterest/TikTok/Snapchat pixels include optional WooCommerce events, order authorization and session deduplication.
 - 142 original local recipes/setup guides with search, category filtering, previews and inactive drafts. See docs/LIBRARY.md for usage.
 
-The owner authorized reconciling the unpublished v1.0.0 tag with the final source. Its PHP, JavaScript, CSS and templates match the verified runtime at 6bdde4d. The readme has been updated to describe included functionality, and the package was rebuilt and checked again. The old annotated tag is preserved in a local Git bundle before replacement. Public release publication and WordPress.org submission still require explicit approval.
+The runtime at `6bdde4d` is byte-identical to the runtime in this package. The revised WordPress.org readme is the only changed ZIP entry. See the current workflow results for follow-up validation.
