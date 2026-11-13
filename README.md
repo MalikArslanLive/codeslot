@@ -6,9 +6,7 @@
 
 By [Malik Arslan](https://malikarslan.com/) · [WordPress.org](https://wordpress.org/plugins/codeslot/)
 
-**Add code across your site or only where you need it. Every included CodeSlot feature is free.** Manage global Header, Body and Footer code, individual content slots, and a local PHP/JavaScript/CSS/HTML snippet library from WordPress.
-
-All included features are free under GPL-2.0-or-later.
+**Add Header, Body and Footer code site-wide or to a single page, post, WooCommerce product, or public custom post type.** Categories, tags and public custom taxonomy terms also have their own slots for their archive pages. All included CodeSlot features are free under GPL-2.0-or-later.
 
 ## Where can I add code?
 
@@ -50,6 +48,14 @@ See [feature details and limits](docs/FEATURES.md).
 4. Open a page, post, product or public custom post type in its native editor and find **CodeSlot — Header, Body & Footer** for individual code. Use term add/edit screens for archive code.
 
 Requires **WordPress 6.5+ and PHP 7.4+**. No Composer or Node dependencies are needed at runtime. See [actual compatibility results](docs/COMPATIBILITY.md); companion plugins can require newer PHP versions.
+
+## Add code to one page or post
+
+1. Open the page or post in the native WordPress editor and find **CodeSlot — Header, Body & Footer**.
+2. Paste your code into the relevant slot, turn on its enable switch and update the item.
+3. Open the saved item's frontend URL to check the output. For example, a script added to one landing page's Footer slot appears on that page only.
+
+WooCommerce products and public custom post types use the same fields. For category, tag or public custom taxonomy archive code, open the term's edit screen. Global code can remain active alongside individual code.
 
 ## Use snippets
 
