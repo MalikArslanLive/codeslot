@@ -146,3 +146,9 @@
 .codeslot-wrap .codeslot-table input[type=checkbox]{position:relative;z-index:1;margin:0}
 .codeslot-bulk>.codeslot-select-page{display:flex;flex-direction:row;align-items:center;gap:7px;align-self:center;margin-top:20px}
 @media(max-width:782px){.codeslot-bulk>.codeslot-select-page{margin-top:0;flex-basis:100%}}
+.codeslot-wrap .codeslot-table .check-column{width:48px;padding:14px 12px;text-align:center;vertical-align:middle}
+.codeslot-wrap .codeslot-table th:nth-child(5){width:96px;white-space:nowrap}
+.codeslot-wrap .codeslot-bulk>.codeslot-select-page{flex-direction:row}
+.codeslot-wrap .codeslot-bulk>.codeslot-bulk-action{display:flex;flex-direction:column;gap:5px;font-weight:500}
+.codeslot-wrap select{height:36px;line-height:1.5}
+@media(max-width:782px){.codeslot-wrap select{height:42px}.codeslot-wrap .codeslot-bulk>.codeslot-bulk-action{flex-basis:100%}}
