@@ -22,7 +22,7 @@ final class Backup {
 					'post_type'      => $type,
 					'post_status'    => array( 'publish', 'draft', 'private', 'pending', 'future' ),
 					'posts_per_page' => -1,
-					'meta_key'       => '_codeslot_slots',
+					'meta_key'       => '_codeslot_slots', // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key -- Explicit privileged backup; selects only owned slot metadata.
 				)
 			); // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key -- Explicit administrator backup only.
 			foreach ( $posts as $post ) {
@@ -39,7 +39,7 @@ final class Backup {
 				array(
 					'taxonomy'   => $taxonomy,
 					'hide_empty' => false,
-					'meta_key'   => '_codeslot_slots',
+					'meta_key'   => '_codeslot_slots', // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key -- Explicit privileged backup; selects only owned slot metadata.
 				)
 			); // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key -- Explicit administrator backup only.
 			if ( is_wp_error( $terms ) ) {

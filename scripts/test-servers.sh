@@ -18,7 +18,7 @@ cleanup() {
   fi
   "${compose[@]}" logs --no-color > work/server-results/compose.log || true
   wp eval 'if (file_exists(ABSPATH . "codeslot-server-probe.php")) { unlink(ABSPATH . "codeslot-server-probe.php"); }' || true
-  wp eval '$old=get_option("codeslot_server_files_backup",null); if(get_option("codeslot_server_files_saved")){if(null===$old){delete_option("codeslot_files");}else{update_option("codeslot_files",$old,false);} delete_option("codeslot_server_files_backup");delete_option("codeslot_server_files_saved");}' || true
+  wp eval '$saved=get_option("codeslot_server_files_backup",array("value"=>null));$old=$saved["value"]; if(get_option("codeslot_server_files_saved")){if(null===$old){delete_option("codeslot_files");}else{update_option("codeslot_files",$old,false);} delete_option("codeslot_server_files_backup");delete_option("codeslot_server_files_saved");}' || true
   wp option update home http://localhost:8888 || true
   wp option update siteurl http://localhost:8888 || true
   return "$cs_exit_code"

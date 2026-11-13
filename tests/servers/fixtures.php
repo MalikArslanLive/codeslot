@@ -17,7 +17,7 @@ $probe = '<?php require __DIR__."/wp-load.php"; header("Content-Type: applicatio
 file_put_contents(ABSPATH.'codeslot-server-probe.php', $probe);
 // Virtual files are explicit disposable fixtures; save/restore the pre-test option.
 if ( ! get_option( 'codeslot_server_files_saved' ) ) {
- update_option( 'codeslot_server_files_backup', get_option( 'codeslot_files', null ), false );
+ update_option( 'codeslot_server_files_backup', array( 'value' => get_option( 'codeslot_files', null ) ), false );
  update_option( 'codeslot_server_files_saved', true, false );
 }
 $virtual = [];

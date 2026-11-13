@@ -48,7 +48,7 @@ final class Files {
 		}
 		// Reject direct query-string access: only the configured public file URL is served.
 		$expected = wp_parse_url( home_url( '/' . $name ), PHP_URL_PATH );
-		$actual   = isset( $_SERVER['REQUEST_URI'] ) ? wp_parse_url( wp_unslash( $_SERVER['REQUEST_URI'] ), PHP_URL_PATH ) : '';
+		$actual   = isset( $_SERVER['REQUEST_URI'] ) ? wp_parse_url( sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ) ), PHP_URL_PATH ) : '';
 		$files    = get_option( 'codeslot_files', array() );
 		if ( $expected !== $actual || Permissions::safe() || self::physical( $name ) || empty( $files[ $name ]['enabled'] ) ) {
 			status_header( 404 );
