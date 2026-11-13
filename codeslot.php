@@ -1,8 +1,8 @@
 <?php
 /**
  * Plugin Name: CodeSlot – Header, Body & Footer Code + Snippet Manager
- * Description: Global and individual code slots with privileged local snippet management.
- * Plugin URI: https://wordpress.org/plugins/codeslot/
+ * Description: Free global and individual Header, Body & Footer code with PHP, JavaScript, CSS and HTML snippets.
+ * Plugin URI: https://github.com/MalikArslanLive/codeslot
  * Author: Malik Arslan
  * Author URI: https://malikarslan.com/
  * Version: 1.0.0

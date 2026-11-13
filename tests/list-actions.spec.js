@@ -1,3 +1,4 @@
+import { login } from './login.js';
 import { test, expect } from '@playwright/test';
 import { execFileSync } from 'node:child_process';
 function wp(...args) {
@@ -8,8 +9,7 @@ let id;
 test.setTimeout(90000);
 test.beforeEach(async ({page}) => {
   id = wp('eval', 'wp_set_current_user(1); echo CodeSlot\\Repository::save(["name"=>"List action fixture","type"=>"html","code"=>"<!-- CS-KEEP-CODE -->","location"=>"footer","active"=>false]);');
-  await page.goto('/wp-login.php');
-  await page.request.post('/wp-login.php', {form:{log:'codeslot-admin',pwd:'disposable-test-password','wp-submit':'Log In',redirect_to:'/wp-admin/',testcookie:'1'}});
+  await login(page);
   await page.goto('/wp-admin/admin.php?page=codeslot');
 });
 test.afterEach(() => { if (snippet(id)) wp('post','delete',id,'--force'); });

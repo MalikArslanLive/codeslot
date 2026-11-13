@@ -11,8 +11,11 @@ Global and individual Header, Body and Footer code with privileged local snippet
 
 == Description ==
 By Malik Arslan: https://malikarslan.com/
-Plugin: https://wordpress.org/plugins/codeslot/
+Plugin website: https://github.com/MalikArslanLive/codeslot
+WordPress.org: https://wordpress.org/plugins/codeslot/
 Source and documentation: https://github.com/MalikArslanLive/codeslot
+
+All included CodeSlot features are free. There is no Pro tier, license key, subscription or feature paywall.
 
 CodeSlot manages global code and individual page, post, public custom post type, WooCommerce product and term-archive code. Global and individual settings coexist. Output order is global, matching snippets, individual code.
 
@@ -32,6 +35,13 @@ This is a release candidate; see the repository compatibility and test reports f
 Use CodeSlot -> Header, Body & Footer for global slots. Open an item in its native WordPress editor for individual slots. Create snippets through CodeSlot -> Add New, give each a name, choose its type and location, review conditions and save. Only activate code you trust. Edit existing snippets using their name or the Edit link in All Snippets. Quick Edit updates metadata without changing code. Select page and Bulk Edit update selected snippets; Delete requires confirmation. Search, filters and first/previous/next/last pagination help navigate larger libraries. Unnamed legacy entries have an ID-based fallback title.
 
 == Frequently Asked Questions ==
+
+= Is everything free? =
+Yes. All features included in CodeSlot are free under GPL-2.0-or-later: global and individual slots, every supported snippet type, conditions, priorities, shortcodes/manual insertion, import/export, saved versions, locking, templates and recovery controls. No Pro upgrade or account is needed. Third-party plugins have their own licenses and requirements.
+
+= Can I add code to one page or post only? =
+Yes. Open the native WordPress editor and use the CodeSlot — Header, Body & Footer meta box. Each Header, Body and Footer field has its own enable switch. The code runs only on that item's singular URL. Public custom post types and WooCommerce products have the same native fields. Categories, tags and public custom taxonomy terms have fields for their own archive URLs. Private internal post types and attachments are excluded.
+
 
 = Can PHP break my site? =
 Yes. PHP has full server privileges. Syntax validation and best-effort exception recovery cannot prevent every failure or reverse destructive side effects.

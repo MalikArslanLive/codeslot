@@ -1,12 +1,9 @@
+import { login } from './login.js';
 import { test, expect } from '@playwright/test';
 import { execFileSync } from 'node:child_process';
 const pages = ['codeslot', 'codeslot-new', 'codeslot-global', 'codeslot-transfer', 'codeslot-tools', 'codeslot-settings'];
 test.beforeEach(async ({ page }) => {
-  await page.goto('/wp-login.php');
-  await page.locator('#user_login').fill('codeslot-admin');
-  await page.locator('#user_pass').fill('disposable-test-password');
-  await page.locator('#wp-submit').click();
-  await page.waitForURL(/\/wp-admin\//);
+  await login(page);
 });
 for (const width of [1440, 768, 390, 320]) {
   test(`all admin pages fit at ${width}px`, async ({ page }) => {

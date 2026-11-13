@@ -48,7 +48,7 @@ final class Admin {
 
 	public static function box( $post ) {
 		wp_nonce_field( 'codeslot_slots', 'codeslot_nonce' );
-		echo '<p>' . esc_html__( 'Runs only on this item’s singular frontend URL. Saved code is used in previews; unsaved changes and autosaves are not executed.', 'codeslot' ) . '</p>';
+		echo '<p>' . esc_html__( 'Free Header, Body and Footer code for this individual item only. Runs on its singular frontend URL. Saved code is used in previews; unsaved changes and autosaves are not executed.', 'codeslot' ) . '</p>';
 		self::slot_fields( get_post_meta( $post->ID, '_codeslot_slots', true ), 'codeslot_slots' );
 	}
 
@@ -87,7 +87,7 @@ final class Admin {
 
 	public static function term_add() {
 		if ( Permissions::allowed() ) {
-			echo '<div class="form-field">';
+			echo '<div class="form-field"><h3>CodeSlot — Header, Body &amp; Footer</h3><p>Free individual code for this term archive only. Enable each slot separately.</p>';
 			wp_nonce_field( 'codeslot_term', 'codeslot_term_nonce' );
 			self::slot_fields( array(), 'codeslot_slots' );
 			echo '</div>';
@@ -96,7 +96,7 @@ final class Admin {
 
 	public static function term_edit( $term ) {
 		if ( Permissions::allowed() ) {
-			echo '<tr class="form-field"><th scope="row">CodeSlot</th><td>';
+			echo '<tr class="form-field"><th scope="row">CodeSlot</th><td><p>Free Header, Body and Footer code for this term archive only. Enable each slot separately.</p>';
 			wp_nonce_field( 'codeslot_term', 'codeslot_term_nonce' );
 			self::slot_fields( get_term_meta( $term->term_id, '_codeslot_slots', true ), 'codeslot_slots' );
 			echo '</td></tr>';
@@ -147,7 +147,7 @@ final class Admin {
 			wp_die( esc_html__( 'Code access denied.', 'codeslot' ), '', array( 'response' => 403 ) );
 		}
 		$page = isset( $_GET['page'] ) ? sanitize_key( $_GET['page'] ) : 'codeslot'; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-		echo '<div class="wrap codeslot-wrap"><header class="codeslot-header"><div class="codeslot-brand"><span class="codeslot-mark" aria-hidden="true">&lt;/&gt;</span><div><h1>CodeSlot</h1><p>Your code. Precisely where it belongs.</p></div></div><span class="codeslot-version">' . esc_html( CODESLOT_VERSION ) . '</span></header>';
+		echo '<div class="wrap codeslot-wrap"><header class="codeslot-header"><div class="codeslot-brand"><span class="codeslot-mark" aria-hidden="true">&lt;/&gt;</span><div><h1>CodeSlot</h1><p>Global & individual code slots. All features free.</p></div></div><span class="codeslot-version">' . esc_html( CODESLOT_VERSION ) . '</span></header>';
 		echo '<nav class="codeslot-nav" aria-label="CodeSlot pages">';
 		foreach ( array(
 			'codeslot'          => 'All Snippets',

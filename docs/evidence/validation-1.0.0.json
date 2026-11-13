@@ -1,0 +1,47 @@
+{
+  "version": "1.0.0",
+  "plugin_uri": "https://github.com/MalikArslanLive/codeslot",
+  "author_uri": "https://malikarslan.com/",
+  "package": {
+    "path": "packages/codeslot-1.0.0.zip",
+    "sha256": "7e07b3d268450e63a83f02a52450074f64e56d3ac1bb4019936cb1449dffb95c",
+    "production_file_count": 12,
+    "followup_validation": "in progress"
+  },
+  "completed_baseline": {
+    "commit": "2fa2ef3b163c5327b0327ef3a086b08c79f9b375",
+    "quality_run": "https://github.com/MalikArslanLive/codeslot/actions/runs/43407872155",
+    "quality_conclusion": "success",
+    "jobs_passed": 69,
+    "wordpress_php_matrix_jobs": 56,
+    "browser_tests_passed": 18,
+    "security_run": "https://github.com/MalikArslanLive/codeslot/actions/runs/43407872042",
+    "security_conclusion": "success",
+    "package_sha256": "2d64f03746b6f9377a4d715f01754ee6807cc6e66e0d9a4db6893da508701daa"
+  },
+  "local_followup": {
+    "phpcs": "passed",
+    "phpstan": "passed",
+    "eslint": "passed",
+    "plugin_check": "passed: no errors",
+    "responsive_ui": "passed: all four widths after free-feature copy update; auth setup stabilization included for follow-up CI",
+    "wordpress_6_5_zip_integration": "passed: 33 assertions"
+  },
+  "history": {
+    "preserved": true,
+    "backup": "ignored local work/backups/codeslot-before-cleanup.bundle",
+    "old_logs": "consolidated; originals preserved in Git history and local backup"
+  },
+  "untested": [
+    "LiteSpeed Enterprise",
+    "CGI",
+    "Windows/macOS",
+    "premium plugins",
+    "complete checkout/payment flows",
+    "every cache/CDN",
+    "all arbitrary PHP side effects"
+  ],
+  "blocked": [
+    "GitHub API repository settings and draft release; api.github.com denied by managed network policy"
+  ]
+}
