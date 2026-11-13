@@ -4,6 +4,12 @@ test.beforeEach(async ({page})=>{
  await page.locator('#user_login').fill('codeslot-admin');
  await page.locator('#user_pass').fill('disposable-test-password');
  await page.locator('#wp-submit').click();
+ await page.waitForURL(/\/wp-admin\//);
+ // Fresh companion plugins may consume their one-time onboarding redirects.
+ for (let attempt=0;attempt<5;attempt++) {
+   await page.goto('/wp-admin/admin.php?page=codeslot');
+   if(await page.locator('#wpadminbar').isVisible()) break;
+ }
  await expect(page.locator('#wpadminbar')).toBeVisible();
 });
 test('global editors and settings save',async({page})=>{

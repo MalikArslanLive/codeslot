@@ -30,7 +30,9 @@ services:
     entrypoint: [wp]
     image: wordpress:cli-php8.3
     user: "33:33"
-    environment: *wp_env
+    environment:
+      <<: *wp_env
+      WP_CLI_CACHE_DIR: /tmp/wp-cli-cache
     depends_on:
       db: {condition: service_healthy}
     volumes:
