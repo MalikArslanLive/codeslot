@@ -6,7 +6,13 @@
     "path": "packages/codeslot-1.0.0.zip",
     "sha256": "0422819a7e8536433dab021290cfb6702c03101ae282de4d392f453033d4ec47",
     "production_file_count": 21,
-    "followup_validation": "passed"
+    "followup_validation": "passed",
+    "readme_refresh": {
+      "sha256": "6501d173a809fd29f3f5c5f8443a26c320a10531fa9d9fe24cae0157602251ff",
+      "archive_integrity_and_source_bytes": "passed for all 21 entries",
+      "only_changed_archive_entry": "readme.txt",
+      "followup": "See PR #14 checks for clean ZIP installation, runtime tests and Plugin Check."
+    }
   },
   "local_followup": {
     "phpcs": "passed",
@@ -34,9 +40,7 @@
     "every cache/CDN",
     "all arbitrary PHP side effects"
   ],
-  "blocked": [
-    "Repository administrative writes still return 403 Resource not accessible by integration. Controlled /user probes return the same authenticated account for configured, absent and deliberately invalid Authorization headers; managed route authentication is being injected, so missing PAT permissions are not established."
-  ],
+  "blocked": [],
   "draft_release": {
     "id": 444445230,
     "url": "https://github.com/MalikArslanLive/codeslot/releases",
@@ -99,5 +103,6 @@
     "security_run": "https://github.com/MalikArslanLive/codeslot/actions/runs/43442469078",
     "security_conclusion": "success",
     "package_sha256": "93f8b9cb591101d7ceb6ab17e838c502d9f27d44fc89bd9700ff81516d5cee06"
-  }
+  },
+  "repository_settings": "Administrative settings applied and verified in the owner browser session. See docs/REPOSITORY-SETTINGS.md."
 }

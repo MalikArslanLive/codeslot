@@ -7,7 +7,7 @@ Stable tag: 1.0.0
 License: GPL-2.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-Global and individual Header, Body and Footer code with privileged local snippets, conditions and recovery controls.
+Add Header, Body and Footer code site-wide or on individual pages, posts and WooCommerce products. Manage snippets and conditions.
 
 == Description ==
 By Malik Arslan: https://malikarslan.com/
@@ -17,7 +17,9 @@ Source and documentation: https://github.com/MalikArslanLive/codeslot
 
 All included CodeSlot features are free under GPL-2.0-or-later.
 
-CodeSlot manages global code and individual page, post, public custom post type, WooCommerce product and term-archive code. Global and individual settings coexist. Output order is global, matching snippets, individual code.
+Add code to a single page, post, WooCommerce product or public custom post type from its native WordPress editor. Each item has independent Header, Body and Footer fields with their own enable switches. Saved code appears on that item's own frontend URL. Categories, tags and public custom taxonomy terms have individual fields for their own archive pages.
+
+For example, open a landing page, paste a script into its Footer field, enable that slot and update the page. The script appears on that landing page only. Global code can remain active. Output order is global slots, matching snippets, then individual code.
 
 A separate local snippet manager supports PHP, JavaScript, CSS, HTML, plain text, reusable content and shortcode content, priorities, conditions, import/export, locks, local templates and the last 30 saved versions with code comparison. Visual snippets can also run before or after a selected numbered paragraph. Explicit Run Once PHP tasks stay inactive, require confirmation, record output/status and cannot be automatically retried.
 
@@ -40,8 +42,8 @@ Full backup JSON additionally includes global/individual code slots, settings, f
 == Installation ==
 1. Upload the codeslot directory to wp-content/plugins, or upload the generated plugin ZIP.
 2. Activate CodeSlot.
-3. Open Settings -> CodeSlot for global slots; use CodeSlot -> All Snippets for snippets.
-4. Use the CodeSlot meta box in an item's native WordPress editor, or the fields on term editing screens.
+3. Open CodeSlot -> Header, Body & Footer for global slots. Open CodeSlot -> All Snippets to manage snippets.
+4. For individual code, open the page, post, WooCommerce product or public custom post type in its native editor. Find CodeSlot — Header, Body & Footer, enable the slot you want and save the item. Edit a category, tag or public custom taxonomy term to set code for its archive.
 
 == Configuration ==
 Use CodeSlot -> Header, Body & Footer for global slots. Open an item in its native WordPress editor for individual slots. Create snippets through CodeSlot -> Add New, give each a name, choose its type and location, review conditions and save. Only activate code you trust. Edit existing snippets using their name or the Edit link in All Snippets. Quick Edit updates metadata without changing code. Select page and Bulk Edit update selected snippets; Delete requires confirmation. Search, filters and first/previous/next/last pagination help navigate larger libraries. Unnamed legacy entries have an ID-based fallback title.
