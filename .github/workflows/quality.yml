@@ -105,7 +105,7 @@ jobs:
       - run: npm run test:e2e
       - run: python3 tests/isolation.py
       - if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: browser-reports
           path: |
@@ -114,7 +114,7 @@ jobs:
       - if: always()
         run: docker compose logs > compose.log
       - if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: compose-logs
           path: compose.log
@@ -126,7 +126,7 @@ jobs:
       - run: docker compose run --rm cli plugin install plugin-check --activate
       - run: docker compose run --rm cli plugin check codeslot --exclude-directories=tests,scripts,docs,.github,dist,playwright-report,test-results --format=json > plugin-check.json
       - if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: plugin-check
           path: plugin-check.json
@@ -139,7 +139,7 @@ jobs:
       - if: always()
         run: docker compose -f compose.yaml -f compose.servers.yaml logs --no-color > server-compose.log
       - if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: server-results
           path: |
@@ -176,7 +176,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: python3 scripts/build.py
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         with:
           name: codeslot-1.0.0
           path: |
