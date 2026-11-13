@@ -21,7 +21,7 @@ python3 scripts/build.py
 The Compose CLI image is PHP 8.3. To run PHP tooling without host PHP:
 
 ```
-docker compose run --rm --user root --entrypoint sh cli -c 'curl -fsSL https://getcomposer.org/download/2.8.12/composer.phar -o /tmp/composer.phar && cd wp-content/plugins/codeslot && php /tmp/composer.phar install --no-interaction'
+docker compose run --rm --user root --entrypoint sh cli -c 'curl -fsSL https://getcomposer.org/composer-stable.phar -o /tmp/composer.phar && cd wp-content/plugins/codeslot && php /tmp/composer.phar install --no-interaction'
 docker compose run --rm --entrypoint php cli wp-content/plugins/codeslot/vendor/bin/phpunit -c wp-content/plugins/codeslot/phpunit.xml
 docker compose run --rm --entrypoint sh cli -c 'cd wp-content/plugins/codeslot && php vendor/bin/phpstan analyse --memory-limit=2G'
 docker compose run --rm --entrypoint sh cli -c 'cd wp-content/plugins/codeslot && php vendor/bin/phpcs'

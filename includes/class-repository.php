@@ -192,7 +192,7 @@ final class Repository {
 				'menu_order' => 'ASC',
 				'ID'         => 'ASC',
 				),
-				'meta_key'       => '_codeslot_location',
+				'meta_key'       => '_codeslot_location', // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key -- Active location-scoped request cache; benchmarked.
 				'meta_value'     => $location, // phpcs:ignore WordPress.DB.SlowDBQuery
 			'no_found_rows'      => true,
 			)

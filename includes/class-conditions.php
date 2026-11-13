@@ -17,7 +17,7 @@ final class Conditions {
 		}
 		$out = array(
 			'include' => array(),
-			'exclude' => array(),
+			'exclude' => array(), // phpcs:ignore WordPressVIPMinimum.Performance.WPQueryParams.PostNotIn_exclude -- Expression data, not a database query.
 		);
 		foreach ( $out as $kind => $unused ) {
 			$groups = isset( $input[ $kind ] ) ? $input[ $kind ] : array();

@@ -262,7 +262,8 @@ final class Admin {
 
 	private static function listing() {
 		$search = isset( $_GET['s'] ) ? sanitize_text_field( wp_unslash( $_GET['s'] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-		$status = isset( $_GET['status'] ) && in_array( $_GET['status'], array( 'draft', 'publish' ), true ) ? $_GET['status'] : array( 'draft', 'publish' ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		$filter = isset( $_GET['status'] ) ? sanitize_key( wp_unslash( $_GET['status'] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only list filter.
+		$status = in_array( $filter, array( 'draft', 'publish' ), true ) ? $filter : array( 'draft', 'publish' ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		$order  = isset( $_GET['sort'] ) && 'title' === $_GET['sort'] ? 'title' : 'menu_order'; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		$paged  = isset( $_GET['paged'] ) ? max( 1, absint( $_GET['paged'] ) ) : 1; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		$args   = array(
@@ -277,11 +278,11 @@ final class Admin {
 			),
 		);
 		if ( ! empty( $_GET['category'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-			$args['tax_query'] = array(
+			$args['tax_query'] = array( // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query -- Admin-only paginated filter.
 				array(
 					'taxonomy' => 'codeslot_category',
 					'field'    => 'slug',
-					'terms'    => sanitize_title( wp_unslash( $_GET['category'] ) ),
+					'terms'    => sanitize_title( wp_unslash( $_GET['category'] ) ), // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only filter.
 				),
 			); // phpcs:ignore WordPress.Security.NonceVerification.Recommended,WordPress.DB.SlowDBQuery
 		}
@@ -310,6 +311,7 @@ final class Admin {
 
 	public static function save() {
 		Permissions::verify();
+		check_admin_referer( 'codeslot_save' ); // Explicit at the mutation route for static analyzers.
 		$task   = isset( $_POST['task'] ) ? sanitize_key( $_POST['task'] ) : '';
 		$id     = isset( $_POST['id'] ) ? absint( $_POST['id'] ) : 0;
 		$page   = 'codeslot';
@@ -377,7 +379,7 @@ final class Admin {
 				Runtime::clear_cache();
 				break;
 			case 'import':
-				$result = Repository::import( isset( $_POST['json'] ) ? wp_unslash( $_POST['json'] ) : '' );
+				$result = Repository::import( isset( $_POST['json'] ) ? wp_unslash( $_POST['json'] ) : '' ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Bounded schema validation in Repository::import; source must remain intact.
 				$page   = 'codeslot-transfer';
 				break; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 			case 'export':

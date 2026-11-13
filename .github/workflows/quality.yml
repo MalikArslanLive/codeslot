@@ -9,7 +9,7 @@ permissions:
   contents: read
 jobs:
   php:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     strategy:
       fail-fast: false
       matrix:
@@ -19,7 +19,7 @@ jobs:
       - uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php }}
-          tools: composer:2.8.12
+          tools: composer:2
           coverage: none
       - uses: actions/cache@v4
         with:
@@ -33,7 +33,7 @@ jobs:
       - run: composer lint
       - run: composer audit
   javascript:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -43,7 +43,7 @@ jobs:
       - run: npm ci
       - run: npm run lint
   wordpress:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     strategy:
       fail-fast: false
       matrix:
@@ -74,12 +74,18 @@ jobs:
           ln -s "$GITHUB_WORKSPACE" /tmp/codeslot-wp/wp-content/plugins/codeslot
           wp plugin activate codeslot --path=/tmp/codeslot-wp
           wp eval-file tests/integration.php --path=/tmp/codeslot-wp
+      - name: Clean production ZIP
+        run: |
+          python3 scripts/build.py
+          rm /tmp/codeslot-wp/wp-content/plugins/codeslot
+          wp plugin install "$GITHUB_WORKSPACE/dist/codeslot-1.0.0.zip" --path=/tmp/codeslot-wp --activate
+          wp eval-file tests/integration.php --path=/tmp/codeslot-wp
       - name: Multisite
         run: |
           wp core multisite-convert --path=/tmp/codeslot-wp
           wp eval-file tests/integration.php --path=/tmp/codeslot-wp
   browser:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -106,12 +112,12 @@ jobs:
           name: compose-logs
           path: compose.log
   plugin-check:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
       - run: scripts/provision.sh
       - run: docker compose run --rm cli plugin install plugin-check --activate
-      - run: docker compose run --rm cli plugin check codeslot --format=json > plugin-check.json
+      - run: docker compose run --rm cli plugin check codeslot --exclude-directories=tests,scripts,docs,.github,dist,playwright-report,test-results --format=json > plugin-check.json
       - if: always()
         uses: actions/upload-artifact@v4
         with:
@@ -119,7 +125,7 @@ jobs:
           path: plugin-check.json
   experimental:
     continue-on-error: true
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
       - uses: shivammathur/setup-php@v2
@@ -130,7 +136,7 @@ jobs:
       - run: find includes -name '*.php' -print0 | xargs -0 -n1 php -l
   package:
     needs: [php, javascript, wordpress, browser, plugin-check]
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
       - run: python3 scripts/build.py

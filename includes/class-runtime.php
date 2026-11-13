@@ -46,7 +46,7 @@ final class Runtime {
 			add_action(
 				$hook,
 				static function () use ( $hook ) {
-					echo self::location( $hook );
+					echo self::location( $hook ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Privileged administrator-authored insertion.
 				}
 			); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Deliberately privileged code.
 		}
@@ -187,7 +187,7 @@ final class Runtime {
 		self::$rendered[ $key ] = true;
 		self::$running          = $snippet['id'];
 		try {
-			eval( $snippet['code'] ); // phpcs:ignore Squiz.PHP.Eval.Discouraged -- Trusted administrator PHP; never a sandbox.
+			eval( $snippet['code'] ); // phpcs:ignore Squiz.PHP.Eval.Discouraged,Generic.PHP.ForbiddenFunctions.Found -- Trusted administrator PHP; never a sandbox.
 		} catch ( \Throwable $error ) {
 			self::failure( $snippet['id'], get_class( $error ) . ': ' . $error->getMessage() );
 		} finally {
