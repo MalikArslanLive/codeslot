@@ -5,6 +5,9 @@ on:
   workflow_dispatch:
   schedule:
     - cron: '21 5 * * 1'
+concurrency:
+  group: quality-${{ github.ref }}
+  cancel-in-progress: true
 permissions:
   contents: read
 jobs:
@@ -48,7 +51,7 @@ jobs:
       fail-fast: false
       matrix:
         wp: ['6.8.3', '6.9', 'latest']
-        php: ['8.2', '8.3', '8.4']
+        php: ['7.4', '8.0', '8.1', '8.2', '8.3', '8.4', '8.5']
     services:
       mysql:
         image: mariadb:11.4
@@ -84,6 +87,9 @@ jobs:
         run: |
           wp core multisite-convert --path=/tmp/codeslot-wp
           wp eval-file tests/integration.php --path=/tmp/codeslot-wp
+          wp eval-file tests/safe-constant.php --path=/tmp/codeslot-wp
+          wp eval-file tests/uninstall.php --path=/tmp/codeslot-wp
+          CS_DELETE_TEST=1 wp eval-file tests/uninstall.php --path=/tmp/codeslot-wp
   browser:
     runs-on: ubuntu-24.04
     steps:

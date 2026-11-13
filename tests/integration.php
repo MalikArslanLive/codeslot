@@ -39,6 +39,19 @@ cs_assert(!get_post_meta($page,'_codeslot_slots',true),'missing nonce blocks met
 $_POST['codeslot_nonce']=$nonce;
 Admin::save_post($page,get_post($page));
 cs_assert(get_post_meta($page,'_codeslot_slots',true)['header']['code']==='<!-- secret -->','valid nonce saves metadata');
+$revision=wp_insert_post(['post_type'=>'revision','post_status'=>'inherit','post_parent'=>$page,'post_name'=>$page.'-autosave-v1','post_title'=>'autosave']);
+Admin::save_post($revision,get_post($revision));
+cs_assert(!get_post_meta($revision,'_codeslot_slots',true),'autosave/revision cannot store executable slots');
+$term=wp_insert_term('Nonce term '.wp_generate_password(5,false),'category');
+$_POST=['codeslot_slots'=>['footer'=>['enabled'=>true,'code'=>'term source']]];
+Admin::save_term($term['term_id']);
+cs_assert(!get_term_meta($term['term_id'],'_codeslot_slots',true),'term missing nonce rejected');
+$_POST['codeslot_term_nonce']=wp_create_nonce('codeslot_term');Admin::save_term($term['term_id']);
+cs_assert(get_term_meta($term['term_id'],'_codeslot_slots',true)['footer']['code']==='term source','term valid nonce saved');
+wp_delete_term($term['term_id'],'category');
+$history=get_post_meta($id,'_codeslot_history',true);$rollback=$history[0]['snippet'];$rollback['active']=false;
+Repository::save($rollback,$id);
+cs_assert(Repository::get($id)['code']==='<!-- CS-SNIPPET -->' && !Repository::get($id)['active'],'snapshot rollback restores source inactive');
 $editor=wp_insert_user(['user_login'=>'codeslot-editor','user_pass'=>'disposable','role'=>'editor']);
 if(is_wp_error($editor)){$editor=get_user_by('login','codeslot-editor')->ID;}
 wp_set_current_user($editor);

@@ -12,7 +12,7 @@ function codeslot_uninstall_site() {
 		$ids = get_posts(
 			array(
 				'post_type'      => 'codeslot_snippet',
-				'post_status'    => 'any',
+				'post_status'    => array_values( get_post_stati() ),
 				'posts_per_page' => 100,
 				'fields'         => 'ids',
 			)
