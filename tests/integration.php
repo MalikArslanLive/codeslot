@@ -91,7 +91,9 @@ wp_delete_post($first,true);wp_delete_post($second,true);
 $native=get_post_type_object('codeslot_snippet');
 cs_assert(!$native->show_in_rest && !$native->public,'no public snippet REST routes');
 if(is_multisite()){
- $site=wp_insert_site(['domain'=>'sub.example.org','path'=>'/']);
+ $existing_sites=get_sites(['domain'=>'sub.example.org','path'=>'/','fields'=>'ids','number'=>1]);
+ $site=$existing_sites ? $existing_sites[0] : wp_insert_site(['domain'=>'sub.example.org','path'=>'/']);
+ cs_assert(!is_wp_error($site),'multisite fixture can be reused');
  switch_to_blog($site);cs_assert(!get_post_meta($page,'_codeslot_slots',true),'multisite metadata isolation');restore_current_blog();
  wp_update_user(['ID'=>$editor,'role'=>'administrator']);wp_set_current_user($editor);cs_assert(!Permissions::allowed(),'site admin cannot manage executable code on multisite');wp_set_current_user(1);
 }
