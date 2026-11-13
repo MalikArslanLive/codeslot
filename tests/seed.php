@@ -17,7 +17,7 @@ $tid=(int)$term['term_id'];
 wp_set_post_terms($fixture['post-a']['id'],[$tid],'category');
 update_term_meta($tid,'_codeslot_slots',CodeSlot\Permissions::slots(['header'=>['enabled'=>true,'code'=>'<!-- CS-CATEGORY-A -->']]));
 $fixture['category-a']=['id'=>$tid,'url'=>get_term_link($tid,'category'),'marker'=>'CS-CATEGORY-A'];
-update_option('codeslot_global',CodeSlot\Permissions::slots(['header'=>['enabled'=>true,'code'=>'<!-- CS-GLOBAL-HEADER -->'],'footer'=>['enabled'=>true,'code'=>'<!-- CS-GLOBAL-FOOTER -->']]));
+update_option('codeslot_global',CodeSlot\Permissions::slots(['header'=>['enabled'=>true,'code'=>'<!-- CS-GLOBAL-HEADER -->'],'body'=>['enabled'=>true,'code'=>'<!-- CS-GLOBAL-BODY -->'],'footer'=>['enabled'=>true,'code'=>'<!-- CS-GLOBAL-FOOTER -->']]));
 foreach (['post-b'=>'post','product-b'=>'product'] as $slug=>$type) {
  $existing=get_posts(['name'=>$slug,'post_type'=>$type,'numberposts'=>1]);
  $other=$existing ? $existing[0]->ID : wp_insert_post(['post_title'=>$slug,'post_name'=>$slug,'post_type'=>$type,'post_status'=>'publish','post_content'=>'Unrelated item']);

@@ -25,7 +25,7 @@ final class Admin {
 		foreach ( array(
 			'codeslot'          => 'All Snippets',
 			'codeslot-new'      => 'Add New',
-			'codeslot-global'   => 'Header & Footer',
+			'codeslot-global'   => 'Header, Body & Footer',
 			'codeslot-transfer' => 'Import / Export',
 			'codeslot-tools'    => 'Tools',
 			'codeslot-settings' => 'Settings',
@@ -116,7 +116,9 @@ final class Admin {
 		}
 		wp_enqueue_code_editor( array( 'type' => 'text/html' ) );
 		wp_enqueue_script( 'codeslot-admin', plugins_url( 'assets/admin.js', CODESLOT_FILE ), array( 'code-editor' ), CODESLOT_VERSION, true );
-		wp_enqueue_style( 'codeslot-admin', plugins_url( 'assets/admin.css', CODESLOT_FILE ), array(), CODESLOT_VERSION );
+		// Content-based cache key also refreshes styles when reinstalling version 1.0.0.
+		$style_version = CODESLOT_VERSION . '-' . substr( hash_file( 'sha256', dirname( CODESLOT_FILE ) . '/assets/admin.css' ), 0, 12 );
+		wp_enqueue_style( 'codeslot-admin', plugins_url( 'assets/admin.css', CODESLOT_FILE ), array(), $style_version );
 	}
 
 	public static function notices() {
@@ -135,7 +137,7 @@ final class Admin {
 	}
 
 	private static function form_start( $task, $id = 0 ) {
-		echo '<form method="post" action="' . esc_url( admin_url( 'admin-post.php' ) ) . '"><input type="hidden" name="action" value="codeslot_save"><input type="hidden" name="task" value="' . esc_attr( $task ) . '"><input type="hidden" name="id" value="' . absint( $id ) . '">';
+		echo '<form class="codeslot-panel" method="post" action="' . esc_url( admin_url( 'admin-post.php' ) ) . '"><input type="hidden" name="action" value="codeslot_save"><input type="hidden" name="task" value="' . esc_attr( $task ) . '"><input type="hidden" name="id" value="' . absint( $id ) . '">';
 		wp_nonce_field( 'codeslot_save' );
 	}
 
@@ -144,7 +146,19 @@ final class Admin {
 			wp_die( esc_html__( 'Code access denied.', 'codeslot' ), '', array( 'response' => 403 ) );
 		}
 		$page = isset( $_GET['page'] ) ? sanitize_key( $_GET['page'] ) : 'codeslot'; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-		echo '<div class="wrap codeslot-wrap"><h1>CodeSlot</h1>';
+		echo '<div class="wrap codeslot-wrap"><header class="codeslot-header"><div><h1>CodeSlot</h1><p>Manage your site code, all in one place.</p></div><span class="codeslot-version">' . esc_html( CODESLOT_VERSION ) . '</span></header>';
+		echo '<nav class="codeslot-nav" aria-label="CodeSlot pages">';
+		foreach ( array(
+			'codeslot'          => 'All Snippets',
+			'codeslot-new'      => 'Add New',
+			'codeslot-global'   => 'Header, Body & Footer',
+			'codeslot-transfer' => 'Import / Export',
+			'codeslot-tools'    => 'Tools',
+			'codeslot-settings' => 'Settings',
+		) as $slug => $label ) {
+			echo '<a href="' . esc_url( admin_url( 'admin.php?page=' . $slug ) ) . '"' . ( $page === $slug ? ' aria-current="page"' : '' ) . '>' . esc_html( $label ) . '</a>';
+		}
+		echo '</nav><div class="codeslot-content">';
 		switch ( $page ) {
 			case 'codeslot-global':
 				echo '<h2>' . esc_html__( 'Global Header, Body & Footer', 'codeslot' ) . '</h2><p>' . esc_html__( 'Trusted raw code is inserted on frontend HTML pages. Output order: global → conditional snippets → individual code.', 'codeslot' ) . '</p>';
@@ -157,19 +171,20 @@ final class Admin {
 				self::editor();
 				break;
 			case 'codeslot-transfer':
-				echo '<h2>Import / Export</h2><p>' . esc_html__( 'Imports create inactive, unlocked copies. Review every line before activation. Maximum 5 MiB / 200 snippets.', 'codeslot' ) . '</p>';
+				echo '<h2>Import / Export</h2><p class="codeslot-intro">' . esc_html__( 'Imports create inactive, unlocked copies. Review every line before activation. Maximum 5 MiB / 200 snippets.', 'codeslot' ) . '</p>';
 				self::form_start( 'export' );
+				echo '<h3>Export your snippets</h3><p>Download a JSON backup of your snippet library. Exports can contain private executable code; store them securely.</p>';
 				submit_button( __( 'Download JSON', 'codeslot' ) );
 				echo '</form>';
 				self::form_start( 'import' );
-				echo '<label for="codeslot-json">CodeSlot JSON</label><textarea id="codeslot-json" name="json" rows="12" class="large-text code" required></textarea>';
+				echo '<h3>Import snippets</h3><label for="codeslot-json">Paste CodeSlot JSON</label><textarea id="codeslot-json" name="json" rows="12" class="large-text code" required></textarea>';
 				submit_button( __( 'Import inactive copies', 'codeslot' ) );
 				echo '</form>';
 				break;
 			case 'codeslot-settings':
 				$settings = get_option( 'codeslot_settings', array() );
 				self::form_start( 'settings' );
-				echo '<h2>Settings</h2><p><label><input type="checkbox" name="safe_mode" value="1" ' . checked( ! empty( $settings['safe_mode'] ), true, false ) . '> Safe Mode: disable all output and execution</label></p><p><label><input type="checkbox" name="delete_data" value="1" ' . checked( ! empty( $settings['delete_data'] ), true, false ) . '> Delete CodeSlot data on uninstall (irreversible)</label></p>';
+				echo '<h2>Settings</h2><p class="codeslot-intro">Control execution and choose what happens to your data when CodeSlot is removed.</p><h3>Execution</h3><p><label><input type="checkbox" name="safe_mode" value="1" ' . checked( ! empty( $settings['safe_mode'] ), true, false ) . '> Safe Mode: disable all output and execution</label></p><h3>Uninstall preferences</h3><p>Code is retained by default. Back up your snippets before enabling deletion.</p><p><label><input type="checkbox" name="delete_data" value="1" ' . checked( ! empty( $settings['delete_data'] ), true, false ) . '> Delete CodeSlot data on uninstall (irreversible)</label></p>';
 				submit_button();
 				echo '</form>';
 				break;
@@ -179,7 +194,7 @@ final class Admin {
 			default:
 				self::listing();
 		}
-		echo '</div>';
+		echo '</div></div>';
 	}
 
 	private static function editor() {
@@ -209,15 +224,15 @@ final class Admin {
 		}
 		echo '<h2>' . esc_html( $id ? __( 'Edit Snippet', 'codeslot' ) : __( 'Add Snippet', 'codeslot' ) ) . '</h2><p class="codeslot-risk">' . esc_html__( 'PHP and scripts have full site privileges. This is not a sandbox. Keep a backup and filesystem access. PHP starts after query setup and cannot reliably register earlier hooks.', 'codeslot' ) . '</p>';
 		self::form_start( 'snippet', $id );
-		self::input( 'name', 'Name', $s['name'] );
+		self::input( 'name', 'Snippet name', $s['name'] );
 		self::input( 'description', 'Description', $s['description'] );
-		echo '<p><label for="codeslot-type">Code type</label> <select id="codeslot-type" name="type">';
+		echo '<div class="codeslot-editor-options"><p><label for="codeslot-type">Code type</label> <select id="codeslot-type" name="type">';
 		foreach ( Repository::types() as $type ) {
 			echo '<option ' . selected( $s['type'], $type, false ) . '>' . esc_html( $type ) . '</option>'; }
-		echo '</select> <label for="codeslot-location">Location</label> <select id="codeslot-location" name="location">';
+		echo '</select></p><p><label for="codeslot-location">Location</label> <select id="codeslot-location" name="location">';
 		foreach ( array_unique( array_merge( Repository::locations( 'php' ), Repository::locations( 'html' ) ) ) as $location ) {
 			echo '<option ' . selected( $s['location'], $location, false ) . '>' . esc_html( $location ) . '</option>'; }
-		echo '</select></p><label for="codeslot-source">Code (PHP without tags; JS/CSS without wrappers)</label><textarea id="codeslot-source" name="code" rows="18" class="large-text code codeslot-code" data-codeslot-mode="' . esc_attr( self::mode( $s['type'] ) ) . '">' . esc_textarea( $s['code'] ) . '</textarea>';
+		echo '</select></p></div><label for="codeslot-source">Code (PHP without tags; JS/CSS without wrappers)</label><textarea id="codeslot-source" name="code" rows="18" class="large-text code codeslot-code" data-codeslot-mode="' . esc_attr( self::mode( $s['type'] ) ) . '">' . esc_textarea( $s['code'] ) . '</textarea>';
 		self::input( 'priority', 'Priority (lower runs first)', $s['priority'], 'number' );
 		self::input( 'categories', 'Categories (comma separated)', implode( ',', $s['categories'] ) );
 		self::input( 'tags', 'Tags (comma separated)', implode( ',', $s['tags'] ) );
@@ -257,7 +272,7 @@ final class Admin {
 	}
 
 	private static function input( $name, $label, $value, $type = 'text' ) {
-		echo '<p><label for="codeslot-' . esc_attr( $name ) . '">' . esc_html( $label ) . '</label><br><input class="regular-text" id="codeslot-' . esc_attr( $name ) . '" type="' . esc_attr( $type ) . '" name="' . esc_attr( $name ) . '" value="' . esc_attr( $value ) . '"></p>';
+		echo '<p class="codeslot-field"><label for="codeslot-' . esc_attr( $name ) . '">' . esc_html( $label ) . '</label><br><input class="regular-text" id="codeslot-' . esc_attr( $name ) . '" type="' . esc_attr( $type ) . '" name="' . esc_attr( $name ) . '" value="' . esc_attr( $value ) . '"' . ( 'name' === $name ? ' required aria-required="true"' : '' ) . '></p>';
 	}
 
 	private static function listing() {
@@ -287,26 +302,35 @@ final class Admin {
 			); // phpcs:ignore WordPress.Security.NonceVerification.Recommended,WordPress.DB.SlowDBQuery
 		}
 		$query = new \WP_Query( $args );
-		echo '<h2>All Snippets <a class="page-title-action" href="' . esc_url( admin_url( 'admin.php?page=codeslot-new' ) ) . '">Add New</a></h2><form method="get"><input type="hidden" name="page" value="codeslot"><label>Search <input name="s" value="' . esc_attr( $search ) . '"></label> <label>Status <select name="status"><option value="">All</option><option value="publish">Active</option><option value="draft">Inactive</option></select></label> <label>Sort <select name="sort"><option value="priority">Priority</option><option value="title">Name</option></select></label> <label>Category slug <input name="category"></label> <button class="button">Filter</button></form>';
+		echo '<div class="codeslot-section-heading"><div><h2>All Snippets</h2><p>Create, organize and edit your site code.</p></div><a class="button button-primary" href="' . esc_url( admin_url( 'admin.php?page=codeslot-new' ) ) . '">Add New</a></div>';
+		$category = isset( $_GET['category'] ) ? sanitize_title( wp_unslash( $_GET['category'] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only filter.
+		echo '<form class="codeslot-filters" method="get"><input type="hidden" name="page" value="codeslot"><label>Search<input name="s" placeholder="Search snippets" value="' . esc_attr( $search ) . '"></label><label>Status<select name="status"><option value="">All statuses</option><option value="publish" ' . selected( $filter, 'publish', false ) . '>Active</option><option value="draft" ' . selected( $filter, 'draft', false ) . '>Inactive</option></select></label><label>Sort<select name="sort"><option value="priority" ' . selected( $order, 'menu_order', false ) . '>Priority</option><option value="title" ' . selected( $order, 'title', false ) . '>Name</option></select></label><label>Category slug<input name="category" placeholder="All categories" value="' . esc_attr( $category ) . '"></label><button class="button" type="submit">Filter</button><a class="button" href="' . esc_url( admin_url( 'admin.php?page=codeslot' ) ) . '">Reset</a></form>';
 		self::form_start( 'bulk' );
-		echo '<p><label>Action <select name="bulk"><option value="deactivate">Deactivate</option><option value="activate">Activate</option><option value="duplicate">Duplicate inactive</option><option value="delete">Delete permanently</option></select></label> <label><input type="checkbox" name="confirm" value="1"> Confirm changes to selected snippets</label> <button class="button">Apply</button></p><table class="wp-list-table widefat striped"><thead><tr><th>Select</th><th>Name</th><th>Type / Location</th><th>Status</th><th>Priority</th><th>Tags</th></tr></thead><tbody>';
+		echo '<div class="codeslot-bulk"><label>Bulk action<select name="bulk"><option value="deactivate">Deactivate</option><option value="activate">Activate</option><option value="duplicate">Duplicate inactive</option><option value="delete">Delete permanently</option></select></label><label class="codeslot-confirm"><input type="checkbox" name="confirm" value="1"> Confirm changes to selected snippets</label><button class="button" type="submit">Apply</button></div><table class="wp-list-table widefat striped codeslot-table"><caption class="screen-reader-text">Saved snippets and editing actions</caption><thead><tr><th scope="col">Select</th><th scope="col">Name</th><th scope="col">Type / Location</th><th scope="col">Status</th><th scope="col">Priority</th><th scope="col">Tags</th></tr></thead><tbody>';
 		foreach ( $query->posts as $post ) {
 			$s = Repository::get( $post->ID );
 			if ( ! $s ) {
 				continue; }
-			echo '<tr><td><input type="checkbox" aria-label="' . esc_attr( 'Select ' . $s['name'] ) . '" name="ids[]" value="' . absint( $post->ID ) . '"></td><td><a href="' . esc_url( admin_url( 'admin.php?page=codeslot-new&id=' . $post->ID ) ) . '">' . esc_html( $s['name'] ) . '</a>' . ( $s['locked'] ? ' 🔒' : '' ) . '<br>' . esc_html( $s['description'] ) . '</td><td>' . esc_html( $s['type'] . ' / ' . $s['location'] ) . '</td><td>' . esc_html( $s['active'] ? 'Active' : 'Inactive' ) . '</td><td>' . (int) $s['priority'] . '</td><td>' . esc_html( implode( ', ', $s['tags'] ) ) . '</td></tr>';
+			/* translators: %d: ID of a saved snippet that has no name. */
+			$name = '' !== trim( $s['name'] ) ? $s['name'] : sprintf( __( 'Untitled snippet #%d', 'codeslot' ), $post->ID );
+			$edit = admin_url( 'admin.php?page=codeslot-new&id=' . $post->ID );
+			echo '<tr><td data-label="Select"><input type="checkbox" aria-label="' . esc_attr( 'Select ' . $name ) . '" name="ids[]" value="' . absint( $post->ID ) . '"></td><td data-label="Name" class="codeslot-name"><strong><a href="' . esc_url( $edit ) . '">' . esc_html( $name ) . '</a></strong>' . ( $s['locked'] ? ' <span class="codeslot-lock">Locked</span>' : '' ) . '<p class="codeslot-description">' . esc_html( $s['description'] ) . '</p><a class="codeslot-edit" aria-label="' . esc_attr( 'Edit ' . $name ) . '" href="' . esc_url( $edit ) . '">Edit</a><span class="codeslot-id">ID: ' . absint( $post->ID ) . '</span></td><td data-label="Type / Location"><span class="codeslot-type">' . esc_html( $s['type'] ) . '</span><span class="codeslot-location">' . esc_html( str_replace( '_', ' ', $s['location'] ) ) . '</span></td><td data-label="Status"><span class="codeslot-status ' . ( $s['active'] ? 'is-active' : 'is-inactive' ) . '">' . esc_html( $s['active'] ? 'Active' : 'Inactive' ) . '</span></td><td data-label="Priority">' . (int) $s['priority'] . '</td><td data-label="Tags">' . esc_html( $s['tags'] ? implode( ', ', $s['tags'] ) : '—' ) . '</td></tr>';
 		}
-		echo '</tbody></table></form>';
+		if ( ! $query->post_count ) {
+			echo '<tr><td colspan="6" class="codeslot-empty"><h3>No snippets found</h3><p>Add your first snippet or adjust the filters above.</p><a class="button button-primary" href="' . esc_url( admin_url( 'admin.php?page=codeslot-new' ) ) . '">Add New</a></td></tr>';
+		}
+		echo '</tbody></table></form><nav class="codeslot-pagination" aria-label="Snippet pages">';
 		for ( $i = 1; $i <= $query->max_num_pages; ++$i ) {
-			echo '<a class="button" href="' . esc_url( add_query_arg( 'paged', $i ) ) . '">' . absint( $i ) . '</a> '; }
+			echo '<a class="button"' . ( $i === $paged ? ' aria-current="page"' : '' ) . ' href="' . esc_url( add_query_arg( 'paged', $i ) ) . '">' . absint( $i ) . '</a> '; }
+		echo '</nav>';
 	}
 
 	private static function tools() {
-		echo '<h2>Recovery</h2><p>Set <code>define( \'CODESLOT_SAFE_MODE\', true );</code> in wp-config.php before WordPress loads. This disables every slot and snippet. If necessary rename the plugin directory. Safe Mode cannot undo code side effects.</p><h2>Local templates</h2>';
+		echo '<section class="codeslot-panel"><h2>Recovery</h2><p>Set <code>define( \'CODESLOT_SAFE_MODE\', true );</code> in wp-config.php before WordPress loads. This disables every slot and snippet. If necessary rename the plugin directory. Safe Mode cannot undo code side effects.</p></section><section class="codeslot-panel"><h2>Local templates</h2><p>Start with a template, review its code and save it before activating.</p><div class="codeslot-templates">';
 		$library = require dirname( CODESLOT_FILE ) . '/templates/library.php';
 		foreach ( $library as $key => $template ) {
 			echo '<p><a href="' . esc_url( admin_url( 'admin.php?page=codeslot-new&template=' . $key ) ) . '">' . esc_html( $template['name'] ) . '</a></p>'; }
-		echo '<p>Templates are inserted inactive for review. CodeSlot has no cloud dependencies or telemetry.</p>';
+		echo '</div><p>Templates are inserted inactive for review. CodeSlot has no cloud dependencies or telemetry.</p></section>';
 	}
 
 	public static function save() {

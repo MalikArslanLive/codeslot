@@ -1,4 +1,4 @@
-=== CodeSlot ===
+=== CodeSlot – Header, Body & Footer Code + Snippet Manager ===
 Tags: code snippets, header, footer, custom code, scripts
 Requires at least: 6.8
 Tested up to: 7.1
@@ -10,6 +10,10 @@ License URI: https://www.gnu.org/licenses/gpl-2.0.html
 Global and individual Header, Body and Footer code with privileged local snippets, conditions and recovery controls.
 
 == Description ==
+By Malik Arslan: https://malikarslan.com/
+Plugin: https://wordpress.org/plugins/codeslot/
+Source and documentation: https://github.com/MalikArslanLive/codeslot
+
 CodeSlot manages global code and individual page, post, public custom post type, WooCommerce product and term-archive code. Global and individual settings coexist. Output order is global, matching snippets, individual code.
 
 A separate local snippet manager supports PHP, JavaScript, CSS, HTML, plain text, reusable content and shortcode content, priorities, conditions, import/export, locks, local templates and the last 30 saved versions.
@@ -23,6 +27,9 @@ This is a release candidate; see the repository compatibility and test reports f
 2. Activate CodeSlot.
 3. Open Settings -> CodeSlot for global slots; use CodeSlot -> All Snippets for snippets.
 4. Use the CodeSlot meta box in an item's native WordPress editor, or the fields on term editing screens.
+
+== Configuration ==
+Use CodeSlot -> Header, Body & Footer for global slots. Open an item in its native WordPress editor for individual slots. Create snippets through CodeSlot -> Add New, give each a name, choose its type and location, review conditions and save. Only activate code you trust. Edit existing snippets using their name or the Edit link in All Snippets. Unnamed legacy entries have an ID-based fallback title.
 
 == Frequently Asked Questions ==
 
@@ -47,4 +54,5 @@ Data is retained by default. Enable the explicit deletion option in CodeSlot Set
 == Changelog ==
 
 = 1.0.0 =
-* Initial local snippet manager, global slots, individual slots, conditions and recovery controls.
+* Local snippet manager, global and individual slots, conditions and recovery controls.
+* Responsive admin screens, visible Edit actions, fallback snippet titles and retained list filters.

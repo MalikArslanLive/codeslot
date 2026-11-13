@@ -1,0 +1,31 @@
+
+Running 14 tests using 1 worker
+
+(node:29283) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:29283) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 tests/admin.spec.js:15:5 › global editors and settings save (9.2s)
+  ✓   2 tests/admin.spec.js:21:5 › create snippet, conditions builder, activation and frontend (4.3s)
+  ✓   3 tests/admin.spec.js:36:5 › classic content meta box (4.8s)
+  ✓   4 tests/admin.spec.js:42:5 › Gutenberg native meta box integration (8.3s)
+  ✓   5 tests/admin.spec.js:55:5 › WooCommerce product code fields (4.5s)
+  ✓   6 tests/admin.spec.js:60:5 › admin mutation rejects missing nonce (3.2s)
+  ✓   7 tests/elementor.spec.js:2:5 › Elementor preview retains individual page slots (9.7s)
+  ✓   8 tests/ui.spec.js:12:7 › all admin pages fit at 1440px (5.4s)
+  ✓   9 tests/ui.spec.js:12:7 › all admin pages fit at 768px (5.1s)
+  ✓  10 tests/ui.spec.js:12:7 › all admin pages fit at 390px (5.0s)
+  ✓  11 tests/ui.spec.js:12:7 › all admin pages fit at 320px (4.9s)
+time="2026-11-13T09:17:41Z" level=warning msg="Found orphan containers ([codeslot-openlitespeed-1 codeslot-nginx-1 codeslot-fpm-1]) for this project. If you removed or renamed this service in your compose file, you can run this command with the --remove-orphans flag to clean it up."
+ Container codeslot-db-1  Running
+[13-Nov-2026 09:17:44 UTC] PHP Deprecated:  Function WP\MCP\Core\McpAdapter is <strong>deprecated</strong> since version 0.7.0! Use WP\MCP\Core\McpAdapter is currently loaded as a bundled dependency instead of via the canonical MCP Adapter plugin. This is not recommended and may not be supported in future versions. Please install the MCP Adapter plugin and migrate accordingly. instead. in /var/www/html/wp-includes/functions.php on line 6260
+Deprecated: Function WP\MCP\Core\McpAdapter is <strong>deprecated</strong> since version 0.7.0! Use WP\MCP\Core\McpAdapter is currently loaded as a bundled dependency instead of via the canonical MCP Adapter plugin. This is not recommended and may not be supported in future versions. Please install the MCP Adapter plugin and migrate accordingly. instead. in /var/www/html/wp-includes/functions.php on line 6260
+time="2026-11-13T09:17:47Z" level=warning msg="Found orphan containers ([codeslot-openlitespeed-1 codeslot-nginx-1 codeslot-fpm-1]) for this project. If you removed or renamed this service in your compose file, you can run this command with the --remove-orphans flag to clean it up."
+ Container codeslot-db-1  Running
+[13-Nov-2026 09:17:50 UTC] PHP Deprecated:  Function WP\MCP\Core\McpAdapter is <strong>deprecated</strong> since version 0.7.0! Use WP\MCP\Core\McpAdapter is currently loaded as a bundled dependency instead of via the canonical MCP Adapter plugin. This is not recommended and may not be supported in future versions. Please install the MCP Adapter plugin and migrate accordingly. instead. in /var/www/html/wp-includes/functions.php on line 6260
+Deprecated: Function WP\MCP\Core\McpAdapter is <strong>deprecated</strong> since version 0.7.0! Use WP\MCP\Core\McpAdapter is currently loaded as a bundled dependency instead of via the canonical MCP Adapter plugin. This is not recommended and may not be supported in future versions. Please install the MCP Adapter plugin and migrate accordingly. instead. in /var/www/html/wp-includes/functions.php on line 6260
+  ✓  12 tests/ui.spec.js:30:5 › unnamed legacy snippet remains visible and editable; name is required for new UI saves (11.8s)
+  ✓  13 tests/ui.spec.js:45:5 › filter controls retain their selection and reset clears filters (3.9s)
+  ✓  14 tests/ui.spec.js:58:5 › conditions remain usable on a narrow viewport (2.7s)
+
+  14 passed (1.4m)

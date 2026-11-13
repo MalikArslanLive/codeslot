@@ -1,0 +1,20 @@
+
+Running 3 tests using 1 worker
+
+(node:31636) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:31636) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+time="2026-11-13T09:18:15Z" level=warning msg="Found orphan containers ([codeslot-openlitespeed-1 codeslot-nginx-1 codeslot-fpm-1]) for this project. If you removed or renamed this service in your compose file, you can run this command with the --remove-orphans flag to clean it up."
+ Container codeslot-db-1  Running
+[13-Nov-2026 09:18:18 UTC] PHP Deprecated:  Function WP\MCP\Core\McpAdapter is <strong>deprecated</strong> since version 0.7.0! Use WP\MCP\Core\McpAdapter is currently loaded as a bundled dependency instead of via the canonical MCP Adapter plugin. This is not recommended and may not be supported in future versions. Please install the MCP Adapter plugin and migrate accordingly. instead. in /var/www/html/wp-includes/functions.php on line 6260
+Deprecated: Function WP\MCP\Core\McpAdapter is <strong>deprecated</strong> since version 0.7.0! Use WP\MCP\Core\McpAdapter is currently loaded as a bundled dependency instead of via the canonical MCP Adapter plugin. This is not recommended and may not be supported in future versions. Please install the MCP Adapter plugin and migrate accordingly. instead. in /var/www/html/wp-includes/functions.php on line 6260
+time="2026-11-13T09:18:21Z" level=warning msg="Found orphan containers ([codeslot-openlitespeed-1 codeslot-nginx-1 codeslot-fpm-1]) for this project. If you removed or renamed this service in your compose file, you can run this command with the --remove-orphans flag to clean it up."
+ Container codeslot-db-1  Running
+[13-Nov-2026 09:18:23 UTC] PHP Deprecated:  Function WP\MCP\Core\McpAdapter is <strong>deprecated</strong> since version 0.7.0! Use WP\MCP\Core\McpAdapter is currently loaded as a bundled dependency instead of via the canonical MCP Adapter plugin. This is not recommended and may not be supported in future versions. Please install the MCP Adapter plugin and migrate accordingly. instead. in /var/www/html/wp-includes/functions.php on line 6260
+Deprecated: Function WP\MCP\Core\McpAdapter is <strong>deprecated</strong> since version 0.7.0! Use WP\MCP\Core\McpAdapter is currently loaded as a bundled dependency instead of via the canonical MCP Adapter plugin. This is not recommended and may not be supported in future versions. Please install the MCP Adapter plugin and migrate accordingly. instead. in /var/www/html/wp-includes/functions.php on line 6260
+  ✓  1 tests/ui.spec.js:30:5 › unnamed legacy snippet remains visible and editable; name is required for new UI saves (11.3s)
+  ✓  2 tests/ui.spec.js:45:5 › filter controls retain their selection and reset clears filters (4.0s)
+  ✓  3 tests/ui.spec.js:58:5 › conditions remain usable on a narrow viewport (2.8s)
+
+  3 passed (19.4s)

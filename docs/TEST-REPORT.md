@@ -1,5 +1,7 @@
 # CodeSlot 1.0.0 test execution report
 
+**Historical baseline:** this report describes the previous package. See [UI-VALIDATION.md](UI-VALIDATION.md) for the current rebuilt ZIP, responsive UI checks and server evidence.
+
 Date: 2026-11-13. Status: **installable release candidate; gated CI package available**. No public release, production deployment or WordPress.org submission was performed.
 
 ## Gated CI evidence

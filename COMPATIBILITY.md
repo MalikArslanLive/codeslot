@@ -43,3 +43,7 @@ Nightly WordPress: a separate non-blocking workflow currently downloads nightly 
 WooCommerce native/classic editing is supported through WordPress meta boxes. Experimental React product editors may omit them and are not certified. Elementor fields are managed in the native WordPress editor, not its canvas. Public post types/taxonomies are supported; private internal types and attachments are excluded. Multisite is per-site with super-admin management; no shared network snippet library exists.
 
 Page caches must vary or bypass role/login/device conditions and be purged after code changes and recovery. CodeSlot cannot rewrite another cache's policies. Device targeting uses advisory wp_is_mobile user-agent hints, not reliable tablet classification. No premium, cloud or proprietary feature parity is claimed.
+
+## Current responsive UI build
+
+The tables above preserve the earlier baseline. The current 1.0.0 UI build is documented in [docs/UI-VALIDATION.md](docs/UI-VALIDATION.md). Its local execution covers WordPress 7.1.4, PHP 8.3.36 on Apache/mod_php and Nginx/FPM, PHP 8.2.35 on OpenLiteSpeed/LSAPI, and PHP 8.5.12 CLI tooling. Server identities and SAPIs are measured through HTTP. The expanded CI configuration selects eight WordPress targets (6.5, 6.6, 6.7, 6.8.3, 6.9, 7.0, 7.1.4 and latest) across PHP 7.4–8.5; configuration alone is not a pass. Requirements remain WordPress 6.8+ and PHP 7.4+; no lower minimum is advertised from unexecuted matrix jobs. LiteSpeed Enterprise, CGI, Windows and macOS are not tested.

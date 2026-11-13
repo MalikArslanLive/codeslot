@@ -1,7 +1,10 @@
 <?php
 /**
- * Plugin Name: CodeSlot
+ * Plugin Name: CodeSlot – Header, Body & Footer Code + Snippet Manager
  * Description: Global and individual code slots with privileged local snippet management.
+ * Plugin URI: https://wordpress.org/plugins/codeslot/
+ * Author: Malik Arslan
+ * Author URI: https://malikarslan.com/
  * Version: 1.0.0
  * Requires at least: 6.8
  * Requires PHP: 7.4

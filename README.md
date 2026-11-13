@@ -1,8 +1,14 @@
-# CodeSlot
+# CodeSlot – Header, Body & Footer Code + Snippet Manager
+
+[![CI](https://github.com/MalikArslanLive/codeslot/actions/workflows/quality.yml/badge.svg)](https://github.com/MalikArslanLive/codeslot/actions/workflows/quality.yml)
+![Version](https://img.shields.io/badge/version-1.0.0-blue)
+[![License](https://img.shields.io/badge/license-GPL--2.0--or--later-blue)](LICENSE)
+
+By [Malik Arslan](https://malikarslan.com/) · [WordPress.org](https://wordpress.org/plugins/codeslot/) · [GitHub](https://github.com/MalikArslanLive/codeslot)
 
 WordPress code management with global and individual Header, Body and Footer slots, plus a local snippet manager. GPL-2.0-or-later. Version 1.0.0.
 
-**Installable release candidate; gated CI package verified.** Read [TESTING.md](TESTING.md), [COMPATIBILITY.md](COMPATIBILITY.md) and [RELEASE-CHECKLIST.md](RELEASE-CHECKLIST.md) before production use. Passing a local check does not establish compatibility with every theme or plugin.
+**Version 1.0.0 with responsive admin screens.** Read [TESTING.md](TESTING.md), [COMPATIBILITY.md](COMPATIBILITY.md) and [RELEASE-CHECKLIST.md](RELEASE-CHECKLIST.md) before production use. Passing a local check does not establish compatibility with every theme or plugin.
 
 ## Install
 
@@ -42,4 +48,4 @@ Emergency recovery: add `define( 'CODESLOT_SAFE_MODE', true );` to `wp-config.ph
 
 See [DEVELOPMENT.md](DEVELOPMENT.md) for Docker, fixtures, tooling and build commands; [FEATURE-MATRIX.md](FEATURE-MATRIX.md) for scope compared with the independently studied public reference documentation. No competitor code, branding or premium software is bundled. No cloud connection, telemetry, upsells or frontend assets are added.
 
-The checked package is also committed at `packages/codeslot-1.0.0.zip` with SHA256SUMS. Its bytes match the successful Actions package. To configure an author identity, the repository owner may explicitly add an `Author:` header to codeslot.php; none is invented or required at runtime.
+The checked package is also committed at `packages/codeslot-1.0.0.zip` with SHA256SUMS. See [the current validation report](docs/UI-VALIDATION.md) for the rebuilt package and checks; historical CI results apply to the earlier package. Author: Malik Arslan — https://malikarslan.com/.
