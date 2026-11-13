@@ -12,3 +12,5 @@ Version remains 1.0.0. The ZIP is prepared for WordPress.org review; approval/li
 The source repository intentionally retains tests, CI, lockfiles and provisioning scripts; the installable ZIP excludes them. They are required for reproducible development and should not be deleted as packaging clutter.
 
 See [repository settings](REPOSITORY-SETTINGS.md) for administrative settings that cannot be applied while GitHub API access is blocked.
+
+Current status: annotated v1.0.0 is pushed; the [draft release](https://github.com/MalikArslanLive/codeslot/releases/tag/untagged-9064600735998234b942) contains the verified ZIP and SHA256SUMS. It remains unpublished. The draft is visible to authorized repository collaborators; public ZIP download remains available from packages/ in the repository.

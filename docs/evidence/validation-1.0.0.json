@@ -46,6 +46,17 @@
     "all arbitrary PHP side effects"
   ],
   "blocked": [
-    "GitHub API repository settings and draft release; api.github.com denied by managed network policy"
-  ]
+    "GitHub API returns 403 Resource not accessible by integration for repository Administration, Environments, vulnerability reporting/alerts and Actions permissions endpoints; network access now works."
+  ],
+  "draft_release": {
+    "id": 444445230,
+    "url": "https://github.com/MalikArslanLive/codeslot/releases/tag/untagged-9064600735998234b942",
+    "draft": true,
+    "tag": "v1.0.0",
+    "assets": [
+      "codeslot-1.0.0.zip",
+      "SHA256SUMS"
+    ],
+    "github_asset_sha256": "93f8b9cb591101d7ceb6ab17e838c502d9f27d44fc89bd9700ff81516d5cee06"
+  }
 }
