@@ -1,0 +1,3 @@
+PASS: local deliverable exactly matches gated CI package
+SHA256 a580ed3101d538ca0ea22b8dead58f48e5d1100fe6166b99caeefa658202c064
+CI https://github.com/MalikArslanLive/codeslot/actions/runs/43392868687

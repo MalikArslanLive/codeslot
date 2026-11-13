@@ -1,0 +1,5 @@
+Plugin 'codeslot' deactivated.
+Success: Deactivated 1 of 1 plugins.
+Uninstalled and deleted 'codeslot' plugin.
+Success: Uninstalled 1 of 1 plugins.
+Success: Actual deactivated-plugin uninstall removed opted-in data.
