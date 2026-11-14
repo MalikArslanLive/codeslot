@@ -2,6 +2,7 @@
 
 CodeSlot 1.0.0 requires **WordPress 6.5+ and PHP 7.4+**. Prefer maintained runtimes. Other plugins can require newer PHP; CodeSlot compatibility does not override their requirements.
 
+The matrix and server tables below record earlier 1.0.0 baseline runs. The current administration/package refresh reran browser, integration and tooling checks on WordPress 7.1.4 with PHP 8.3.36/Apache; it did not repeat every matrix entry. Live Meta network behavior is documented separately in [TESTING.md](TESTING.md).
 
 | WordPress target | PHP 7.4 | 8.0 | 8.1 | 8.2 | 8.3 | 8.4 | 8.5 |
 |---|---|---|---|---|---|---|---|

@@ -6,6 +6,8 @@ for attempt in {1..60}; do
   if [ "$attempt" -eq 60 ]; then exit 1; fi
   sleep 2
 done
+docker compose run --rm cli config set WP_DEBUG_DISPLAY false --raw
+docker compose run --rm cli config set WP_DEBUG_LOG true --raw
 if ! docker compose run --rm cli core is-installed; then
   docker compose run --rm cli core install --url=http://localhost:8888 --title='CodeSlot disposable test site' --admin_user=codeslot-admin --admin_password=disposable-test-password --admin_email=test@example.org --skip-email
 fi

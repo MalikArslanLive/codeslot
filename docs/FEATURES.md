@@ -16,7 +16,7 @@ Every feature shipped in CodeSlot 1.0.0 is free under GPL-2.0-or-later.
 | One-time tasks | Nonce-confirmed PHP execution, atomic claim, captured output/status, no automatic retry |
 | Tools | Private System Info with optional site/path details, copy/download, bounded local event logs and recovery guidance |
 | Public files | Virtual ads.txt/app-ads.txt/service-worker.js plus appended robots.txt directives; physical files take precedence; worker registration opt-in |
-| Pixels | Consent-gated Meta, Google, Pinterest, TikTok and Snapchat browser integrations; base/click and optional WooCommerce events; no server-side API |
+| Pixels | Consent-gated Meta, Google, Google Tag Manager, Pinterest, TikTok and Snapchat browser integrations; base/click and optional WooCommerce events; GTM codeslot_* dataLayer events |
 | Early hooks | Explicit bootstrap PHP at init on all request types, without query conditions; Safe Mode applies |
 | Recovery | PHP syntax checks, Safe Mode and best-effort direct-error recovery |
 | Multisite | Per-site data, restricted to super-admin code management |

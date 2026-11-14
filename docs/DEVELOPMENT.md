@@ -2,6 +2,8 @@
 
 Requirements for a developer machine: Docker with Compose, Python 3 and Node 22. The provisioned containers supply WordPress, PHP, MariaDB and WP-CLI. Host PHP/MySQL are not needed for the site. Never expose this disposable environment publicly. The documented passwords are disposable local fixtures, not production credentials.
 
+Provisioning keeps WP_DEBUG enabled and writes warnings to wp-content/debug.log while WP_DEBUG_DISPLAY is false. Debug output must not be injected into admin redirects or REST/JSON responses. Inspect the log during testing; disabling display does not suppress error logging.
+
 ```
 ./scripts/provision.sh             # start, install free plugins, seed
 # Access http://localhost:8888; codeslot-admin / disposable-test-password
@@ -39,7 +41,7 @@ On hosts where container root creates root-owned artifacts, match the container 
 - WooCommerce hooks: `woocommerce_before_single_product`, `woocommerce_after_single_product`, `woocommerce_before_shop_loop`, `woocommerce_after_shop_loop`.
 - `CodeSlot\Repository` is an internal API, not a stable external extension contract. Its writes enforce the same privileged capability gate.
 
-An active snippet query is scoped to location and published status, cached within the request. Individual slots use only `get_queried_object_id()`, never whichever post happens to be in a secondary loop. Settings and metadata use WordPress caches. No frontend assets are enqueued.
+An active snippet query is scoped to location and published status, cached within the request. Individual slots use only `get_queried_object_id()`, never whichever post happens to be in a secondary loop. Settings and metadata use WordPress caches. The optional pixel integration adds its local frontend controller when configured; provider SDKs load only after explicit marketing consent.
 
 ## Server and responsive UI validation
 
@@ -47,4 +49,4 @@ An active snippet query is scoped to location and published status, cached withi
 
 `npm run test:e2e` includes all nine CodeSlot admin screens at 1440, 768, 390 and 320 pixels, legacy unnamed-snippet editing, filter state and narrow-screen conditions. Screenshots are written under test-results. The test-only product post type is used only if WooCommerce has not registered its real product type; results must identify which configuration ran.
 
-Extended regressions: `docker compose run --rm cli eval-file wp-content/plugins/codeslot/tests/extended-features.php` and `npx playwright test tests/extended-features.spec.js`. Run integration/backup tests before reseeding browser fixtures, or use separate disposable sites; restore tests must not mutate unrelated fixtures. Full browser scope is 29 tests.
+Extended regressions: `docker compose run --rm cli eval-file wp-content/plugins/codeslot/tests/extended-features.php` and `npx playwright test tests/extended-features.spec.js tests/redesign.spec.js`. Run integration/backup tests before reseeding browser fixtures, or use separate disposable sites; restore tests must not mutate unrelated fixtures. Full browser scope is 35 tests. The separate opt-in live Meta check is documented in TESTING.md and is not part of the normal suite.

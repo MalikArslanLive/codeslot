@@ -5,10 +5,10 @@ export async function login(page) {
     log:'codeslot-admin',
     pwd:'disposable-test-password',
     'wp-submit':'Log In',
-    redirect_to:'/wp-admin/',
+    redirect_to:'/wp-admin/admin.php?page=codeslot',
     testcookie:'1'
   }});
   if (!response.ok()) throw new Error(`WordPress login failed: HTTP ${response.status()}`);
-  await page.goto('/wp-admin/');
+  await page.goto('/wp-admin/admin.php?page=codeslot');
   await page.waitForURL(/\/wp-admin\//);
 }

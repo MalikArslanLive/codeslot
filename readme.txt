@@ -25,7 +25,7 @@ A separate local snippet manager supports PHP, JavaScript, CSS, HTML, plain text
 
 Executable code is privileged functionality. Access requires manage_options, unfiltered_html and edit_plugins; multisite additionally requires super-admin. PHP is not sandboxed. Review every snippet and keep backups and filesystem access.
 
-This is a release candidate; see the repository compatibility and test reports for actual tested combinations. A minimum version expresses a target, not proof of every combination.
+Requires WordPress 6.5 or later and PHP 7.4 or later. See the repository requirements and compatibility guide for tested combinations and environment-specific limits.
 
 = Tools, library, files and pixels =
 
@@ -46,7 +46,7 @@ Full backup JSON additionally includes global/individual code slots, settings, f
 4. For individual code, open the page, post, WooCommerce product or public custom post type in its native editor. Find CodeSlot — Header, Body & Footer, enable the slot you want and save the item. Edit a category, tag or public custom taxonomy term to set code for its archive.
 
 == Configuration ==
-Use CodeSlot -> Header, Body & Footer for global slots. Open an item in its native WordPress editor for individual slots. Create snippets through CodeSlot -> Add New, give each a name, choose its type and location, review conditions and save. Only activate code you trust. Edit existing snippets using their name or the Edit link in All Snippets. Quick Edit updates metadata without changing code. Select page and Bulk Edit update selected snippets; Delete requires confirmation. Search, filters and first/previous/next/last pagination help navigate larger libraries. Unnamed legacy entries have an ID-based fallback title.
+Use CodeSlot -> Header, Body & Footer for global slots. Open an item in its native WordPress editor for individual slots. Create snippets through CodeSlot -> Add New, give each a name, choose its type and location, review conditions and save. Only activate code you trust. Edit existing snippets using their name or the Edit link in All Snippets. Quick Edit updates metadata without changing code. Select page and Bulk Edit update selected snippets; Delete requires confirmation. All Snippets has search, filters, code-type tabs and pagination. The local Library shows every recipe on one page with live search and category filters. Unnamed legacy entries have the same ID-based fallback title in both editors. JavaScript, CSS and PHP show read-only wrapper hints; use HTML for a complete script/style embed.
 
 == Frequently Asked Questions ==
 
@@ -78,6 +78,9 @@ Data is retained by default. Enable the explicit deletion option in CodeSlot Set
 == Changelog ==
 
 = 1.0.0 =
+* Green responsive administration with single-page library filtering, full-editor title fixes and read-only wrapper hints.
+* Add Google Tag Manager container support, tracking ID examples and consent-gated dataLayer events.
+* Improve WooCommerce cart/checkout/purchase event payloads and duplicate prevention.
 * Remove redundant bulk-confirm checkbox; prefill untitled Quick Edit names, metadata and accessible status switches.
 * Add confirmed permanent revision clearing, 142 local recipes/guides, System Info and local event logs.
 * Add virtual public files, consent-gated browser pixels/WooCommerce events and selected full-backup restore.
@@ -90,7 +93,7 @@ Data is retained by default. Enable the explicit deletion option in CodeSlot Set
 Conversion Pixels is optional and disabled by default. After the administrator enables a provider and the visitor explicitly grants marketing consent, that provider's browser SDK receives selected page/click events and, when WooCommerce is available, opted-in commerce events. Browser requests inherently disclose IP address/user agent and may include page/referrer information or set provider cookies. CodeSlot does not add customer contact data or advanced matching. The administrator is responsible for provider-account configuration and consent handling, including third-party cookies after withdrawal. No SDK loads from CodeSlot before consent.
 
 * Meta: https://www.facebook.com/legal/terms and https://www.facebook.com/privacy/policy/
-* Google: https://policies.google.com/terms and https://policies.google.com/privacy
+* Google, including Google Tag Manager: SDKs load from www.googletagmanager.com. A published GTM container can load the tags configured by its administrator. Terms: https://policies.google.com/terms Privacy: https://policies.google.com/privacy
 * Pinterest: https://policy.pinterest.com/en/terms-of-service and https://policy.pinterest.com/en/privacy-policy
 * TikTok: https://www.tiktok.com/legal/page/row/terms-of-service/en and https://www.tiktok.com/legal/page/row/privacy-policy/en
 * Snapchat: https://www.snap.com/terms and https://values.snap.com/privacy/privacy-policy

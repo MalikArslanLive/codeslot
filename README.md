@@ -34,12 +34,17 @@ Themes must call `wp_head`, `wp_body_open` and `wp_footer`. Attachments and priv
 - Confirmed Run Once PHP tasks with atomic claim, output/status records and no automatic retry.
 - PHP syntax checks, Safe Mode, error reporting and best-effort direct-error recovery.
 - Per-site multisite storage with super-admin management.
+- A single-page local library with 142 recipes/setup guides, live search and category filters.
+- Private System Info, bounded local logs and virtual ads.txt/app-ads.txt/robots.txt/service-worker.js tools.
+- Consent-gated Meta, Google, Google Tag Manager, Pinterest, TikTok and Snapchat integrations, including optional WooCommerce events.
 
 See [feature details and limits](docs/FEATURES.md).
 
 ## Install
 
-[Download CodeSlot 1.0.0](https://github.com/MalikArslanLive/codeslot/raw/refs/heads/main/packages/codeslot-1.0.0.zip) · [SHA256SUMS](packages/SHA256SUMS)
+[Download the current CodeSlot 1.0.0 package](https://github.com/MalikArslanLive/codeslot/raw/refs/heads/main/packages/codeslot-1.0.0.zip) · [SHA256SUMS](packages/SHA256SUMS)
+
+This package follows the current `main` source, including the green responsive interface, editor fixes and Google Tag Manager integration. The original published `v1.0.0` release assets remain their original source snapshot. Verify the checksum supplied with the package you download.
 
 1. In WordPress, open **Plugins → Add New → Upload Plugin** and select the ZIP.
 2. Activate CodeSlot. When replacing an earlier 1.0.0 build, back up first and choose **Replace current with uploaded**.
@@ -74,6 +79,4 @@ For emergency suppression, add `define( 'CODESLOT_SAFE_MODE', true );` to `wp-co
 
 [Features](docs/FEATURES.md) · [Development](docs/DEVELOPMENT.md) · [Testing](docs/TESTING.md) · [Compatibility](docs/COMPATIBILITY.md) · [Import schema](docs/IMPORT-SCHEMA.md) · [Support](SUPPORT.md) · [Publishing](docs/PUBLISHING.md)
 
-Local library: **142 original recipes and setup guides**, searchable by name/category, no companion-plugin requirement for library entries. Tools includes private System Info and bounded event logs. Virtual public files and consent-gated browser pixels are opt-in. See [feature usage](docs/NEW-FEATURES.md) and [library guide](docs/LIBRARY.md).
-
-The green admin interface includes read-only code wrapper hints, consistent untitled names and a single-page filterable library. Pixel cards show ID examples; Google Tag Manager supports consent-gated codeslot_* dataLayer events. See [feature usage](docs/NEW-FEATURES.md).
+For code wrapper hints, tracking ID examples, consent setup, files and local tools, see [feature usage](docs/NEW-FEATURES.md) and the [library guide](docs/LIBRARY.md).
