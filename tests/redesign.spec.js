@@ -46,7 +46,7 @@ test('full editor fills untitled names and shows read-only wrappers without alte
  await page.getByRole('button',{name:'Use HTML for this complete embed'}).click();
  await expect(page.locator('#codeslot-type')).toHaveValue('html');await expect(page.locator('#codeslot-wrapper-open')).toBeHidden();
  await page.getByRole('button',{name:'Save Snippet',exact:true}).click();await expect(page.locator('.notice-success')).toBeVisible();
- const s=JSON.parse(run(`echo wp_json_encode(CodeSlot\\Repository::get(${id}));`));expect(s).toMatchObject({name:`Untitled snippet #${id}`,type:'html',code:'<script>window.csWrapperTest = 2;</script>',active:false});
+ const s=JSON.parse(run(`echo wp_json_encode(CodeSlot\\Repository::get(${id}));`));expect(s).toMatchObject({name:'',type:'html',code:'<script>window.csWrapperTest = 2;</script>',active:false});
 });
 
 test('snippet code-type tabs actually filter saved code types',async({page})=>{

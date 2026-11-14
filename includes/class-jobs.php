@@ -24,6 +24,9 @@ final class Jobs {
 			return new \WP_Error( 'forbidden', 'Code management access is required and Safe Mode must be off.' );
 		}
 		$snippet = Repository::get( $id );
+		if ( $snippet && ! Delivery::eligible( $snippet ) ) {
+			return new \WP_Error( 'schedule', 'This task is outside its scheduled time or device scope.' );
+		}
 		if ( ! $snippet || $snippet['locked'] || 'php' !== $snippet['type'] || 'once' !== $snippet['location'] || self::$running ) {
 			return new \WP_Error( 'job', 'Choose an unlocked PHP snippet with the once location.' );
 		}

@@ -33,7 +33,7 @@ test('untitled Quick Edit preloads display name and existing metadata; toggle pr
  await row.getByRole('switch').click();await expect(page.locator('.notice-success')).toBeVisible();
  expect(JSON.parse(run(`echo wp_json_encode(CodeSlot\\Repository::get(${id}));`))).toMatchObject({active:true,code:'<!-- EXT-KEEP -->'});
  run(`wp_set_current_user(1);$s=CodeSlot\\Repository::get(${id});$s['locked']=true;CodeSlot\\Repository::save($s,${id});`);
- const locked=await page.request.post('/wp-admin/admin-post.php',{form:{action:'codeslot_save',task:'toggle',id,active:'0',_wpnonce:nonce}});expect(locked.status()).toBe(400);
+ const locked=await page.request.post('/wp-admin/admin-post.php',{form:{action:'codeslot_save',task:'toggle',id,active:'0',_wpnonce:nonce}});expect(locked.status()).toBe(200);expect(await locked.text()).toContain('Unlock this snippet before changing status');
 });
 test('clearing revision history warns, cancels safely and preserves current code',async({page})=>{
  const id=save({name:'History fixture',type:'html',location:'header',code:'old'});ids.push(id);

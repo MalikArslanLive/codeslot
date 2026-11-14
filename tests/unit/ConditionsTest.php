@@ -33,4 +33,10 @@ final class ConditionsTest extends TestCase {
  public function testCssWrappersRejected(){self::assertInstanceOf(WP_Error::class,Repository::validate(['type'=>'css','code'=>'<style>body{color:green}</style>','location'=>'header']));}
  public function testHtmlEmbedPreserved(){ $code='<script src="https://example.org/test.js"></script>'; self::assertSame($code,Repository::validate(['type'=>'html','code'=>$code,'location'=>'footer'])['code']);}
  public function testRawJavaScriptAccepted(){self::assertIsArray(Repository::validate(['type'=>'javascript','code'=>'window.example = 1;','location'=>'footer']));}
+ public function testScriptTagInsideJavaScriptStringIsNotAWrapper(){self::assertIsArray(Repository::validate(['type'=>'javascript','code'=>'window.example="<script>";','location'=>'footer']));}
+ public function testSavedLegacyWrapperCanBeValidatedForMetadata(){self::assertIsArray(Repository::validate(['type'=>'javascript','code'=>'<script>window.x=1;</script>','location'=>'footer'],true));}
+ public function testUnknownDeviceIsRejected(){self::assertInstanceOf(WP_Error::class,Repository::validate(['type'=>'html','code'=>'x','location'=>'footer','device'=>'television']));}
+ public function testSelectorLocationRequiresSelector(){self::assertInstanceOf(WP_Error::class,Repository::validate(['type'=>'html','code'=>'x','location'=>'selector_append']));}
+ public function testFileDeliveryRejectsPhp(){self::assertInstanceOf(WP_Error::class,Repository::validate(['type'=>'php','code'=>'return;','location'=>'frontend','load_file'=>true]));}
+ public function testEndBeforeStartIsRejected(){self::assertInstanceOf(WP_Error::class,Repository::validate(['type'=>'html','code'=>'x','location'=>'footer','starts'=>2000000000,'ends'=>1900000000]));}
 }

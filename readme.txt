@@ -21,7 +21,11 @@ Add code to a single page, post, WooCommerce product or public custom post type 
 
 For example, open a landing page, paste a script into its Footer field, enable that slot and update the page. The script appears on that landing page only. Global code can remain active. Output order is global slots, matching snippets, then individual code.
 
-A separate local snippet manager supports PHP, JavaScript, CSS, HTML, plain text, reusable content and shortcode content, priorities, conditions, import/export, locks, local templates and the last 30 saved versions with code comparison. Visual snippets can also run before or after a selected numbered paragraph. Explicit Run Once PHP tasks stay inactive, require confirmation, record output/status and cannot be automatically retried.
+A separate local snippet manager supports PHP, JavaScript, CSS, HTML, plain text, reusable content and shortcode content, priorities, conditions, import/export, locks, local templates and the last 30 changed versions with code comparison. Saving identical source and settings creates no new revision. Visual snippets can also run before or after a selected numbered paragraph. Explicit Run Once PHP tasks stay inactive, require confirmation, record output/status and cannot be automatically retried.
+
+Choose Auto Insert, Shortcode or On Demand, then a grouped insertion location. Visual snippets support frontend Header/Body/Footer, Admin Header/Footer, content/paragraph locations, WooCommerce hooks and CSS-selector placement. PHP provides Frontend Only, Admin Only, Run Everywhere, Early hooks and confirmed Run Once modes, with their execution timing explained in the editor.
+
+Device cards select Any device, Desktop only or Mobile only. Start/end schedules use the site timezone and restrict execution during requests; they are not a background scheduler. Device targeting relies on user-agent detection and needs suitable cache variation. Static-file loading supports JavaScript/CSS in public WordPress uploads; opt-in JavaScript compaction preserves editable source. CSS-selector insertion runs on the initial DOM and does not observe later AJAX changes.
 
 Executable code is privileged functionality. Access requires manage_options, unfiltered_html and edit_plugins; multisite additionally requires super-admin. PHP is not sandboxed. Review every snippet and keep backups and filesystem access.
 
@@ -35,7 +39,7 @@ Tools provides private System Info, copy/download, bounded local logs and recove
 
 Virtual File Editor serves ads.txt, app-ads.txt and service-worker.js, and appends custom robots.txt directives. Physical files take precedence and are never overwritten. Server routing to WordPress and pretty permalinks are required. Service-worker registration is off by default; existing workers/caches require separate browser recovery.
 
-Conversion Pixels supports Meta, Google, Google Tag Manager, Pinterest, TikTok and Snapchat. All integrations are off by default and no vendor script loads before explicit marketing consent. Optional WooCommerce product/cart/checkout/paid-purchase events run only with WooCommerce. These browser integrations are not a cookie banner, legal-compliance certification, payment test or server-side conversion API. Enabling a provider sends tracking events to that provider after consent; review its policies and configure your consent handling.
+Conversion Pixels supports Meta, Google Analytics 4, Google Ads, Google Tag Manager, Pinterest, TikTok and Snapchat. All integrations are off by default and no vendor script loads before explicit marketing consent. Optional WooCommerce product/cart/checkout/paid-purchase events run only with WooCommerce. These browser integrations are not a cookie banner, legal-compliance certification, payment test or server-side conversion API. Enabling a provider sends tracking events to that provider after consent; review its policies and configure your consent handling.
 
 Full backup JSON additionally includes global/individual code slots, settings, files and pixel settings; revisions, logs, execution records and WordPress content are excluded. Restore selected sections replaces matching data, maps existing content by type/path or taxonomy/slug, reports missing matches, disables restored execution and enables Safe Mode. Back up first.
 
@@ -46,7 +50,7 @@ Full backup JSON additionally includes global/individual code slots, settings, f
 4. For individual code, open the page, post, WooCommerce product or public custom post type in its native editor. Find CodeSlot — Header, Body & Footer, enable the slot you want and save the item. Edit a category, tag or public custom taxonomy term to set code for its archive.
 
 == Configuration ==
-Use CodeSlot -> Header, Body & Footer for global slots. Open an item in its native WordPress editor for individual slots. Create snippets through CodeSlot -> Add New, give each a name, choose its type and location, review conditions and save. Only activate code you trust. Edit existing snippets using their name or the Edit link in All Snippets. Quick Edit updates metadata without changing code. Select page and Bulk Edit update selected snippets; Delete requires confirmation. All Snippets has search, filters, code-type tabs and pagination. The local Library shows every recipe on one page with live search and category filters. Unnamed legacy entries have the same ID-based fallback title in both editors. JavaScript, CSS and PHP show read-only wrapper hints; use HTML for a complete script/style embed.
+Use CodeSlot -> Header, Body & Footer for global slots. Open an item in its native WordPress editor for individual slots. Create snippets through CodeSlot -> Add New, give each a name, choose its type and location, review conditions and save. Only activate code you trust. Edit existing snippets using their name or the Edit link in All Snippets. Quick Edit updates metadata without changing code. Select page and Bulk Edit update selected snippets; Trash preserves the snippet. Restore returns it inactive; permanent deletion and Empty Trash require confirmation in Trash. All Snippets has search, filters, code-type tabs and pagination. Native Screen Options lets each user choose separate metadata columns, snippets per page and sorting. Status is the last column. Empty selections and invalid tracking IDs show validation on the relevant screen. The local Library shows every recipe on one page with live search and category filters. Unnamed legacy entries have the same ID-based fallback title in both editors. JavaScript, CSS and PHP show read-only wrapper hints; use HTML for a complete script/style embed.
 
 == Frequently Asked Questions ==
 
@@ -75,9 +79,18 @@ Individual code belongs to the underlying WordPress content item. Use the native
 = Does uninstall delete code? =
 Data is retained by default. Enable the explicit deletion option in CodeSlot Settings before uninstalling to remove site-local CodeSlot data. Back up first.
 
+= When is a revision created? =
+A revision is created only after an actual source or configuration change, including name, description, categories, tags, priority, code type, location, conditions, status or delivery settings. Repeated unchanged saves do not fill the 30-version history. The comparison shows Previous Saved Version on the left and Current Version on the right.
+
 == Changelog ==
 
 = 1.0.0 =
+* Add All/Active/Inactive/Trash views, Undo, inactive restore and guarded permanent deletion.
+* Separate Google Analytics 4 and Google Ads with independent IDs, events and conversion settings.
+* Preserve legacy source during individual and mixed-type bulk status changes; show actionable inline validation.
+* Add native Screen Options, separate metadata columns, branded checkbox states and refined responsive tools/bulk layouts.
+* Add device/schedule controls, Admin and CSS-selector locations, static JavaScript/CSS files and JavaScript compaction.
+* Create revisions only for actual changes, with clear previous/current comparison labels.
 * Green responsive administration with single-page library filtering, full-editor title fixes and read-only wrapper hints.
 * Add Google Tag Manager container support, tracking ID examples and consent-gated dataLayer events.
 * Improve WooCommerce cart/checkout/purchase event payloads and duplicate prevention.

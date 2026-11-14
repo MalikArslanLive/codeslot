@@ -20,6 +20,7 @@ final class Extras {
 		$task   = isset( $_POST['task'] ) ? sanitize_key( $_POST['task'] ) : '';
 		$page   = 'codeslot-tools';
 		$result = true;
+		$input  = array();
 		switch ( $task ) {
 			case 'files':
 				$input = isset( $_POST['files'] ) ? wp_unslash( $_POST['files'] ) : array(); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Validated by Files::validate; privileged source is intentionally raw.
@@ -39,7 +40,7 @@ final class Extras {
 				if ( is_array( $input ) ) {
 					$input['click_selector'] = isset( $_POST['click_selector'] ) ? sanitize_text_field( wp_unslash( $_POST['click_selector'] ) ) : '';
 				}
-				$result = Pixels::validate( $input );
+				$result = Pixels::validate( $input, false );
 				if ( ! is_wp_error( $result ) ) {
 					update_option( 'codeslot_pixels', $result, false );
 					Support::log( 'pixels_saved' );
@@ -77,15 +78,9 @@ final class Extras {
 				$result = new \WP_Error( 'task', 'Unknown operation.' );
 		}
 		if ( is_wp_error( $result ) ) {
-			wp_die(
-				esc_html( $result->get_error_message() ),
-				'',
-				array(
-					'response'  => 400,
-					'back_link' => true,
-				)
-			);
+			Admin::feedback( $result, $page, 0, 'pixels' === $task && is_array( $input ) ? Pixels::draft( $input ) : array() );
 		}
+
 		wp_safe_redirect( admin_url( 'admin.php?page=' . $page . '&codeslot_saved=1' ) );
 		exit;
 	}

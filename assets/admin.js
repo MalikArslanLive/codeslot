@@ -2,7 +2,7 @@
   'use strict';
   const types = ['entire_site','frontend','admin','front_page','home','singular','post_type','term','archive','search','404','logged_in','role','url','mobile','shop','product','cart','checkout','account'];
   const phpLocations = ['frontend','admin','everywhere','bootstrap','manual','once'];
-  const htmlLocations = ['header','body','footer','before_content','after_content','before_paragraph','after_paragraph','shortcode','manual','woocommerce_before_single_product','woocommerce_after_single_product','woocommerce_before_shop_loop','woocommerce_after_shop_loop'];
+  const htmlLocations = ['header','body','footer','admin_header','admin_footer','selector_before','selector_after','selector_prepend','selector_append','selector_replace','before_content','after_content','before_paragraph','after_paragraph','shortcode','manual','woocommerce_before_single_product','woocommerce_after_single_product','woocommerce_before_shop_loop','woocommerce_after_shop_loop'];
   const editors = [];
   document.querySelectorAll('.codeslot-code').forEach(function (el) {
     if (window.wp && window.wp.codeEditor) {
@@ -13,6 +13,8 @@
   });
   const type = document.getElementById('codeslot-type');
   const location = document.getElementById('codeslot-location');
+  const initialSource=document.getElementById('codeslot-source')?.value;
+  const initialType=type?.value;
   function setType() {
     if (!type || !location) return;
     const allowed = type.value === 'php' ? phpLocations : htmlLocations;
@@ -20,6 +22,19 @@
     if (!allowed.includes(location.value)) location.value = allowed[0];
     const paragraph = document.getElementById('codeslot-paragraph-field');
     if (paragraph) paragraph.hidden = !['before_paragraph','after_paragraph'].includes(location.value);
+    const selector=document.getElementById('codeslot-selector-field');
+    if(selector){selector.hidden=!location.value.startsWith('selector_');selector.querySelector('input').required=!selector.hidden;}
+    for(const [key,supported] of [['load_file',['javascript','css']],['compact',['javascript']]]){
+      const control=document.querySelector('[name="'+key+'"]');
+      if(control){control.disabled=!supported.includes(type.value);if(control.disabled)control.checked=false;}
+    }
+    document.querySelectorAll('[name="insertion_method"]').forEach(radio=>{
+      radio.disabled=type.value==='php' && radio.value==='shortcode';
+      radio.checked=radio.value===(['manual','shortcode'].includes(location.value)?location.value:'auto');
+    });
+    const help=document.getElementById('codeslot-location-help');
+    const descriptions={header:'Printed inside the frontend <head>.',body:'Printed after the opening <body> via wp_body_open.',footer:'Printed near the closing frontend </body>.',admin_header:'Printed in the wp-admin head.',admin_footer:'Printed in the wp-admin footer.',frontend:'PHP runs after frontend query setup.',admin:'PHP runs during admin_init.',everywhere:'PHP runs on the frontend and in wp-admin after setup. AJAX, REST, cron and CLI are excluded; use Early hooks for those requests.',bootstrap:'PHP runs at init priority 20 on frontend, admin, login, AJAX, REST, cron and CLI. Query conditions are not supported.',once:'Runs only through its confirmed Run Once action.',manual:'Runs through do_action("codeslot_manual", "Exact snippet name") after query/admin setup.',shortcode:'Insert the displayed [codeslot id="…"] shortcode where this snippet should appear.'};
+    if(help)help.textContent=descriptions[location.value] || 'Runs at the selected location. Use conditions below to limit pages, products, archives or visitors.';
     const active = document.querySelector('[name="active"]');
     if (active) { active.disabled = location.value === 'once'; if (active.disabled) active.checked = false; }
     const modes = {php:{name:'application/x-httpd-php',startOpen:true},javascript:'text/javascript',css:'text/css',text:'text/plain'};
@@ -29,8 +44,8 @@
     const open = document.getElementById('codeslot-wrapper-open');
     const close = document.getElementById('codeslot-wrapper-close');
     if (open && close) { open.textContent = pair[0]; close.textContent = pair[1]; open.hidden = !pair[0]; close.hidden = !pair[1]; }
-    const help = document.getElementById('codeslot-wrapper-help');
-    if (help) help.textContent = pair[0] ? 'Shown tags are supplied automatically. Enter only the code inside them.' : 'HTML accepts complete embeds, including script/style tags.';
+    const wrapperHelp = document.getElementById('codeslot-wrapper-help');
+    if (wrapperHelp) wrapperHelp.textContent = pair[0] ? 'Shown tags are supplied automatically. Enter only the code inside them.' : 'HTML accepts complete embeds, including script/style tags.';
     checkWrappers();
   }
   function checkWrappers() {
@@ -39,9 +54,12 @@
     const html = document.getElementById('codeslot-use-html');
     if (!source || !warning || !html || !type) return;
     const value = source.codeslotEditor ? source.codeslotEditor.getValue() : source.value;
-    const invalid = (type.value === 'javascript' && /<\/?script\b/i.test(value)) || (type.value === 'css' && /<\/?style\b/i.test(value));
-    warning.hidden = !invalid; html.hidden = !invalid;
-    warning.textContent = invalid ? 'This code already contains tags. Use HTML to keep the complete embed, or remove those tags because the selected code type adds them automatically.' : '';
+    const wrapped=['javascript','css'].includes(type.value) && /^\s*<(script|style)\b/i.test(value);
+    const preserved=source.dataset.saved==='1' && value===initialSource && type.value===initialType;
+    const invalid=wrapped && !preserved;
+    warning.hidden = !wrapped; html.hidden = !wrapped;
+    warning.textContent = wrapped ? (preserved ? 'This existing complete embed is preserved unchanged. Choose HTML if you edit its wrapper tags.' : 'This code already contains tags. Use HTML to keep the complete embed, or remove those tags because the selected code type adds them automatically.') : '';
+    if(wrapped){document.getElementById('codeslot-wrapper-open').hidden=true;document.getElementById('codeslot-wrapper-close').hidden=true;}
     source.dataset.wrapperInvalid = invalid ? '1' : '0';
   }
   const source = document.getElementById('codeslot-source');
@@ -49,10 +67,15 @@
     source.addEventListener('input', checkWrappers);
     source.form.addEventListener('submit', event => { if (source.dataset.wrapperInvalid === '1') { event.preventDefault(); if(source.codeslotEditor) source.codeslotEditor.focus(); document.getElementById('codeslot-wrapper-warning').scrollIntoView({block:'center'}); } });
     if (source.codeslotEditor) source.codeslotEditor.on('change', checkWrappers);
+    const selector=document.getElementById('codeslot-selector');
+    if(selector){selector.addEventListener('input',()=>selector.setCustomValidity(''));source.form.addEventListener('submit',event=>{if(!selector.closest('[hidden]') && selector.value){try{document.querySelector(selector.value);}catch{event.preventDefault();selector.setCustomValidity('Enter a valid CSS selector.');selector.reportValidity();}}});}
   }
   const useHTML = document.getElementById('codeslot-use-html');
   if (useHTML) useHTML.addEventListener('click', () => { type.value = 'html'; setType(); });
   if (type) { type.addEventListener('change', setType); location.addEventListener('change', setType); setType(); }
+  document.querySelectorAll('[name="insertion_method"]').forEach(radio=>radio.addEventListener('change',()=>{location.value=radio.value==='auto'?(type.value==='php'?'frontend':'header'):radio.value;setType();}));
+  const locationSearch=document.getElementById('codeslot-location-search');
+  if(locationSearch)locationSearch.addEventListener('input',()=>{for(const option of location.options)option.hidden=option.disabled || !option.textContent.toLowerCase().includes(locationSearch.value.toLowerCase());});
   const container = document.getElementById('codeslot-conditions');
   const hidden = document.getElementById('codeslot-conditions-json');
   if (!container || !hidden) return;
@@ -141,8 +164,12 @@
     });
   }));
   const deleteForm = document.getElementById('codeslot-delete-form');
+  const emptyTrash=document.getElementById('codeslot-empty-trash');
+  if(emptyTrash)emptyTrash.addEventListener('click',()=>{if(!window.confirm('Permanently delete every snippet in Trash? This cannot be undone.'))return;const form=document.getElementById('codeslot-empty-trash-form');form.elements.confirm.value='1';form.requestSubmit();});
   document.querySelectorAll('.codeslot-remove').forEach(button => button.addEventListener('click', () => {
-    if (!window.confirm('Permanently delete "' + button.dataset.name + '"? This cannot be undone.')) return;
+    const task=button.dataset.task || 'trash';
+    if (task==='delete' && !window.confirm('Permanently delete "' + button.dataset.name + '"? This cannot be undone.')) return;
+    deleteForm.elements.task.value=task;
     deleteForm.elements.id.value = button.dataset.id;
     deleteForm.elements.confirm.value = '1';
     deleteForm.requestSubmit();
@@ -156,7 +183,18 @@
   }));
   const bulk = document.getElementById('codeslot-bulk-form');
   if (bulk) bulk.addEventListener('submit', event => {
-    if (bulk.elements.bulk.value === 'delete' && !window.confirm('Permanently delete the selected snippets and their saved versions? This cannot be undone.')) event.preventDefault();
+    if(!bulk.querySelector('[name="ids[]"]:checked')){
+      event.preventDefault();
+      let notice=bulk.querySelector('.codeslot-selection-error');
+      if(!notice){notice=document.createElement('p');notice.className='notice notice-error codeslot-selection-error';notice.setAttribute('role','alert');bulk.querySelector('.codeslot-bulk').after(notice);}
+      notice.textContent='Select at least one snippet before applying an action.';
+      return;
+    }
+    bulk.elements.confirm.value='0';
+    if (bulk.elements.bulk.value === 'delete') {
+      if(!window.confirm('Permanently delete the selected trashed snippets and their saved versions? This cannot be undone.'))event.preventDefault();
+      else bulk.elements.confirm.value='1';
+    }
   });
 }());
 
@@ -220,6 +258,16 @@
       card.querySelector('.codeslot-pixel-state').textContent = !enabled ? 'Disabled' : (!id ? 'Add your tracking ID' : (!events ? 'Enabled · choose events' : 'Enabled · consent required'));
     }
     card.addEventListener('change', state); card.addEventListener('input', state); state();
+    card.closest('form').addEventListener('submit',event=>{
+      const enabled=card.querySelector('input[name$="[enabled]"]');
+      const input=card.querySelector('input[id^="codeslot-pixel-"]');
+      let message=card.querySelector('.codeslot-field-error');
+      if(enabled.checked && !input.value.trim()){
+        event.preventDefault();
+        if(!message){message=document.createElement('p');message.className='codeslot-field-error';message.setAttribute('role','alert');input.after(message);}
+        message.textContent='Enter the public tracking ID before enabling this provider.';input.setAttribute('aria-invalid','true');input.focus();
+      }else{input.removeAttribute('aria-invalid');if(message)message.remove();}
+    });
   });
   const active = document.querySelector('.codeslot-nav a[aria-current="page"]');
   if (active && window.innerWidth < 783) active.scrollIntoView({block:'nearest',inline:'center'});

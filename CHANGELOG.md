@@ -2,6 +2,15 @@
 
 ## 1.0.0
 
+- Add native Trash/Restore/Undo lifecycle and independent GA4/Google Ads integrations.
+
+- Fix individual/mixed bulk toggles for existing wrapper-containing JavaScript/CSS without rewriting source.
+- Add native Screen Options, separate metadata columns with Status last, green checkbox states and responsive bulk/tools layouts.
+- Add grouped insertion methods/locations, device cards, time restrictions, static JS/CSS delivery and JavaScript compaction.
+- Add all five CSS-selector positions and Admin Header/Footer placement.
+- Avoid revisions for unchanged saves; identify changed fields and clarify Previous Saved Version / Current Version comparisons.
+- Keep validation on the relevant screen and preserve invalid Pixel form input for correction.
+
 - Green responsive administration, single-page library filters, consistent full/quick-edit titles and read-only code wrapper hints.
 - Google Tag Manager, tracking ID examples and improved consent-gated WooCommerce event payloads.
 - Global and individual Header, Body and Footer code for public WordPress content and term archives.

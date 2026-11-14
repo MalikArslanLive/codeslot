@@ -36,7 +36,7 @@ On hosts where container root creates root-owned artifacts, match the container 
 
 - `codeslot_manual` action with exact snippet name, after `wp` or `admin_init`.
 - Output uses `wp_head`, `wp_body_open`, `wp_footer` at priority 20.
-- PHP frontend/everywhere runs at `wp`; admin/everywhere at `admin_init`. It cannot register earlier hooks reliably. AJAX, REST and cron PHP execution is intentionally disabled.
+- PHP frontend/everywhere runs at `wp`; admin/everywhere at `admin_init`. It cannot register earlier hooks reliably. Normal query-ready PHP excludes AJAX, REST and cron. The explicit bootstrap location instead runs at init on all request types, without query conditions.
 - Content locations use `the_content` only for the main singular item inside the loop.
 - WooCommerce hooks: `woocommerce_before_single_product`, `woocommerce_after_single_product`, `woocommerce_before_shop_loop`, `woocommerce_after_shop_loop`.
 - `CodeSlot\Repository` is an internal API, not a stable external extension contract. Its writes enforce the same privileged capability gate.
@@ -49,4 +49,8 @@ An active snippet query is scoped to location and published status, cached withi
 
 `npm run test:e2e` includes all nine CodeSlot admin screens at 1440, 768, 390 and 320 pixels, legacy unnamed-snippet editing, filter state and narrow-screen conditions. Screenshots are written under test-results. The test-only product post type is used only if WooCommerce has not registered its real product type; results must identify which configuration ran.
 
-Extended regressions: `docker compose run --rm cli eval-file wp-content/plugins/codeslot/tests/extended-features.php` and `npx playwright test tests/extended-features.spec.js tests/redesign.spec.js`. Run integration/backup tests before reseeding browser fixtures, or use separate disposable sites; restore tests must not mutate unrelated fixtures. Full browser scope is 35 tests. The separate opt-in live Meta check is documented in TESTING.md and is not part of the normal suite.
+Extended regressions: `docker compose run --rm cli eval-file wp-content/plugins/codeslot/tests/extended-features.php` and `npx playwright test tests/extended-features.spec.js tests/redesign.spec.js`. Run integration/backup tests before reseeding browser fixtures, or use separate disposable sites; restore tests must not mutate unrelated fixtures. Full browser scope is 50 tests. The separate opt-in live Meta check is documented in TESTING.md and is not part of the normal suite.
+
+## Bundled JavaScript minifier
+
+includes/minifier contains JShrink 1.7.0 from https://github.com/tedious/JShrink/tree/v1.7.0, with its BSD-3-Clause license and copyright retained. Its PHP namespace is prefixed with CodeSlot to avoid cross-plugin conflicts; three exception messages are fixed strings without source positions. No download or Composer autoloader is needed at runtime. First-party WPCS/PHPStan scopes exclude this third-party implementation (upstream PHPDoc annotations differ from actual return values); browser tests execute the emitted JavaScript, including template and regular-expression behavior. All production PHP files still receive syntax checks. Update the bundled source/license deliberately and rerun those regressions when upgrading it.

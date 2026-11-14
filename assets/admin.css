@@ -253,3 +253,66 @@
 .codeslot-wrap .codeslot-toggle-label input[type=checkbox]:checked{background:#b8e84e}
 .codeslot-wrap .codeslot-toggle-label input[type=checkbox]:checked::before{left:19px;background:#0b1423}
 .codeslot-wrap .codeslot-toggle-label input[type=checkbox]:disabled{opacity:.5;cursor:default}
+
+/* Consistent native controls and responsive action layouts. */
+.codeslot-wrap input[type="checkbox"] {width:18px!important;height:18px!important;min-width:18px;flex:0 0 18px;margin:0 6px 0 0;vertical-align:middle;accent-color:#b8e84e;border-color:#718477}
+.codeslot-wrap input[type="checkbox"]:checked {background:#b8e84e;border-color:#577524}
+.codeslot-wrap input[type="checkbox"]:checked::before {content:"✓";font-family:system-ui,sans-serif;font-size:15px;font-weight:900;color:#0b1423;line-height:16px;display:block;width:16px;height:16px;margin:0}
+.codeslot-wrap input[type="radio"] {accent-color:#557a16;flex:0 0 auto;width:18px;height:18px}
+.codeslot-wrap .codeslot-bulk-editor .codeslot-metadata {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));align-items:start;gap:20px}
+.codeslot-wrap .codeslot-bulk-editor .codeslot-metadata>label {display:flex;flex-wrap:wrap;align-items:center;gap:8px;font-weight:600;min-width:0}
+.codeslot-wrap .codeslot-bulk-editor .codeslot-metadata>label>input:not([type="checkbox"]),.codeslot-wrap .codeslot-bulk-editor select {display:block;flex:1 0 100%;width:100%;margin-top:6px;font-weight:400}
+.codeslot-system-toolbar {display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap}
+.codeslot-system-toolbar label {display:flex;align-items:flex-start;gap:6px;flex:1;min-width:220px}
+.codeslot-wrap .codeslot-config-section>label {display:block;font-weight:600;margin-bottom:8px}
+.codeslot-wrap #codeslot-click-selector {display:block;width:100%;max-width:560px;margin:8px 0}
+.codeslot-field-error {color:#a32020;font-weight:600}
+.codeslot-insertion-method,.codeslot-device-cards {display:flex;gap:12px;flex-wrap:wrap;margin:16px 0}
+.codeslot-insertion-method>label,.codeslot-device-cards>label {display:flex;align-items:center;padding:14px 20px;border:1px solid #cad6cf;border-radius:8px;background:#fff;gap:8px;cursor:pointer}
+.codeslot-insertion-method>label:has(input:checked),.codeslot-device-cards>label:has(input:checked) {border-color:#557a16;background:#f4fae9;box-shadow:0 0 0 1px #557a16}
+.codeslot-insertion-method>span {flex-basis:100%;font-weight:600}
+.codeslot-location-search {display:block;max-width:560px;margin:12px 0;font-weight:600}
+.codeslot-location-search input {display:block;width:100%;margin-top:8px}
+.codeslot-delivery-options>label {display:flex;align-items:center;gap:8px;font-weight:600}
+.codeslot-delivery-options .description {margin:8px 0 20px}
+.codeslot-wrap .codeslot-table {table-layout:auto;width:100%}
+.codeslot-wrap .codeslot-table th,.codeslot-wrap .codeslot-table td {width:auto!important;overflow-wrap:anywhere;white-space:normal;padding:12px 8px;min-width:0}
+.codeslot-wrap .codeslot-table .column-title {width:20%!important;min-width:130px}
+.codeslot-wrap .codeslot-table .check-column {width:32px!important;min-width:32px;padding:12px 6px}
+.codeslot-wrap .codeslot-table .column-status {min-width:90px}
+.codeslot-wrap .codeslot-table .column-shortcode code {font-size:11px;word-break:break-all;white-space:normal}
+.codeslot-row-actions {display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;align-items:center}
+.codeslot-wrap .codeslot-table .hidden {display:none!important}
+.codeslot-screen-settings input[type="number"] {width:80px}
+@media(max-width:782px){
+ .codeslot-wrap .codeslot-table td:not(.check-column):not(.hidden) {display:block;width:auto!important;min-height:28px;padding-left:42%;position:relative;min-width:0}
+ .codeslot-wrap .codeslot-table .column-title {min-width:0;width:auto!important}
+ .codeslot-wrap .codeslot-table td:not(.check-column)::before {position:absolute;left:12px;top:12px;width:36%;content:attr(data-label);font-weight:600;overflow-wrap:normal}
+ .codeslot-wrap .codeslot-table .check-column {position:relative!important;width:100%!important;display:block;padding:12px}
+ .codeslot-wrap .codeslot-table td.check-column::before {content:none}
+ .codeslot-wrap .codeslot-bulk-editor .codeslot-metadata {grid-template-columns:1fr}
+ .codeslot-system-toolbar {align-items:stretch}
+ .codeslot-device-cards>label,.codeslot-insertion-method>label {flex:1 0 auto;padding:12px}
+ .codeslot-wrap .codeslot-table .column-status {min-width:0}
+}
+.codeslot-table-scroll {max-width:100%;overflow-x:auto}
+@media(min-width:783px){.codeslot-wrap .codeslot-table {min-width:1000px}}
+@media(max-width:782px){.codeslot-wrap .codeslot-table {min-width:0}}
+body.toplevel_page_codeslot #screen-meta input[type="checkbox"] {accent-color:#b8e84e}
+body.toplevel_page_codeslot #screen-meta input[type="checkbox"]:checked::before {color:#557a16}
+.codeslot-wrap .codeslot-toggle-label input[type="checkbox"] {width:36px!important;height:20px!important;min-width:36px;flex-basis:36px}
+body.toplevel_page_codeslot #screen-meta input[type="checkbox"]:checked {background:#b8e84e;border-color:#557a16}
+body.toplevel_page_codeslot #screen-meta input[type="checkbox"]:checked::before {content:"✓";font-family:system-ui,sans-serif;font-weight:900;color:#0b1423;width:16px;height:16px;margin:0;line-height:16px}
+.codeslot-status-views {display:flex;gap:0;float:none;margin:12px 0 20px;flex-wrap:wrap}
+.codeslot-status-views a {padding:0 12px;border-right:1px solid #cbd6cb;text-decoration:none}
+.codeslot-status-views a:first-child {padding-left:0}
+.codeslot-status-views a:last-child {border:0}
+.codeslot-status-views a[aria-current="page"] {font-weight:700;color:#172b0c}
+#codeslot-empty-trash-form {display:none}
+.codeslot-undo-form {margin:0 0 10px}
+.codeslot-bulk-field {min-width:0;display:flex;flex-direction:column;gap:10px}
+.codeslot-bulk-field>label:not(.screen-reader-text) {display:flex;align-items:center;font-weight:600;min-height:20px}
+.codeslot-wrap .codeslot-bulk-field input:not([type="checkbox"]),.codeslot-wrap .codeslot-bulk-field select {width:100%;max-width:none}
+.codeslot-wrap .codeslot-remove[data-task="restore"],.codeslot-undo-form .button-link {color:#41610d}
+.codeslot-wrap input[type="checkbox"]:indeterminate {background:#edf6db;border-color:#557a16}
+.codeslot-wrap input[type="checkbox"]:indeterminate::before {content:"−";font-family:system-ui,sans-serif;color:#0b1423;font-size:18px;font-weight:900;width:16px;height:16px;line-height:15px;margin:0}

@@ -8,12 +8,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 final class Pixels {
 	const PROVIDERS = array(
-		'meta'      => 'Meta',
-		'google'    => 'Google Ads / Analytics',
-		'gtm'       => 'Google Tag Manager',
-		'pinterest' => 'Pinterest',
-		'tiktok'    => 'TikTok',
-		'snapchat'  => 'Snapchat',
+		'meta'       => 'Meta',
+		'google'     => 'Google Analytics 4',
+		'google_ads' => 'Google Ads',
+		'gtm'        => 'Google Tag Manager',
+		'pinterest'  => 'Pinterest',
+		'tiktok'     => 'TikTok',
+		'snapchat'   => 'Snapchat',
 	);
 	const EVENTS    = array( 'page_view', 'view_content', 'add_to_cart', 'begin_checkout', 'purchase', 'click' );
 
@@ -26,10 +27,12 @@ final class Pixels {
 		add_action( 'woocommerce_add_to_cart', array( self::class, 'cart' ), 10, 4 );
 	}
 
-	public static function validate( $input ) {
+	public static function validate( $input, $legacy = true ) {
 		if ( ! is_array( $input ) ) {
 			return new \WP_Error( 'pixels', 'Invalid pixel settings.' );
 		}
+		if ( $legacy ) {
+			$input = self::migrate( $input ); }
 		$out = array();
 		foreach ( self::PROVIDERS as $key => $label ) {
 			$row = isset( $input[ $key ] ) ? $input[ $key ] : array();
@@ -41,12 +44,13 @@ final class Pixels {
 				return new \WP_Error( 'pixels', 'Enter the public tracking ID for ' . $label . ' before enabling it.' );
 			}
 			$patterns = array(
-				'meta'      => '/^[0-9]{5,30}$/D',
-				'google'    => '/^(G|AW|GT)-[A-Z0-9]{4,30}$/D',
-				'gtm'       => '/^GTM-[A-Z0-9]{4,20}$/D',
-				'pinterest' => '/^[0-9]{5,30}$/D',
-				'tiktok'    => '/^[A-Za-z0-9]{5,40}$/D',
-				'snapchat'  => '/^[a-fA-F0-9-]{36}$/D',
+				'meta'       => '/^[0-9]{5,30}$/D',
+				'google'     => '/^(G|GT)-[A-Z0-9]{4,30}$/D',
+				'google_ads' => '/^AW-[0-9]{4,30}$/D',
+				'gtm'        => '/^GTM-[A-Z0-9]{4,20}$/D',
+				'pinterest'  => '/^[0-9]{5,30}$/D',
+				'tiktok'     => '/^[A-Za-z0-9]{5,40}$/D',
+				'snapchat'   => '/^[a-fA-F0-9-]{36}$/D',
 			);
 			if ( '' !== $id && ! preg_match( $patterns[ $key ], $id ) ) {
 				return new \WP_Error( 'pixels', 'Invalid ' . $label . ' public tracking ID.' );
@@ -55,7 +59,9 @@ final class Pixels {
 			if ( '' !== $label_id && ! preg_match( '/^[A-Za-z0-9_-]{1,100}$/D', $label_id ) ) {
 				return new \WP_Error( 'pixels', 'Invalid Google conversion label.' );
 			}
-			$events      = isset( $row['events'] ) && is_array( $row['events'] ) ? array_values( array_intersect( self::EVENTS, $row['events'] ) ) : array();
+			$events = isset( $row['events'] ) && is_array( $row['events'] ) ? array_values( array_intersect( self::EVENTS, $row['events'] ) ) : array();
+			if ( 'google_ads' === $key && ! empty( $row['enabled'] ) && in_array( 'purchase', $events, true ) && '' === $label_id ) {
+				return new \WP_Error( 'pixels', 'Enter the Google Ads purchase conversion label, or deselect Purchase.' ); }
 			$out[ $key ] = array(
 				'id'      => $id,
 				'enabled' => ! empty( $row['enabled'] ) && '' !== $id,
@@ -71,10 +77,21 @@ final class Pixels {
 		return $out;
 	}
 
+	public static function migrate( $input ) {
+		if ( ! is_array( $input ) ) {
+			return array(); }
+		if ( isset( $input['google']['id'] ) && is_string( $input['google']['id'] ) && 0 === strpos( $input['google']['id'], 'AW-' ) ) {
+			if ( empty( $input['google_ads']['id'] ) ) {
+				$input['google_ads'] = $input['google']; }
+			unset( $input['google'] );
+		}
+		return $input;
+	}
+
 	public static function cart( $cart_key, $product_id, $quantity, $variation_id ) {
 		if ( Permissions::safe() || wp_doing_ajax() || ( defined( 'REST_REQUEST' ) && REST_REQUEST ) || ! function_exists( 'WC' ) || ! function_exists( 'wc_get_product' ) || ! function_exists( 'get_woocommerce_currency' ) || ! WC()->session ) {
 			return; }
-		$config = get_option( 'codeslot_pixels', array() );
+		$config = self::migrate( get_option( 'codeslot_pixels', array() ) );
 		$needed = false;
 		foreach ( self::PROVIDERS as $key => $label ) {
 			if ( ! empty( $config[ $key ]['enabled'] ) && in_array( 'add_to_cart', isset( $config[ $key ]['events'] ) ? $config[ $key ]['events'] : array(), true ) ) {
@@ -122,7 +139,7 @@ final class Pixels {
 		if ( Permissions::safe() || is_admin() || is_feed() || is_robots() || is_preview() ) {
 			return;
 		}
-		$config    = get_option( 'codeslot_pixels', array() );
+		$config    = self::migrate( get_option( 'codeslot_pixels', array() ) );
 		$providers = array();
 		foreach ( self::PROVIDERS as $key => $label ) {
 			if ( ! empty( $config[ $key ]['enabled'] ) ) {
@@ -169,22 +186,30 @@ final class Pixels {
 	}
 
 	public static function page() {
-		$config   = get_option( 'codeslot_pixels', array() );
+		$config   = self::migrate( get_option( 'codeslot_pixels', array() ) );
+		$feedback = get_transient( 'codeslot_feedback_' . get_current_user_id() );
+		if ( is_array( $feedback ) && 'codeslot-pixels' === $feedback['page'] ) {
+			$config = self::draft( $feedback['values'] );
+			delete_transient( 'codeslot_feedback_' . get_current_user_id() );
+		}
+
 		$examples = array(
-			'meta'      => '123456789012345',
-			'google'    => 'G-ABC1234567 or AW-1234567890',
-			'gtm'       => 'GTM-ABC1234',
-			'pinterest' => '1234567890123',
-			'tiktok'    => 'C1234567890ABCDEFGHIJ',
-			'snapchat'  => '12345678-abcd-1234-abcd-123456789012',
+			'meta'       => '123456789012345',
+			'google'     => 'G-ABC1234567',
+			'google_ads' => 'AW-1234567890',
+			'gtm'        => 'GTM-ABC1234',
+			'pinterest'  => '1234567890123',
+			'tiktok'     => 'C1234567890ABCDEFGHIJ',
+			'snapchat'   => '12345678-abcd-1234-abcd-123456789012',
 		);
 		$help     = array(
-			'meta'      => 'Meta Events Manager → Data sources → your Pixel ID.',
-			'google'    => 'Use your GA4 measurement ID (G-), Google Ads ID (AW-) or Google tag ID (GT-). For a GTM container, use the Google Tag Manager card.',
-			'gtm'       => 'Use the Container ID from Google Tag Manager. Configure and publish your tags and custom-event triggers inside that container. CodeSlot pushes selected codeslot_* events to dataLayer.',
-			'pinterest' => 'Use your Pinterest Ads conversion Tag ID.',
-			'tiktok'    => 'Use the Pixel ID from TikTok Events Manager.',
-			'snapchat'  => 'Use your Snap Pixel ID from Events Manager.',
+			'meta'       => 'Meta Events Manager → Data sources → your Pixel ID.',
+			'google'     => 'Use your GA4 measurement ID (G-) or connected Google tag ID (GT-). Configure Ads independently in its own card; both can run together.',
+			'google_ads' => 'Use your Google Ads tag ID (AW-). A purchase conversion also needs its conversion label. Other selected events are sent as tag events; configure their use in Google Ads.',
+			'gtm'        => 'Use the Container ID from Google Tag Manager. Configure and publish your tags and custom-event triggers inside that container. CodeSlot pushes selected codeslot_* events to dataLayer.',
+			'pinterest'  => 'Use your Pinterest Ads conversion Tag ID.',
+			'tiktok'     => 'Use the Pixel ID from TikTok Events Manager.',
+			'snapchat'   => 'Use your Snap Pixel ID from Events Manager.',
 		);
 		$labels   = array(
 			'page_view'      => 'Page view',
@@ -202,8 +227,8 @@ final class Pixels {
 			$events = isset( $row['events'] ) ? $row['events'] : array();
 			echo '<fieldset class="codeslot-pixel-card"><legend>' . esc_html( $label ) . '</legend><div class="codeslot-pixel-heading"><span class="codeslot-pixel-state">' . esc_html( ! empty( $row['enabled'] ) ? 'Enabled · consent required' : 'Disabled' ) . '</span><label class="codeslot-toggle-label"><input type="checkbox" name="pixels[' . esc_attr( $key ) . '][enabled]" value="1" ' . checked( ! empty( $row['enabled'] ), true, false ) . '> Enable</label></div>';
 			echo '<p class="codeslot-field"><label for="codeslot-pixel-' . esc_attr( $key ) . '">Public tracking ID</label><input id="codeslot-pixel-' . esc_attr( $key ) . '" class="regular-text" name="pixels[' . esc_attr( $key ) . '][id]" placeholder="' . esc_attr( $examples[ $key ] ) . '" value="' . esc_attr( isset( $row['id'] ) ? $row['id'] : '' ) . '" autocomplete="off"><span class="description">' . esc_html( $help[ $key ] ) . '</span></p>';
-			if ( 'google' === $key ) {
-				echo '<p class="codeslot-field"><label for="codeslot-google-label">Google Ads purchase conversion label</label><input id="codeslot-google-label" class="regular-text" name="pixels[google][label]" placeholder="AbCdEFghijk123456" value="' . esc_attr( isset( $row['label'] ) ? $row['label'] : '' ) . '"><span class="description">Required for AW- purchase conversions. Copy the label from the Google Ads conversion action.</span></p>';
+			if ( 'google_ads' === $key ) {
+				echo '<p class="codeslot-field"><label for="codeslot-google-label">Google Ads purchase conversion label</label><input id="codeslot-google-label" class="regular-text" name="pixels[google_ads][label]" placeholder="AbCdEFghijk123456" value="' . esc_attr( isset( $row['label'] ) ? $row['label'] : '' ) . '"><span class="description">Required for AW- purchase conversions. Copy the label from the Google Ads conversion action.</span></p>';
 			}
 			echo '<h3>Events</h3><div class="codeslot-event-grid">';
 			foreach ( self::EVENTS as $event ) {
@@ -214,5 +239,20 @@ final class Pixels {
 		echo '</div><section class="codeslot-config-section"><h3>Click tracking</h3><label for="codeslot-click-selector">CSS selector</label><input id="codeslot-click-selector" class="regular-text" name="click_selector" placeholder=".track-conversion" value="' . esc_attr( isset( $config['click_selector'] ) ? $config['click_selector'] : '' ) . '"><p class="description">Enable Click on a provider above and add this class/selector to the buttons you want to track. Click events contain no link text, URLs or form values.</p></section>';
 		submit_button( 'Save conversion pixels' );
 		echo '</form></section>';
+	}
+
+	/** Bounded safe redisplay of invalid form input; never persisted as active settings. */
+	public static function draft( $input ) {
+		$out = array( 'click_selector' => isset( $input['click_selector'] ) && is_string( $input['click_selector'] ) ? substr( sanitize_text_field( $input['click_selector'] ), 0, 200 ) : '' );
+		foreach ( self::PROVIDERS as $key => $label ) {
+			$row         = isset( $input[ $key ] ) && is_array( $input[ $key ] ) ? $input[ $key ] : array();
+			$out[ $key ] = array(
+				'id'      => isset( $row['id'] ) && is_string( $row['id'] ) ? substr( sanitize_text_field( $row['id'] ), 0, 100 ) : '',
+				'label'   => isset( $row['label'] ) && is_string( $row['label'] ) ? substr( sanitize_text_field( $row['label'] ), 0, 100 ) : '',
+				'enabled' => ! empty( $row['enabled'] ),
+				'events'  => isset( $row['events'] ) && is_array( $row['events'] ) ? array_values( array_intersect( self::EVENTS, array_filter( $row['events'], 'is_string' ) ) ) : array(),
+			);
+		}
+		return $out;
 	}
 }

@@ -19,7 +19,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 define( 'CODESLOT_VERSION', '1.0.0' );
 define( 'CODESLOT_FILE', __FILE__ );
-foreach ( array( 'permissions', 'conditions', 'repository', 'runtime', 'jobs', 'support', 'files', 'pixels', 'backup', 'library', 'extras', 'admin' ) as $codeslot_component ) {
+foreach ( array( 'permissions', 'conditions', 'repository', 'runtime', 'jobs', 'support', 'files', 'pixels', 'backup', 'library', 'extras', 'list-screen', 'delivery', 'admin' ) as $codeslot_component ) {
 	require_once __DIR__ . '/includes/class-' . $codeslot_component . '.php';
 }
 add_action( 'init', array( 'CodeSlot\\Repository', 'register' ) );

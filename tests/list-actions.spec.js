@@ -28,21 +28,24 @@ test('Quick Edit and Bulk Edit preserve executable code and update selected meta
   await page.locator('[name="bulk_priority_enabled"]').check();
   await page.locator('[name="bulk_priority"]').fill('48');
   await page.locator('[name="bulk_status"]').selectOption('active');
-  await expect(page.locator('#codeslot-bulk-form [name="confirm"]')).toHaveCount(0);
+  await expect(page.locator('#codeslot-bulk-form [type="checkbox"][name="confirm"]')).toHaveCount(0);
   await page.getByRole('button',{name:'Apply',exact:true}).click();
   await expect(page.locator('.notice-success')).toContainText('saved');
   expect(snippet(id)).toMatchObject({name:'Quick Updated',priority:48,active:true,code:'<!-- CS-KEEP-CODE -->',tags:['ui','verified']});
 });
-test('Delete requires confirmation and cancels without removing data', async ({page}) => {
+test('Trash preserves data; restore is inactive; permanent deletion requires confirmation', async ({page}) => {
   const row=page.locator('.codeslot-table tr').filter({has:page.locator(`input[value="${id}"][name="ids[]"]`)});
-  page.once('dialog',dialog=>dialog.dismiss());
-  await row.getByRole('button',{name:'Delete',exact:true}).click();
-  expect(snippet(id)).not.toBeNull();
-  page.once('dialog',dialog=>dialog.accept());
-  await row.getByRole('button',{name:'Delete',exact:true}).click();
-  await expect(page.locator('.notice-success')).toContainText('saved');
-  expect(snippet(id)).toBeNull();
+  await row.getByRole('button',{name:'Trash',exact:true}).click();
+  expect(snippet(id)).toMatchObject({trashed:true,active:false,code:'<!-- CS-KEEP-CODE -->'});
+  await page.goto('/wp-admin/admin.php?page=codeslot&status=trash');
+  await row.getByRole('button',{name:'Restore',exact:true}).click();expect(snippet(id)).toMatchObject({trashed:false,active:false});
+  await page.goto('/wp-admin/admin.php?page=codeslot');await row.getByRole('button',{name:'Trash',exact:true}).click();
+  await page.goto('/wp-admin/admin.php?page=codeslot&status=trash');
+  page.once('dialog',dialog=>dialog.dismiss());await row.getByRole('button',{name:'Delete Permanently',exact:true}).click();expect(snippet(id)).not.toBeNull();
+  page.once('dialog',dialog=>dialog.accept());await row.getByRole('button',{name:'Delete Permanently',exact:true}).click();
+  await expect(page.locator('.notice-success')).toContainText('saved');expect(snippet(id)).toBeNull();
 });
+
 test('Quick Edit rejects missing nonces and locked snippets', async ({page}) => {
   const denied=await page.request.post('/wp-admin/admin-post.php',{form:{action:'codeslot_save',task:'quick_edit',id,quick_name:'Forbidden'}});
   expect(denied.status()).toBe(403);
@@ -50,7 +53,8 @@ test('Quick Edit rejects missing nonces and locked snippets', async ({page}) => 
   const nonce=await page.locator('#codeslot-quick-form [name="_wpnonce"]').inputValue();
   wp('eval',`wp_set_current_user(1); $s=CodeSlot\\Repository::get(${id}); $s["locked"]=true; CodeSlot\\Repository::save($s,${id});`);
   const locked=await page.request.post('/wp-admin/admin-post.php',{form:{action:'codeslot_save',task:'quick_edit',id,_wpnonce:nonce,quick_name:'Forbidden'}});
-  expect(locked.status()).toBe(400);
+  expect(locked.status()).toBe(200);
+  expect(await locked.text()).toContain('Missing or locked snippet');
   expect(snippet(id).name).toBe('List action fixture');
 });
 

@@ -8,6 +8,14 @@ function codeslot_uninstall_site() {
 	if ( empty( $settings['delete_data'] ) ) {
 		return; }
 	global $wpdb;
+	$codeslot_uploads = wp_upload_dir();
+	foreach ( array( 'js', 'css' ) as $codeslot_extension ) {
+		$codeslot_files = glob( $codeslot_uploads['basedir'] . '/codeslot-assets/codeslot-*.' . $codeslot_extension );
+		foreach ( $codeslot_files ? $codeslot_files : array() as $codeslot_asset ) {
+			if ( preg_match( '/^codeslot-[a-f0-9]{64}\.(js|css)$/D', basename( $codeslot_asset ) ) ) {
+				wp_delete_file( $codeslot_asset ); }
+		}
+	}
 	do {
 		$ids = get_posts(
 			array(

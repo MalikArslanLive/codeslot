@@ -11,3 +11,4 @@ function sanitize_text_field($s){return strip_tags((string)$s);}
 function sanitize_textarea_field($s){return strip_tags((string)$s);}
 require __DIR__.'/../includes/class-conditions.php';
 require __DIR__.'/../includes/class-repository.php';
+require __DIR__.'/../includes/class-pixels.php';

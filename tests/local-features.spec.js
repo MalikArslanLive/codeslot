@@ -16,14 +16,14 @@ test('Run Once requires nonce and explicit confirmation, and cannot run twice',a
  const denied=await page.request.post('/wp-admin/admin-post.php',{form:{action:'codeslot_save',task:'run_once',id,confirm:'1'}});
  expect(denied.status()).toBe(403);
  const unconfirmed=await page.request.post('/wp-admin/admin-post.php',{form:{action:'codeslot_save',task:'run_once',id,_wpnonce:nonce}});
- expect(unconfirmed.status()).toBe(400);
+ expect(unconfirmed.status()).toBe(200);expect(await unconfirmed.text()).toContain('Confirm this one-time task explicitly');
  await form.locator('[name="confirm"]').check();
  await form.getByRole('button',{name:'Run Once',exact:true}).click();
  await expect(page.getByText('completed',{exact:true})).toBeVisible();
  await expect(page.locator('pre').filter({hasText:'captured output'})).toBeVisible();
  await expect(page.getByRole('button',{name:'Run Once',exact:true})).toHaveCount(0);
  const repeated=await page.request.post('/wp-admin/admin-post.php',{form:{action:'codeslot_save',task:'run_once',id,_wpnonce:nonce,confirm:'1'}});
- expect(repeated.status()).toBe(400);
+ expect(repeated.status()).toBe(200);expect(await repeated.text()).toContain('already claimed');
  expect(wp('option','get','codeslot_browser_job_count')).toBe('1');
 });
 test('saved-version diff escapes source and remains contained on mobile',async({page})=>{
@@ -31,8 +31,11 @@ test('saved-version diff escapes source and remains contained on mobile',async({
  const id=save(original);ids.push(id);save({...original,code:'NEW\n<div>updated</div>'},id);
  await page.setViewportSize({width:320,height:900});
  await page.goto(`/wp-admin/admin.php?page=codeslot-new&id=${id}`);
- await page.getByText('Compare saved code with current code',{exact:true}).click();
+ await page.getByText('Compare Previous Version with Current Version',{exact:true}).click();
  await expect(page.locator('.codeslot-revision-diff table.diff')).toBeVisible();
+ await expect(page.locator('summary').filter({hasText:/^View (?:Previous )?Code$/i})).toHaveCount(0);
+ await expect(page.locator('.codeslot-revision-diff')).toContainText('Previous Saved Version');
+ await expect(page.locator('.codeslot-revision-diff')).toContainText('Current Version');
  await expect(page.locator('.codeslot-revision-diff')).toContainText('OLD');
  await expect(page.locator('.codeslot-revision-diff')).toContainText('NEW');
  await expect(page.locator('.codeslot-revision-diff img')).toHaveCount(0);

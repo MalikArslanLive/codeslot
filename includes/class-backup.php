@@ -93,7 +93,7 @@ final class Backup {
 				return new \WP_Error( 'size', 'Maximum 200 snippets per import.' );
 			}
 			foreach ( $prepared['snippets'] as $snippet ) {
-				$valid = Repository::validate( $snippet );
+				$valid = Repository::validate( $snippet, true );
 				if ( is_wp_error( $valid ) ) {
 					return $valid;
 				}
@@ -104,6 +104,12 @@ final class Backup {
 			'pixels' => Pixels::class,
 		) as $scope => $class ) {
 			if ( isset( $prepared[ $scope ] ) ) {
+				if ( 'pixels' === $scope ) {
+					foreach ( $prepared[ $scope ] as &$row ) {
+						if ( is_array( $row ) ) {
+							$row['enabled'] = false;
+						}
+					} unset( $row ); }
 				$valid = $class::validate( $prepared[ $scope ] );
 				if ( is_wp_error( $valid ) ) {
 					return $valid;

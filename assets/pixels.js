@@ -10,6 +10,8 @@
   const sent = new Set();
   const sdkStatus = {};
   const eventLog = [];
+  let googleScript;
+  const googleMembers=[];
   function load(url, provider) {
     const script = document.createElement('script'); script.async = true; script.src = url; sdkStatus[provider] = 'loading'; script.onload = () => { sdkStatus[provider] = 'loaded'; }; script.onerror = () => { sdkStatus[provider] = 'blocked-or-failed'; }; document.head.appendChild(script);
   }
@@ -25,10 +27,14 @@
       if (provider === 'meta') {
         const fn = queue('fbq', 'queue'); fn.loaded = true; fn.version = '2.0'; window._fbq = window._fbq || fn;
         load('https://connect.facebook.net/en_US/fbevents.js', provider); fn('set', 'autoConfig', false, settings.id); fn('init', settings.id); queues.meta = fn;
-      } else if (provider === 'google') {
+      } else if (provider === 'google' || provider === 'google_ads') {
         window.dataLayer = window.dataLayer || []; window.gtag = window.gtag || function () { window.dataLayer.push(arguments); };
-        window.gtag('js', new Date()); window.gtag('config', settings.id, {send_page_view: false});
-        load('https://www.googletagmanager.com/gtag/js?id=' + encodeURIComponent(settings.id), provider); queues.google = window.gtag;
+        googleMembers.push(provider);
+        if(!googleScript){
+          window.gtag('js',new Date());googleScript=document.createElement('script');googleScript.async=true;googleScript.src='https://www.googletagmanager.com/gtag/js?id='+encodeURIComponent(settings.id);
+          googleScript.onload=()=>googleMembers.forEach(key=>{sdkStatus[key]='loaded';});googleScript.onerror=()=>googleMembers.forEach(key=>{sdkStatus[key]='blocked-or-failed';});document.head.appendChild(googleScript);
+        }
+        sdkStatus[provider]='loading';window.gtag('config', settings.id, {send_page_view: false});queues[provider]=window.gtag;
       } else if (provider === 'gtm') {
         window.dataLayer = window.dataLayer || [];
         window.dataLayer.push({'gtm.start':Date.now(),event:'gtm.js'});
@@ -66,16 +72,16 @@
       const data = Object.assign({}, details);
       const ids = Array.isArray(details.content_ids) ? details.content_ids.map(String) : [];
       if (provider === 'meta' && ids.length) data.content_type = 'product';
-      if ((provider === 'google' || provider === 'gtm') && ids.length) data.items = ids.map(id => ({item_id:id}));
+      if ((provider === 'google' || provider === 'google_ads' || provider === 'gtm') && ids.length) data.items = ids.map(id => ({item_id:id}));
       if (provider === 'snapchat') { if (ids.length) data.item_ids = ids; if (data.value !== undefined) { data.price = data.value; delete data.value; } if (details.event_id) data.transaction_id = details.event_id; }
       if (provider === 'pinterest' && ids.length) data.line_items = ids.map(id => ({product_id:id}));
       if (provider === 'tiktok' && ids.length) { data.contents = ids.map(id => ({content_id:id,content_type:'product'})); data.content_type = 'product'; }
       eventLog.push({provider,event,status:'queued',time:Date.now()}); if (eventLog.length > 30) eventLog.shift();
       if (provider === 'meta') queues.meta('track' + (event === 'click' ? 'Custom' : ''), mapping.meta[event], data, details.event_id ? {eventID:details.event_id} : {});
-      else if (provider === 'google') {
+      else if (provider === 'google' || provider === 'google_ads') {
         if (details.event_id) data.transaction_id = details.event_id;
-        if (event === 'purchase' && settings.id.startsWith('AW-') && settings.label) { data.send_to = settings.id + '/' + settings.label; queues.google('event', 'conversion', data); }
-        else { data.send_to = settings.id; queues.google('event', event === 'click' ? 'codeslot_click' : (event === 'view_content' ? 'view_item' : event), data); }
+        if (event === 'purchase' && settings.id.startsWith('AW-') && settings.label) { data.send_to = settings.id + '/' + settings.label; queues[provider]('event', 'conversion', data); }
+        else { data.send_to = settings.id; queues[provider]('event', event === 'click' ? 'codeslot_click' : (event === 'view_content' ? 'view_item' : event), data); }
       } else if (provider === 'gtm') {
         const commerce = Object.assign({}, data); if (details.event_id) commerce.transaction_id = details.event_id;
         queues.gtm.push({ecommerce:null}); queues.gtm.push({event:'codeslot_' + event,ecommerce:commerce});

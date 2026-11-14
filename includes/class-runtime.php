@@ -12,6 +12,19 @@ final class Runtime {
 	private static $running  = 0;
 
 	public static function boot() {
+		add_action( 'wp_footer', array( Delivery::class, 'selector_output' ), 5 );
+		foreach ( array(
+			'admin_head'   => 'admin_header',
+			'admin_footer' => 'admin_footer',
+		) as $hook => $place ) {
+			add_action(
+				$hook,
+				static function () use ( $place ) {
+					echo self::location( $place ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Deliberate privileged administrator-authored code, guarded by capabilities on write and Safe Mode on output.
+				},
+				20
+			); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Privileged snippet output.
+		}
 		add_action(
 			'init',
 			static function () {
@@ -70,7 +83,8 @@ final class Runtime {
 			self::$cache[ $location ] = array_filter(
 				array_map(
 					static function ( $post ) {
-						return Repository::get( $post->ID );
+						$s = Repository::get( $post->ID );
+						return $s && Delivery::eligible( $s ) ? $s : null;
 					},
 					Repository::active( $location )
 				)
@@ -107,7 +121,7 @@ final class Runtime {
 	}
 
 	public static function location( $location ) {
-		if ( Permissions::safe() || ! self::frontend() ) {
+		if ( Permissions::safe() || ( ! self::frontend() && ! ( is_admin() && in_array( $location, array( 'admin_header', 'admin_footer' ), true ) && ! wp_doing_ajax() ) ) ) {
 			return '';
 		}
 		$out     = '';
@@ -120,12 +134,19 @@ final class Runtime {
 		return $out;
 	}
 
+	public static function visual( $snippet ) {
+		return self::format( $snippet ); }
+
 	private static function format( $snippet ) {
+		$file = Delivery::file_markup( $snippet );
+		if ( $file ) {
+			return $file; }
+		$code = Delivery::code( $snippet );
 		switch ( $snippet['type'] ) {
 			case 'javascript':
-				return '<script>' . $snippet['code'] . '</script>';
+				return preg_match( '/^\s*<script\b/i', $code ) ? $code : '<script>' . $code . '</script>';
 			case 'css':
-				return '<style>' . $snippet['code'] . '</style>';
+				return preg_match( '/^\s*<style\b/i', $code ) ? $code : '<style>' . $code . '</style>';
 			case 'text':
 				return esc_html( $snippet['code'] );
 			case 'shortcode':
@@ -196,7 +217,7 @@ final class Runtime {
 			return '';
 		}
 		$snippet = Repository::get( $id );
-		if ( ! $snippet || ! $snippet['active'] || 'shortcode' !== $snippet['location'] || 'php' === $snippet['type'] || ! Conditions::matches( $snippet['conditions'] ) ) {
+		if ( ! $snippet || ! $snippet['active'] || ! Delivery::eligible( $snippet ) || 'shortcode' !== $snippet['location'] || 'php' === $snippet['type'] || ! Conditions::matches( $snippet['conditions'] ) ) {
 			return '';
 		}
 		$stack[ $id ] = true;

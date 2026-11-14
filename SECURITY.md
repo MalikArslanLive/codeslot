@@ -19,3 +19,5 @@ Safe Mode is constant-based or stored in authenticated settings. No unauthentica
 ## Review findings
 
 See docs/SECURITY-REVIEW.md. Report vulnerabilities privately via GitHub's private vulnerability reporting if enabled, or contact the repository owner privately. Do not publish working exploits or secret source in public issues. Author website: https://malikarslan.com/. Do not include credentials or private snippets in reports.
+
+Static JS/CSS assets are administrator-authored public frontend code. Their content-addressed URLs may remain available after deactivation or in caches; never put secrets in frontend source. Generated filenames are fixed hashes with .js/.css extensions under WordPress uploads. Selector insertion and JavaScript compaction do not sandbox code. Device/time restrictions are execution filters, not access control; caches can retain earlier output. Capability and nonce checks protect writes; status-only deactivation is intentionally allowed even when legacy source fails editing validation.

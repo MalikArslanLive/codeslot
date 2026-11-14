@@ -16,7 +16,8 @@ By [Malik Arslan](https://malikarslan.com/) · [WordPress.org](https://wordpress
 | WooCommerce products | The same native product fields; four supported WooCommerce insertion hooks |
 | Public custom post types | Individual fields, without leaking code to other content items |
 | Categories, tags and public custom taxonomies | Individual term fields; output only on that term's own archive |
-| Before/after main singular content | Visual snippets with conditions and priorities |
+| Admin and content locations | Admin Header/Footer, before/after main content or a numbered paragraph |
+| CSS selector | Before/after, prepend/append or replace matching frontend elements after DOM readiness |
 | Shortcodes and manual insertion | Reusable snippets inserted exactly where you choose |
 | PHP execution | Frontend, admin, everywhere or manual locations, with privileged access and recovery controls |
 
@@ -27,16 +28,18 @@ Themes must call `wp_head`, `wp_body_open` and `wp_footer`. Attachments and priv
 - PHP, JavaScript, CSS, HTML, plain text, reusable content and nested-shortcode snippets.
 - Global and individual Header/Body/Footer code with ordered output and duplicate-slot prevention.
 - AND/OR conditions, exclusions, activation switches and execution priorities.
-- Search, filters, sorting, pagination, a separate checkbox column, Select page, Edit, Quick Edit, Bulk Edit and confirmed Delete.
-- Categories, tags, duplication, locking and local templates.
-- JSON import/export and the last 30 saved versions, with saved/current code comparison and inactive restore.
+- Search, filters, sorting, pagination, a separate checkbox column, Edit, Quick Edit, Bulk Edit, Trash/Restore and confirmed permanent deletion from Trash. Native Screen Options controls separate metadata columns, page size and sorting; Status is last.
+- Categories, tags, duplication, locking and library templates.
+- All/Active/Inactive/Trash views, Undo, inactive restore and confirmed Empty Trash.
+- Any/Desktop/Mobile device targeting, start/end schedules, static JavaScript/CSS files and opt-in JavaScript compaction.
+- JSON import/export and the last 30 changed versions. Unchanged saves create no revision; comparisons label Previous Saved Version and Current Version, with inactive restore.
 - Before/after numbered-paragraph insertion in main singular content.
 - Confirmed Run Once PHP tasks with atomic claim, output/status records and no automatic retry.
 - PHP syntax checks, Safe Mode, error reporting and best-effort direct-error recovery.
 - Per-site multisite storage with super-admin management.
 - A single-page local library with 142 recipes/setup guides, live search and category filters.
 - Private System Info, bounded local logs and virtual ads.txt/app-ads.txt/robots.txt/service-worker.js tools.
-- Consent-gated Meta, Google, Google Tag Manager, Pinterest, TikTok and Snapchat integrations, including optional WooCommerce events.
+- Consent-gated Meta, Google Analytics 4, Google Ads, Google Tag Manager, Pinterest, TikTok and Snapchat integrations, including optional WooCommerce events.
 
 See [feature details and limits](docs/FEATURES.md).
 
@@ -44,7 +47,7 @@ See [feature details and limits](docs/FEATURES.md).
 
 [Download the current CodeSlot 1.0.0 package](https://github.com/MalikArslanLive/codeslot/raw/refs/heads/main/packages/codeslot-1.0.0.zip) · [SHA256SUMS](packages/SHA256SUMS)
 
-This package follows the current `main` source, including the green responsive interface, editor fixes and Google Tag Manager integration. The original published `v1.0.0` release assets remain their original source snapshot. Verify the checksum supplied with the package you download.
+This package follows the current `main` source, including the green responsive interface, editor fixes and Google Tag Manager integration. The original published `v1.0.0` release assets retain their original source snapshot; use the current-package link above for this updated build. Verify the checksum supplied with the package you download.
 
 1. In WordPress, open **Plugins → Add New → Upload Plugin** and select the ZIP.
 2. Activate CodeSlot. When replacing an earlier 1.0.0 build, back up first and choose **Replace current with uploaded**.
