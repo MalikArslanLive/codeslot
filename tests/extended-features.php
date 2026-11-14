@@ -42,6 +42,10 @@ try {
 	CodeSlot\Runtime::php( 'bootstrap' );
 	codeslot_extended_assert( ! empty( $GLOBALS['codeslot_early_fixture'] ), 'explicit bootstrap executes early-hook PHP' );
 	wp_delete_post( $early_id, true );
+	$gtm = Pixels::validate( array( 'gtm' => array( 'id' => 'GTM-TEST123', 'enabled' => true, 'events' => array( 'page_view', 'purchase' ) ) ) );
+	codeslot_extended_assert( ! is_wp_error( $gtm ) && $gtm['gtm']['enabled'], 'GTM container ID and selected events validate' );
+	codeslot_extended_assert( is_wp_error( Pixels::validate( array( 'gtm' => array( 'id' => 'G-TEST123', 'enabled' => true ) ) ) ), 'GA4 ID rejected in GTM container field' );
+	codeslot_extended_assert( is_wp_error( Pixels::validate( array( 'meta' => array( 'enabled' => true, 'id' => '' ) ) ) ), 'enabled provider requires a public tracking ID' );
 	$post_id = wp_insert_post( array( 'post_type' => 'page', 'post_status' => 'publish', 'post_title' => 'Extended backup fixture', 'post_name' => 'codeslot-extended-backup' ) );
 	$ids[] = $post_id;
 	$term = wp_insert_term( 'CodeSlot extended backup', 'category', array( 'slug' => 'codeslot-extended-backup' ) );

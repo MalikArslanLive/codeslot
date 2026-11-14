@@ -8,6 +8,7 @@
     if (window.wp && window.wp.codeEditor) {
       const editor = window.wp.codeEditor.initialize(el, {codemirror: {mode: el.dataset.codeslotMode, lineNumbers:true, indentUnit:4}});
       editors.push(editor);
+      el.codeslotEditor = editor.codemirror;
     }
   });
   const type = document.getElementById('codeslot-type');
@@ -21,9 +22,36 @@
     if (paragraph) paragraph.hidden = !['before_paragraph','after_paragraph'].includes(location.value);
     const active = document.querySelector('[name="active"]');
     if (active) { active.disabled = location.value === 'once'; if (active.disabled) active.checked = false; }
-    const modes = {php:'text/x-php',javascript:'text/javascript',css:'text/css',text:'text/plain'};
+    const modes = {php:{name:'application/x-httpd-php',startOpen:true},javascript:'text/javascript',css:'text/css',text:'text/plain'};
     editors.forEach(e => e.codemirror.setOption('mode', modes[type.value] || 'text/html'));
+    const wrappers = {javascript:['<script>','</script>'],css:['<style>','</style>'],php:['<?php','']};
+    const pair = wrappers[type.value] || ['', ''];
+    const open = document.getElementById('codeslot-wrapper-open');
+    const close = document.getElementById('codeslot-wrapper-close');
+    if (open && close) { open.textContent = pair[0]; close.textContent = pair[1]; open.hidden = !pair[0]; close.hidden = !pair[1]; }
+    const help = document.getElementById('codeslot-wrapper-help');
+    if (help) help.textContent = pair[0] ? 'Shown tags are supplied automatically. Enter only the code inside them.' : 'HTML accepts complete embeds, including script/style tags.';
+    checkWrappers();
   }
+  function checkWrappers() {
+    const source = document.getElementById('codeslot-source');
+    const warning = document.getElementById('codeslot-wrapper-warning');
+    const html = document.getElementById('codeslot-use-html');
+    if (!source || !warning || !html || !type) return;
+    const value = source.codeslotEditor ? source.codeslotEditor.getValue() : source.value;
+    const invalid = (type.value === 'javascript' && /<\/?script\b/i.test(value)) || (type.value === 'css' && /<\/?style\b/i.test(value));
+    warning.hidden = !invalid; html.hidden = !invalid;
+    warning.textContent = invalid ? 'This code already contains tags. Use HTML to keep the complete embed, or remove those tags because the selected code type adds them automatically.' : '';
+    source.dataset.wrapperInvalid = invalid ? '1' : '0';
+  }
+  const source = document.getElementById('codeslot-source');
+  if (source) {
+    source.addEventListener('input', checkWrappers);
+    source.form.addEventListener('submit', event => { if (source.dataset.wrapperInvalid === '1') { event.preventDefault(); if(source.codeslotEditor) source.codeslotEditor.focus(); document.getElementById('codeslot-wrapper-warning').scrollIntoView({block:'center'}); } });
+    if (source.codeslotEditor) source.codeslotEditor.on('change', checkWrappers);
+  }
+  const useHTML = document.getElementById('codeslot-use-html');
+  if (useHTML) useHTML.addEventListener('click', () => { type.value = 'html'; setType(); });
   if (type) { type.addEventListener('change', setType); location.addEventListener('change', setType); setType(); }
   const container = document.getElementById('codeslot-conditions');
   const hidden = document.getElementById('codeslot-conditions-json');
@@ -156,4 +184,43 @@
     const url = window.URL.createObjectURL(new window.Blob([value], {type:'text/plain;charset=utf-8'}));
     const link = document.createElement('a'); link.href = url; link.download = button.dataset.filename; link.click(); window.URL.revokeObjectURL(url);
   }));
+}());
+
+(function () {
+  'use strict';
+  const form = document.getElementById('codeslot-library-filter');
+  if (!form) return;
+  const search = form.elements.library_search;
+  const category = form.elements.library_category;
+  const cards = Array.from(document.querySelectorAll('.codeslot-recipe'));
+  function filter() {
+    const term = search.value.trim().toLocaleLowerCase();
+    let count = 0;
+    cards.forEach(card => {
+      const categories = JSON.parse(card.dataset.libraryCategories);
+      card.hidden = !(card.dataset.librarySearch.toLocaleLowerCase().includes(term) && (!category.value || categories.includes(category.value)));
+      if (!card.hidden) count++;
+    });
+    document.getElementById('codeslot-library-count').textContent = count + ' recipes shown';
+    document.getElementById('codeslot-library-empty').hidden = count > 0;
+  }
+  search.addEventListener('input', filter); category.addEventListener('change', filter);
+  form.addEventListener('submit', event => { event.preventDefault(); filter(); });
+  document.getElementById('codeslot-library-reset').addEventListener('click', () => { search.value = ''; category.value = ''; filter(); search.focus(); });
+  filter();
+}());
+
+(function () {
+  'use strict';
+  document.querySelectorAll('.codeslot-pixel-card').forEach(card => {
+    function state() {
+      const enabled = card.querySelector('input[name$="[enabled]"]').checked;
+      const id = card.querySelector('input[id^="codeslot-pixel-"]').value.trim();
+      const events = card.querySelectorAll('input[name$="[events][]"]:checked').length;
+      card.querySelector('.codeslot-pixel-state').textContent = !enabled ? 'Disabled' : (!id ? 'Add your tracking ID' : (!events ? 'Enabled · choose events' : 'Enabled · consent required'));
+    }
+    card.addEventListener('change', state); card.addEventListener('input', state); state();
+  });
+  const active = document.querySelector('.codeslot-nav a[aria-current="page"]');
+  if (active && window.innerWidth < 783) active.scrollIntoView({block:'nearest',inline:'center'});
 }());

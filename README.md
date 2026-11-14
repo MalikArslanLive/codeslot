@@ -75,3 +75,5 @@ For emergency suppression, add `define( 'CODESLOT_SAFE_MODE', true );` to `wp-co
 [Features](docs/FEATURES.md) · [Development](docs/DEVELOPMENT.md) · [Testing](docs/TESTING.md) · [Compatibility](docs/COMPATIBILITY.md) · [Import schema](docs/IMPORT-SCHEMA.md) · [Support](SUPPORT.md) · [Publishing](docs/PUBLISHING.md)
 
 Local library: **142 original recipes and setup guides**, searchable by name/category, no companion-plugin requirement for library entries. Tools includes private System Info and bounded event logs. Virtual public files and consent-gated browser pixels are opt-in. See [feature usage](docs/NEW-FEATURES.md) and [library guide](docs/LIBRARY.md).
+
+The green admin interface includes read-only code wrapper hints, consistent untitled names and a single-page filterable library. Pixel cards show ID examples; Google Tag Manager supports consent-gated codeslot_* dataLayer events. See [feature usage](docs/NEW-FEATURES.md).

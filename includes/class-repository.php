@@ -73,6 +73,9 @@ final class Repository {
 		if ( ! isset( $data['location'] ) || ! in_array( $data['location'], self::locations( $data['type'] ), true ) ) {
 			return new \WP_Error( 'location', __( 'This location does not support the selected code type.', 'codeslot' ) );
 		}
+		if ( ( 'javascript' === $data['type'] && preg_match( '/<\/?script\b/i', $data['code'] ) ) || ( 'css' === $data['type'] && preg_match( '/<\/?style\b/i', $data['code'] ) ) ) {
+			return new \WP_Error( 'wrapper', 'Wrappers are added automatically. Choose HTML for a complete embed with script/style tags, or remove the tags from JavaScript/CSS code.' );
+		}
 		if ( 'php' === $data['type'] ) {
 			if ( preg_match( '/<\?(?:php|=)?|\?>/i', $data['code'] ) ) {
 				return new \WP_Error( 'php_tags', __( 'Enter PHP without opening or closing PHP tags.', 'codeslot' ) );

@@ -29,4 +29,8 @@ final class ConditionsTest extends TestCase {
  public function testParagraphArrayRejected(){self::assertInstanceOf(WP_Error::class,Repository::validate(['type'=>'html','code'=>'x','location'=>'before_paragraph','paragraph'=>[]]));}
  public function testOnceNeverAutoActive(){self::assertFalse(Repository::validate(['type'=>'php','code'=>'echo 1;','location'=>'once','active'=>true])['active']);}
  public function testOnceRejectsAutomaticConditions(){self::assertInstanceOf(WP_Error::class,Repository::validate(['type'=>'php','code'=>'echo 1;','location'=>'once','conditions'=>['include'=>[[['key'=>'frontend']]]]]));}
+ public function testJavaScriptWrappersRejected(){self::assertInstanceOf(WP_Error::class,Repository::validate(['type'=>'javascript','code'=>'<script>window.x=1;</script>','location'=>'footer']));}
+ public function testCssWrappersRejected(){self::assertInstanceOf(WP_Error::class,Repository::validate(['type'=>'css','code'=>'<style>body{color:green}</style>','location'=>'header']));}
+ public function testHtmlEmbedPreserved(){ $code='<script src="https://example.org/test.js"></script>'; self::assertSame($code,Repository::validate(['type'=>'html','code'=>$code,'location'=>'footer'])['code']);}
+ public function testRawJavaScriptAccepted(){self::assertIsArray(Repository::validate(['type'=>'javascript','code'=>'window.example = 1;','location'=>'footer']));}
 }

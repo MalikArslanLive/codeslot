@@ -1,6 +1,6 @@
 # Local snippet library
 
-CodeSlot includes 142 original recipes and configuration guides. Search by name, filter by category, preview code and browse paginated cards directly in WordPress.
+CodeSlot includes 142 original recipes and configuration guides. Search by name, filter by category, preview code and browse the complete collection on one page directly in WordPress.
 
 Executable recipes open as inactive drafts. Review the code and example values, save the snippet and deliberately enable it. Categories cover content, administration, editor settings, login, media, comments, RSS, SEO, design, email, shortcodes, privacy, security and performance.
 

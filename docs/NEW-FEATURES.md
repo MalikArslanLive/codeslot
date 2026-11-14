@@ -34,7 +34,7 @@ Service-worker content is public privileged JavaScript. Automatic registration i
 
 ## Conversion pixels
 
-Meta, Google Ads/Analytics, Pinterest, TikTok and Snapchat accept public tracking IDs, never account secrets. Each integration and event is opt-in. With no marketing consent, no CodeSlot vendor script/request is loaded. Base/click events need no companion plugin. WooCommerce view-content/add-to-cart/checkout/paid-purchase events are optional integrations and remain included.
+Meta, Google Ads/Analytics, Google Tag Manager, Pinterest, TikTok and Snapchat accept public tracking IDs, never account secrets. Each integration and event is opt-in. With no marketing consent, no CodeSlot vendor script/request is loaded. Base/click events need no companion plugin. WooCommerce view-content/add-to-cart/checkout/paid-purchase events are optional integrations and remain included.
 
 An existing consent manager or your own reviewed code must explicitly grant consent:
 
@@ -51,3 +51,17 @@ Paid purchase payloads require an authorized order-received URL/key (and matchin
 ## Early hook recipes
 
 Normal query-ready PHP behavior is preserved. The explicit bootstrap PHP location runs at init priority20, including login/AJAX/REST/cron/CLI requests, and supports no query conditions. Templates needing early filters use this mode and remain inactive until deliberately saved/enabled. Constants required before WordPress/plugin load stay manual wp-config.php guides and cannot be activated as library snippets. Privileged PHP remains arbitrary code, not a sandbox.
+
+## Editor and library layout
+
+The green CodeSlot interface keeps editing controls together and adapts to mobile screens. Saved untitled snippets use the same ID-based title in Quick Edit and the full editor. JavaScript/CSS/PHP wrapper hints are read-only and stay outside saved code. Choose HTML when pasting a complete embed containing script/style tags; JavaScript and CSS bodies are wrapped by CodeSlot.
+
+The library shows all 142 cards on one page. Search and category filters update the visible cards immediately; Clear filters restores the whole collection.
+
+## Tracking IDs and verification
+
+Each provider card shows an example ID format and setup hint. Google Tag Manager uses a GTM- container ID; GA4/Google Ads use G-/AW-/GT- IDs in their own card. Publish tags and custom-event triggers in the GTM container for the selected codeslot_page_view, codeslot_view_content, codeslot_add_to_cart, codeslot_begin_checkout, codeslot_purchase and codeslot_click dataLayer events.
+
+Selected events are sent only when the integration has an ID, is enabled, has consent and its trigger occurs. Product/cart/checkout/purchase triggers use WooCommerce. Non-AJAX cart submits and classic/block AJAX events are covered. Authorized paid orders provide purchase value/currency and an opaque event ID; session deduplication avoids repeated purchase sends.
+
+To verify Meta receipt, open Events Manager → your data source → Test Events, visit a test page with your Pixel ID and marketing consent, and perform the selected actions. Verify the actual received event names there. Browser extensions, connectivity and account configuration affect delivery. You can inspect window.CodeSlotPixels.getStatus() on the frontend for consent, SDK load state and the last queued events; queued/loaded is not a provider receipt confirmation.

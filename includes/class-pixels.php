@@ -10,6 +10,7 @@ final class Pixels {
 	const PROVIDERS = array(
 		'meta'      => 'Meta',
 		'google'    => 'Google Ads / Analytics',
+		'gtm'       => 'Google Tag Manager',
 		'pinterest' => 'Pinterest',
 		'tiktok'    => 'TikTok',
 		'snapchat'  => 'Snapchat',
@@ -21,6 +22,8 @@ final class Pixels {
 	public static function boot() {
 		add_action( 'wp_footer', array( self::class, 'output' ), 5 );
 		add_action( 'woocommerce_thankyou', array( self::class, 'purchase' ) );
+		add_action( 'wp', array( self::class, 'received' ), 30 );
+		add_action( 'woocommerce_add_to_cart', array( self::class, 'cart' ), 10, 4 );
 	}
 
 	public static function validate( $input ) {
@@ -33,10 +36,14 @@ final class Pixels {
 			if ( ! is_array( $row ) || ( isset( $row['id'] ) && ! is_string( $row['id'] ) ) ) {
 				return new \WP_Error( 'pixels', 'Pixel IDs must be text.' );
 			}
-			$id       = isset( $row['id'] ) ? trim( $row['id'] ) : '';
+			$id = isset( $row['id'] ) ? trim( $row['id'] ) : '';
+			if ( ! empty( $row['enabled'] ) && '' === $id ) {
+				return new \WP_Error( 'pixels', 'Enter the public tracking ID for ' . $label . ' before enabling it.' );
+			}
 			$patterns = array(
 				'meta'      => '/^[0-9]{5,30}$/D',
 				'google'    => '/^(G|AW|GT)-[A-Z0-9]{4,30}$/D',
+				'gtm'       => '/^GTM-[A-Z0-9]{4,20}$/D',
 				'pinterest' => '/^[0-9]{5,30}$/D',
 				'tiktok'    => '/^[A-Za-z0-9]{5,40}$/D',
 				'snapchat'  => '/^[a-fA-F0-9-]{36}$/D',
@@ -62,6 +69,35 @@ final class Pixels {
 		}
 		$out['click_selector'] = $selector;
 		return $out;
+	}
+
+	public static function cart( $cart_key, $product_id, $quantity, $variation_id ) {
+		if ( Permissions::safe() || wp_doing_ajax() || ( defined( 'REST_REQUEST' ) && REST_REQUEST ) || ! function_exists( 'WC' ) || ! function_exists( 'wc_get_product' ) || ! function_exists( 'get_woocommerce_currency' ) || ! WC()->session ) {
+			return; }
+		$config = get_option( 'codeslot_pixels', array() );
+		$needed = false;
+		foreach ( self::PROVIDERS as $key => $label ) {
+			if ( ! empty( $config[ $key ]['enabled'] ) && in_array( 'add_to_cart', isset( $config[ $key ]['events'] ) ? $config[ $key ]['events'] : array(), true ) ) {
+				$needed = true; }
+		}
+		$product = wc_get_product( $variation_id ? $variation_id : $product_id );
+		if ( ! $needed || ! $product ) {
+			return; }
+		WC()->session->set(
+			'codeslot_cart_event',
+			array(
+				'content_ids' => array( (string) $product_id ),
+				'value'       => (float) $product->get_price() * (float) $quantity,
+				'currency'    => get_woocommerce_currency(),
+				'event_id'    => wp_generate_uuid4(),
+			)
+		);
+	}
+
+	public static function received() {
+		if ( function_exists( 'is_wc_endpoint_url' ) && is_wc_endpoint_url( 'order-received' ) ) {
+			self::purchase( absint( get_query_var( 'order-received' ) ) );
+		}
 	}
 
 	public static function purchase( $id ) {
@@ -97,6 +133,12 @@ final class Pixels {
 			return;
 		}
 		$context = self::$context;
+		if ( function_exists( 'WC' ) && WC()->session ) {
+			$cart_event = WC()->session->get( 'codeslot_cart_event' );
+			if ( is_array( $cart_event ) ) {
+				$context['add_to_cart'] = $cart_event;
+				WC()->session->__unset( 'codeslot_cart_event' ); }
+		}
 		if ( function_exists( 'is_product' ) && is_product() && function_exists( 'wc_get_product' ) && function_exists( 'get_woocommerce_currency' ) ) {
 			$product = wc_get_product( get_queried_object_id() );
 			if ( $product ) {
@@ -107,7 +149,15 @@ final class Pixels {
 				); }
 		}
 		if ( function_exists( 'is_checkout' ) && is_checkout() && function_exists( 'is_wc_endpoint_url' ) && ! is_wc_endpoint_url( 'order-received' ) ) {
-			$context['begin_checkout'] = array(); }
+			$checkout = array();
+			if ( function_exists( 'WC' ) && WC()->cart && function_exists( 'get_woocommerce_currency' ) ) {
+				$checkout['value']       = (float) WC()->cart->get_total( 'edit' );
+				$checkout['currency']    = get_woocommerce_currency();
+				$checkout['content_ids'] = array();
+				foreach ( WC()->cart->get_cart() as $item ) {
+					$checkout['content_ids'][] = (string) $item['product_id']; }
+			}
+			$context['begin_checkout'] = $checkout; }
 		$data = array(
 			'providers'      => $providers,
 			'context'        => $context,
@@ -119,21 +169,49 @@ final class Pixels {
 	}
 
 	public static function page() {
-		$config = get_option( 'codeslot_pixels', array() );
-		echo '<section class="codeslot-panel"><h2>Conversion Pixels</h2><p>Free browser-side integrations. Enter public tracking IDs, never access tokens or account passwords. All providers are disabled by default. No tracking requests or scripts load until your consent manager explicitly grants marketing consent. This is not a cookie banner or automatic legal compliance.</p><p>Your consent manager must set <code>window.CodeSlotConsent = {marketing: true}</code> before footer scripts, or dispatch <code>window.dispatchEvent(new CustomEvent("codeslot:consent", {detail: {marketing: true}}))</code> after consent. Send false to stop further CodeSlot events; the consent manager must handle existing vendor cookies/scripts when consent is withdrawn.</p><p>Existing trackers can duplicate events. Base pixels and clicks need no companion. Product/add-to-cart/checkout/purchase events activate only when WooCommerce is available. Purchases require a paid order and authorized order-received URL. Browser blocking, payment redirects and closed tabs can prevent delivery; no server-side conversion API is included.</p>';
+		$config   = get_option( 'codeslot_pixels', array() );
+		$examples = array(
+			'meta'      => '123456789012345',
+			'google'    => 'G-ABC1234567 or AW-1234567890',
+			'gtm'       => 'GTM-ABC1234',
+			'pinterest' => '1234567890123',
+			'tiktok'    => 'C1234567890ABCDEFGHIJ',
+			'snapchat'  => '12345678-abcd-1234-abcd-123456789012',
+		);
+		$help     = array(
+			'meta'      => 'Meta Events Manager → Data sources → your Pixel ID.',
+			'google'    => 'Use your GA4 measurement ID (G-), Google Ads ID (AW-) or Google tag ID (GT-). For a GTM container, use the Google Tag Manager card.',
+			'gtm'       => 'Use the Container ID from Google Tag Manager. Configure and publish your tags and custom-event triggers inside that container. CodeSlot pushes selected codeslot_* events to dataLayer.',
+			'pinterest' => 'Use your Pinterest Ads conversion Tag ID.',
+			'tiktok'    => 'Use the Pixel ID from TikTok Events Manager.',
+			'snapchat'  => 'Use your Snap Pixel ID from Events Manager.',
+		);
+		$labels   = array(
+			'page_view'      => 'Page view',
+			'view_content'   => 'View content',
+			'add_to_cart'    => 'Add to cart',
+			'begin_checkout' => 'Begin checkout',
+			'purchase'       => 'Purchase',
+			'click'          => 'Click',
+		);
+		echo '<section class="codeslot-panel"><h2>Conversion Pixels</h2><p>Connect your public tracking IDs and choose the events to send. Each integration is off until enabled, and vendor scripts load only after marketing consent.</p><details class="codeslot-pixel-guide"><summary>Consent setup and event requirements</summary><p>Grant consent with <code>window.CodeSlotConsent = {marketing: true}</code> before footer scripts, or dispatch <code>window.dispatchEvent(new CustomEvent("codeslot:consent", {detail: {marketing: true}}))</code> after consent. Send false to stop further CodeSlot events. Your consent solution must handle existing vendor cookies and scripts after withdrawal.</p><p>View content, cart, checkout and paid-purchase events use WooCommerce when available. Purchases require an authorized paid-order URL. Click events require a matching CSS selector below. Existing trackers can duplicate events. GTM checkboxes control CodeSlot dataLayer events; the container controls its own tags/triggers.</p><p>Use the provider test-event dashboard to verify receipt. Selected/enabled means CodeSlot is configured to send an event when its trigger and consent are present; it is not proof that the provider received it. Browser blocking can prevent delivery.</p></details>';
 		Support::form( 'pixels' );
+		echo '<div class="codeslot-pixel-grid">';
 		foreach ( self::PROVIDERS as $key => $label ) {
-			$row = isset( $config[ $key ] ) ? $config[ $key ] : array();
-			echo '<fieldset class="codeslot-slot"><legend>' . esc_html( $label ) . '</legend><label><input type="checkbox" name="pixels[' . esc_attr( $key ) . '][enabled]" value="1" ' . checked( ! empty( $row['enabled'] ), true, false ) . '> Enable</label><p><label>Public tracking ID<input class="regular-text" name="pixels[' . esc_attr( $key ) . '][id]" value="' . esc_attr( isset( $row['id'] ) ? $row['id'] : '' ) . '"></label></p>';
+			$row    = isset( $config[ $key ] ) ? $config[ $key ] : array();
+			$events = isset( $row['events'] ) ? $row['events'] : array();
+			echo '<fieldset class="codeslot-pixel-card"><legend>' . esc_html( $label ) . '</legend><div class="codeslot-pixel-heading"><span class="codeslot-pixel-state">' . esc_html( ! empty( $row['enabled'] ) ? 'Enabled · consent required' : 'Disabled' ) . '</span><label class="codeslot-toggle-label"><input type="checkbox" name="pixels[' . esc_attr( $key ) . '][enabled]" value="1" ' . checked( ! empty( $row['enabled'] ), true, false ) . '> Enable</label></div>';
+			echo '<p class="codeslot-field"><label for="codeslot-pixel-' . esc_attr( $key ) . '">Public tracking ID</label><input id="codeslot-pixel-' . esc_attr( $key ) . '" class="regular-text" name="pixels[' . esc_attr( $key ) . '][id]" placeholder="' . esc_attr( $examples[ $key ] ) . '" value="' . esc_attr( isset( $row['id'] ) ? $row['id'] : '' ) . '" autocomplete="off"><span class="description">' . esc_html( $help[ $key ] ) . '</span></p>';
 			if ( 'google' === $key ) {
-				echo '<p><label>Google Ads purchase conversion label (AW- IDs)<input class="regular-text" name="pixels[google][label]" value="' . esc_attr( isset( $row['label'] ) ? $row['label'] : '' ) . '"></label></p>';
+				echo '<p class="codeslot-field"><label for="codeslot-google-label">Google Ads purchase conversion label</label><input id="codeslot-google-label" class="regular-text" name="pixels[google][label]" placeholder="AbCdEFghijk123456" value="' . esc_attr( isset( $row['label'] ) ? $row['label'] : '' ) . '"><span class="description">Required for AW- purchase conversions. Copy the label from the Google Ads conversion action.</span></p>';
 			}
+			echo '<h3>Events</h3><div class="codeslot-event-grid">';
 			foreach ( self::EVENTS as $event ) {
-				echo '<p><label><input type="checkbox" name="pixels[' . esc_attr( $key ) . '][events][]" value="' . esc_attr( $event ) . '" ' . checked( in_array( $event, isset( $row['events'] ) ? $row['events'] : array(), true ), true, false ) . '> ' . esc_html( str_replace( '_', ' ', $event ) ) . '</label></p>';
+				echo '<label><input type="checkbox" name="pixels[' . esc_attr( $key ) . '][events][]" value="' . esc_attr( $event ) . '" ' . checked( in_array( $event, $events, true ), true, false ) . '> ' . esc_html( $labels[ $event ] ) . '</label>';
 			}
-			echo '</fieldset>';
+			echo '</div><p class="description">Product, cart, checkout and purchase triggers require WooCommerce. Choose only the events your account is configured to receive.</p></fieldset>';
 		}
-		echo '<p><label>Click tracking CSS selector (example: .track-conversion)<input class="regular-text" name="click_selector" value="' . esc_attr( isset( $config['click_selector'] ) ? $config['click_selector'] : '' ) . '"></label></p><p>Click events send no link URLs, text or form values. Commerce events send product IDs, value/currency and an opaque purchase event ID, never customer contact details. Classic and block WooCommerce add-to-cart events are supported.</p>';
+		echo '</div><section class="codeslot-config-section"><h3>Click tracking</h3><label for="codeslot-click-selector">CSS selector</label><input id="codeslot-click-selector" class="regular-text" name="click_selector" placeholder=".track-conversion" value="' . esc_attr( isset( $config['click_selector'] ) ? $config['click_selector'] : '' ) . '"><p class="description">Enable Click on a provider above and add this class/selector to the buttons you want to track. Click events contain no link text, URLs or form values.</p></section>';
 		submit_button( 'Save conversion pixels' );
 		echo '</form></section>';
 	}

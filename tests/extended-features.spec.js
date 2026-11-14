@@ -80,8 +80,8 @@ test('system info is private, readable and library search opens inactive code',a
  await expect(page.locator('#codeslot-system-info')).not.toContainText('/var/www/html');
  const anon=await request.newContext({baseURL:page.url()});const forbidden=await anon.get('/wp-admin/admin.php?page=codeslot-tools');expect(await forbidden.text()).not.toContain('Begin CodeSlot System Info');await anon.dispose();
  await page.goto('/wp-admin/admin.php?page=codeslot-library&library_search=Custom%20excerpt');
- await expect(page.locator('.codeslot-recipe')).toHaveCount(2);
- await page.locator('.codeslot-recipe').first().getByRole('link',{name:'Review and use snippet'}).click();
+ await expect(page.locator('.codeslot-recipe:visible')).toHaveCount(2);
+ await page.locator('.codeslot-recipe:visible').first().getByRole('link',{name:'Review and use snippet'}).click();
  await expect(page.locator('[name=active]')).not.toBeChecked();
  await expect(page.locator('#codeslot-name')).not.toHaveValue('');
 });

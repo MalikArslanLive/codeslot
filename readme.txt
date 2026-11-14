@@ -29,13 +29,13 @@ This is a release candidate; see the repository compatibility and test reports f
 
 = Tools, library, files and pixels =
 
-Browse 142 original local recipes and setup guides without an account. Executable templates open inactive for review. Manual wp-config.php guides are labeled and are not offered for activation.
+Browse all 142 original local recipes and setup guides on one page, with live search and category filters. Executable templates open inactive for review. Manual wp-config.php guides are labeled and are not offered for activation.
 
 Tools provides private System Info, copy/download, bounded local logs and recovery instructions. Identifying site URLs and paths are excluded unless explicitly requested. No report is sent automatically. Logs exclude source and credentials.
 
 Virtual File Editor serves ads.txt, app-ads.txt and service-worker.js, and appends custom robots.txt directives. Physical files take precedence and are never overwritten. Server routing to WordPress and pretty permalinks are required. Service-worker registration is off by default; existing workers/caches require separate browser recovery.
 
-Conversion Pixels supports Meta, Google, Pinterest, TikTok and Snapchat. All integrations are off by default and no vendor script loads before explicit marketing consent. Optional WooCommerce product/cart/checkout/paid-purchase events run only with WooCommerce. These browser integrations are not a cookie banner, legal-compliance certification, payment test or server-side conversion API. Enabling a provider sends tracking events to that provider after consent; review its policies and configure your consent handling.
+Conversion Pixels supports Meta, Google, Google Tag Manager, Pinterest, TikTok and Snapchat. All integrations are off by default and no vendor script loads before explicit marketing consent. Optional WooCommerce product/cart/checkout/paid-purchase events run only with WooCommerce. These browser integrations are not a cookie banner, legal-compliance certification, payment test or server-side conversion API. Enabling a provider sends tracking events to that provider after consent; review its policies and configure your consent handling.
 
 Full backup JSON additionally includes global/individual code slots, settings, files and pixel settings; revisions, logs, execution records and WordPress content are excluded. Restore selected sections replaces matching data, maps existing content by type/path or taxonomy/slug, reports missing matches, disables restored execution and enables Safe Mode. Back up first.
 
