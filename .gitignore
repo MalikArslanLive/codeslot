@@ -1,0 +1,13 @@
+/vendor/
+/node_modules/
+/work/
+/dist/
+/playwright-report/
+/test-results/
+.env
+*.log
+
+.phpunit.result.cache
+
+__pycache__/
+*.pyc
