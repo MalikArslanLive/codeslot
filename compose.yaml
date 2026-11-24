@@ -1,0 +1,43 @@
+services:
+  db:
+    image: mariadb:11.4
+    environment:
+      MARIADB_DATABASE: wordpress
+      MARIADB_USER: wordpress
+      MARIADB_PASSWORD: disposable-local-only
+      MARIADB_ROOT_PASSWORD: disposable-root-only
+    healthcheck:
+      test: [CMD, healthcheck.sh, --connect, --innodb_initialized]
+      interval: 3s
+      retries: 30
+    volumes: [database:/var/lib/mysql]
+  wordpress:
+    image: wordpress:${WP_IMAGE:-php8.3-apache}
+    ports: ["127.0.0.1:8888:80"]
+    environment: &wp_env
+      WORDPRESS_DB_HOST: db
+      WORDPRESS_DB_USER: wordpress
+      WORDPRESS_DB_PASSWORD: disposable-local-only
+      WORDPRESS_DB_NAME: wordpress
+      WORDPRESS_DEBUG: 1
+      WORDPRESS_CONFIG_EXTRA: "define( 'WP_MEMORY_LIMIT', '512M' ); define( 'WP_MAX_MEMORY_LIMIT', '512M' );"
+    depends_on:
+      db: {condition: service_healthy}
+    volumes:
+      - wordpress:/var/www/html
+      - ./:/var/www/html/wp-content/plugins/codeslot:ro
+  cli:
+    entrypoint: [wp]
+    image: wordpress:cli-php8.3
+    user: "33:33"
+    environment:
+      <<: *wp_env
+      WP_CLI_CACHE_DIR: /tmp/wp-cli-cache
+    depends_on:
+      db: {condition: service_healthy}
+    volumes:
+      - wordpress:/var/www/html
+      - ./:/var/www/html/wp-content/plugins/codeslot:ro
+volumes:
+  database:
+  wordpress:

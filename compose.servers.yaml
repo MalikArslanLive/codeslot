@@ -1,0 +1,42 @@
+services:
+  fpm:
+    image: wordpress:php8.3-fpm@sha256:138c8b3925c2dc8556d9aba3e8169ef2b1ba7eaf109546bbd2414c4a8fbc692d
+    environment:
+      WORDPRESS_DB_HOST: db
+      WORDPRESS_DB_USER: wordpress
+      WORDPRESS_DB_PASSWORD: disposable-local-only
+      WORDPRESS_DB_NAME: wordpress
+      WORDPRESS_DEBUG: 1
+      WORDPRESS_CONFIG_EXTRA: "define( 'WP_MEMORY_LIMIT', '512M' ); define( 'WP_MAX_MEMORY_LIMIT', '512M' );"
+    depends_on:
+      db: {condition: service_healthy}
+    volumes:
+      - wordpress:/var/www/html
+      - ./:/var/www/html/wp-content/plugins/codeslot:ro
+  nginx:
+    image: nginx:stable-alpine@sha256:583b7f2fce1cdb8da5ad5c39ebd3c33b98b87d493190e548bdee1fa8c619c311
+    ports: ['127.0.0.1:8889:80']
+    depends_on: [fpm]
+    volumes:
+      - wordpress:/var/www/html:ro
+      - ./:/var/www/html/wp-content/plugins/codeslot:ro
+      - ./tests/servers/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+  openlitespeed:
+    image: litespeedtech/openlitespeed:1.9.4-lsphp83@sha256:e240c9af427fe36e373382384a8eaabd7224412fbb3257a4288525adbd67d19c
+    entrypoint: ['sh', '-c', 'cp /run/codeslot-ols.conf /usr/local/lsws/conf/httpd_config.conf && cp /run/codeslot-vhost.conf /usr/local/lsws/conf/codeslot-vhost.conf && /usr/local/lsws/bin/lswsctrl start && exec tail -F /usr/local/lsws/logs/error.log']
+    ports: ['127.0.0.1:8890:8088']
+    environment:
+      WORDPRESS_DB_HOST: db
+      WORDPRESS_DB_USER: wordpress
+      WORDPRESS_DB_PASSWORD: disposable-local-only
+      WORDPRESS_DB_NAME: wordpress
+      WORDPRESS_DEBUG: 1
+      WORDPRESS_CONFIG_EXTRA: "define( 'WP_MEMORY_LIMIT', '512M' ); define( 'WP_MAX_MEMORY_LIMIT', '512M' );"
+      LSAPI_MAX_IDLE: 60
+    depends_on:
+      db: {condition: service_healthy}
+    volumes:
+      - wordpress:/var/www/html
+      - ./:/var/www/html/wp-content/plugins/codeslot:ro
+      - ./tests/servers/ols.conf:/run/codeslot-ols.conf:ro
+      - ./tests/servers/ols-vhost.conf:/run/codeslot-vhost.conf:ro
